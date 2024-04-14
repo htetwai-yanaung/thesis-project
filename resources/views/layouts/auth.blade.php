@@ -12,15 +12,19 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+        <link rel="stylesheet" href="{{ asset( 'css/bootstrap.min.css' ) }}">
+        <script src="{{ asset( 'js/bootstrap.min.js' ) }}"></script>
 
     </head>
-    <body class="grid grid-cols-2 ">
-        <div>
-            @yield('content')
-        </div>
-        <div class="h-screen">
-            <img src="{{ asset('images/login.png') }}" class="w-full h-full object-cover" alt="">
+    <body class="container-fluid">
+        <div class="row">
+            <div class="col">
+                @yield('content')
+            </div>
+            <div class="col vh-100">
+                <img src="{{ asset('images/login.png') }}" class="w-100 h-100 img-fluid" alt="">
+            </div>
         </div>
     </body>
 </html>

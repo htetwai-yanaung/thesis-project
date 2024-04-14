@@ -1,20 +1,27 @@
 @extends('layouts.auth')
 
 @section('content')
-    <div class="w-full h-screen flex items-center justify-center">
-        <form method="post" action="{{ route('login') }}" class="flex flex-col w-[420px]">
-            <h1 class="text-center font-semibold text-2xl mb-5">Welcome Back!</h1>
-            <div class="flex flex-col">
-                <label class="font-medium text-base" for="email">Gmail</label>
-                <input class="rounded border border-gray-300" type="email" name="email" id="email" placeholder="Enter your gmail">
+    <div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+        <form action="{{ route('login') }}" method="POST" class="w-75 d-flex flex-column gap-3">
+            @csrf
+            <h1 class="text-center fs-4 fw-bold">Welcome Back!</h1>
+            <div class="">
+                <label for="email" class="form-label fs-5 fw-normal">Email</label>
+                <input type="email" name="email" class="form-control" id="email" placeholder="Enter your email">
+                @error('email')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
-            <div class="flex flex-col mt-3">
-                <label class="font-medium text-base" for="password">Password</label>
-                <input class="rounded border border-gray-300" type="password" name="password" id="password" placeholder="Enter your password">
+            <div class="">
+                <label for="password" class="form-label fs-5 fw-normal">Password</label>
+                <input type="password" name="password" class="form-control" id="password" placeholder="Enter your password">
+                @error('password')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
-            <a href="" class="text-blue-800 font-normal mb-5 mt-3">Forget password?</a>
-            <button class="font-bold text-white bg-blue-800 border rounded p-2">Sign In</button>
-            <label class="font-normal text-center">Not a member yet? <a href="{{ route('register') }}" class="text-blue-800">Sign Up</a></label>
+            <a href="" class="text-decoration-none fs-5 fw-normal">Forget password?</a>
+            <button class="btn btn-primary d-block w-100 fs-5 fw-normal">Sign In</button>
+            <label class="text-center fs-5 fw-normal">Not a member yet? <a href="{{ route('register') }}" class="text-decoration-none">Sign Up</a></label>
         </form>
     </div>
 @endsection

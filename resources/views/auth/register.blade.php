@@ -1,92 +1,57 @@
-{{-- <x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
-
-        <x-validation-errors class="mb-4" />
-
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
-
-            <div>
-                <x-label for="name" value="{{ __('Name') }}" />
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            </div>
-
-            @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                <div class="mt-4">
-                    <x-label for="terms">
-                        <div class="flex items-center">
-                            <x-checkbox name="terms" id="terms" required />
-
-                            <div class="ms-2">
-                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">'.__('Privacy Policy').'</a>',
-                                ]) !!}
-                            </div>
-                        </div>
-                    </x-label>
-                </div>
-            @endif
-
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
-
-                <x-button class="ms-4">
-                    {{ __('Register') }}
-                </x-button>
-            </div>
-        </form>
-    </x-authentication-card>
-</x-guest-layout> --}}
-
 @extends('layouts.auth')
 
 @section('content')
-    <div class="w-full h-screen flex items-center justify-center">
-        <form method="post" action="{{ route('login') }}" class="flex flex-col w-[420px]">
-            <h1 class="text-center font-semibold text-2xl mb-5">Create Your Account!</h1>
-            <div class="flex flex-col">
-                <label class="font-medium text-base" for="email">Gmail</label>
-                <input class="rounded border border-gray-300" type="email" name="email" :value="old('email')" id="email" placeholder="Enter your gmail">
+    <div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+        <form method="POST" action="{{ route('register') }}" class="w-75 d-flex flex-column gap-3">
+            @csrf
+            <h1 class="text-center fs-4 fw-bold">Create Your Account!</h1>
+            <div class="">
+                <label class="form-label fs-5 fw-normal" for="name">Name</label>
+                <input class="form-control" type="text" name="name" value="{{ old('name') }}" id="name" placeholder="Enter your name">
+                @error('name')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
-            <div class="flex flex-col mt-3">
-                <label class="font-medium text-base" for="name">Name</label>
-                <input class="rounded border border-gray-300" type="text" name="name" :value="old('name')" id="name" placeholder="Enter your name">
+            <div class="">
+                <label class="form-label fs-5 fw-normal" for="email">Email</label>
+                <input class="form-control" type="email" name="email" value="{{ old('email') }}" id="email" placeholder="Enter your email">
+                @error('email')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
-            <div class="flex flex-col mt-3">
-                <label class="font-medium text-base" >Attended Year</label>
-                <input class="rounded border border-gray-300" type="text" name="year" :value="old('year')" placeholder="Enter your attended year">
+            <div class="">
+                <label class="form-label fs-5 fw-normal" >Attended Year</label>
+                <select class="form-control" name="year" id="">
+                    <option value="">Select attended year</option>
+                    @for ($i = 1; $i <= 6; $i++)
+                        <option value="{{ $i }}" @if($i == old('year')) selected @endif >{{ $i }} Year</option>
+                    @endfor
+                    {{-- <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                    <option value="5">5th Year</option>
+                    <option value="6">6th Year</option> --}}
+                </select>
+                @error('year')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
-            <div class="flex flex-col mt-3">
-                <label class="font-medium text-base" for="password">Password</label>
-                <input class="rounded border border-gray-300" type="password" name="password" :value="old('name')" id="password" placeholder="Enter your password">
+            <div class="">
+                <label class="form-label fs-5 fw-normal" for="password">Password</label>
+                <input class="form-control" type="password" name="password" id="password" placeholder="Enter your password">
+                @error('password')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
-            <div class="flex flex-col mt-3">
-                <label class="font-medium text-base" for="password_confirmation">Confirm Password</label>
-                <input class="rounded border border-gray-300" type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm your password">
+            <div class="">
+                <label class="form-label fs-5 fw-normal" for="password_confirmation">Confirm Password</label>
+                <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm your password">
+                @error('password_confirmation')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
-            <button class="font-bold text-white bg-blue-800 border rounded p-2 mt-5">Sign Up</button>
-            <label class="font-normal text-center">Does you have an account? <a href="{{ route('login') }}" class="text-blue-800">Sign In</a></label>
+            <button class="btn btn-primary">Sign Up</button>
+            <label class="fs-5 fw-normal text-center">Does you have an account? <a href="{{ route('login') }}" class="text-blue-800">Sign In</a></label>
         </form>
     </div>
 @endsection
