@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+}
+
+.light-mood{
+    --text-primary : #3a3a3a;
+    --text-secondary : #5E5E5E;
+    --main-color : #145DA0;
+    --light : #ffffff;
+    --border : rgba(0, 0, 0, 0.2);
+}
+.dark-mood{
+    --text-primary : #ffffff;
+    --text-secondary : #DDDDDD;
+    --main-color : #1ECBE1;
+    --light : #181818;
+    --border : rgba(255, 255, 255, 0.2);
+}
+body{
+    background-color: var(--light) !important;
+}
+h6{
+    font-size: 18px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+h5{
+    font-size: 24px !important;
+}
+h3{
+    font-size: 32px !important;
+}
+p{
+    font-size: 16px !important;
+}
+.text-primary{
+    color: var(--text-primary) !important;
+}
+.text-secondary{
+    color: var(--text-secondary) !important;
+}
+.text-info{
+    color: var(--main-color) !important;
+}
+.btn{
+    padding: 5px 10px !important;
+}
+.bg-primary{
+    background-color: var(--main-color) !important;
+}
+.btn-primary{
+    background-color: var(--main-color) !important;
+    transition: 0.3s ease-in-out;
+}
+.btn-outline-primary{
+    border: 1px solid var(--main-color) !important;
+}
+.btn-outline-primary:hover{
+    color: var(--light) !important;
+    background-color: var(--main-color) !important;
+}
+.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
+    background: var(--main-color);
+}
+
+/* navigation */
+#navbar{
+    z-index: 10000;
+    box-shadow: 0px 0px 4px var(--border) !important;
+}
+.nav-link{
+    color: var(--text-primary) !important;
+}
+.nav-link.btn{
+    color: var(--light) !important;
+}
+.nav-link.active{
+    color: var(--main-color) !important;
+    font-weight: bold;
+}
+
+/* Profile Picture */
+.profile-pic{
+    display: inline-block;
+    vertical-align: middle;
+     width: 50px;
+     height: 50px;
+     overflow: hidden;
+    border-radius: 50%;
+    border: 1px solid var(--main-color) !important;
+ }
+
+ .profile-pic img{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+ }
+ .profile-menu .dropdown-menu {
+   right: 0;
+   left: unset;
+ }
+ .profile-menu .fa-fw {
+   margin-right: 10px;
+ }
+
+ .toggle-change::after {
+   border-top: 0;
+   border-bottom: 0.3em solid;
+ }
+
+ body{
+    /* margin-top:20px; */
+    background:#f8f8f8
+}
+/* admin-profile */
+
+
+/* up-to-date news  */
+.news .left .grid-system{
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(3 , 1fr);
+}
+.news .left .grid-system .item{
+    position: relative;
+    background-image: url(./Images/Rectangle\ 20.png);
+    background-position: center;
+    background-size: cover;
+    min-height: 250px;
+    border-radius: 7px;
+    box-shadow: 2px 2px 8px var(--border) !important;
+    overflow: hidden;
+    text-decoration: none !important;
+}
+.news .left .grid-system .item .title{
+    position: absolute;
+    width: 100%;
+    bottom: -100px;
+    background-image: linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0.25) 75%);
+    transition: 0.3s ease-in-out;
+}
+.news .left .grid-system .item:hover > .title{
+    bottom: 0;
+}
+.news .left .grid-system .item:nth-child(3){
+    grid-row: span 2;
+}
+.news .left .grid-system .item:nth-child(4),.news .left .grid-system .item:last-child{
+    grid-column: span 2;
+}
+
+.news .right .project-post{
+    border: 1px solid var(--border);
+    border-right-color: transparent;
+    border-left-color: transparent;
+}
+
+/* teacher lists */
+/* .teacher-lists .item{
+    max-width: 350px;
+} */
+/* .teacher-lists .owl-stage-outer{
+    width: 95%;
+    margin: auto;
+} */
+.teacher-lists .owl-nav{
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.teacher-lists .owl-nav button span{
+    font-size: 60px;
+}
+.teacher-lists .owl-nav button:hover{
+    background-color: transparent !important;
+}
+.teacher-lists .owl-nav button:hover span{
+    color: var(--main-color) !important;
+}
+.teacher-lists img{
+    border: 4px solid var(--main-color);
+}
+
+/* activity  */
+.activity .grid-system{
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(4 , 1fr);
+}
+.activity  .grid-system .item{
+    position: relative;
+    background-image: url(storage/uploads/Rectangle\ 20.png);
+    background-position: center;
+    background-size: cover;
+    min-height: 200px;
+    border-radius: 7px;
+    box-shadow: 2px 2px 8px var(--border) !important;
+    overflow: hidden;
+    text-decoration: none !important;
+}
+.activity  .grid-system .item .title{
+    position: absolute;
+    width: 100%;
+    bottom: -100px;
+    background-image: linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0.25) 75%);
+    transition: 0.3s ease-in-out;
+}
+.activity  .grid-system .item:hover > .title{
+    bottom: 0;
+}
+.activity  .grid-system .item:nth-child(1){
+    grid-row: span 2;
+}
+.activity  .grid-system .item:nth-child(2),.activity  .grid-system .item:last-child{
+    grid-column: span 2;
+}
+
+
+/* responsive  */
+@media (max-width: 768px) {
+    .news .left .grid-system{
+        grid-template-columns: repeat(2 , 1fr);
+    }
+
+    .news .left .grid-system .item:nth-child(3){
+        grid-row: span 1;
+    }
+    .news .left .grid-system .item:nth-child(4),.news .left .grid-system .item:last-child{
+        grid-column: span 1;
+    }
+
+    .activity .grid-system{
+        grid-template-columns: repeat(3 , 1fr);
+    }
+    .activity .grid-system .item{
+        min-height: 150px !important;
+    }
+    .activity  .grid-system .item:nth-child(1){
+        grid-row: span 1;
+    }
+    .activity  .grid-system .item:nth-child(2){
+        grid-column: span 1;
+    }
+}
+@media (max-width: 576px) {
+    .news .left .grid-system .item{
+        min-height: 160px;
+    }
+    .activity .grid-system{
+        grid-template-columns: repeat(2 , 1fr);
+    }
+    .activity .grid-system .item{
+        min-height: 100px !important;
+    }
+}

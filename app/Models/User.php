@@ -26,8 +26,15 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'year',
+        'role',
         'password',
     ];
+
+    const tableName = 'users';
+    const name = 'name';
+    const email = 'email';
+    const role = 'role';
 
     /**
      * The attributes that should be hidden for serialization.
