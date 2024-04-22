@@ -26,6 +26,12 @@
     <link rel="stylesheet" href="{{ asset( 'css/custom.css' ) }}">
     <link rel="stylesheet" href="{{ asset( 'css/admin.css' ) }}">
     <script src="{{ asset( 'js/bootstrap.min.js' ) }}"></script>
+    <script src="{{ asset( 'js/bootstrap.bundle.min.js' ) }}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+    {{-- dropzone js --}}
+    <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
+    <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body class="light-mood">
@@ -38,19 +44,19 @@
                 <!-- Sidebar - Brand -->
                 <a class="sidebar-brand d-flex align-items-center " href="index.html">
                     <div class="d-flex align-items-center text-info fw-bold">
-                        <img src="storage/uploads/Logo.png" alt="" class="">
+                        <img src="{{ asset('storage/uploads/Logo.png') }}" alt="" class="">
                        <span> EC Department</span>
                       </div>
                 </a>
 
                 <!-- Nav Item - Dashboard -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
+                    <a class="{{Route::current()->getName() == 'admin.dashboard' ? 'nav-link active' : 'nav-link'}}" href="{{ route('admin.dashboard') }}">
                         <i class="fa-solid fa-table-columns"></i>
                         <span>Dashboard</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
+                    <a class="{{Route::current()->getName() == 'admin.thesis' ? 'nav-link active' : 'nav-link'}}" href="index.html">
                         <i class="fa-solid fa-rectangle-list"></i>
                         <span>Thesis</span></a>
                 </li>
@@ -60,12 +66,12 @@
                         <span>News</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
+                    <a class="{{Route::current()->getName() == 'teacher.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('teacher.index') }}">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Teacher List</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
+                    <a class="{{Route::current()->getName() == 'student.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('student.index') }}">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Student List</span></a>
                 </li>
@@ -96,18 +102,18 @@
 
 
                         <!-- Topbar Navbar -->
-                        <ul class="navbar-nav ms-auto d-flex align-items-center gap-2">
+                        <a href="{{ route('profile.edit', Auth::user()->id) }}" class="navbar-nav ms-auto d-flex align-items-center gap-2 text-decoration-none">
 
                             <!-- Nav Item - User Information -->
 
                             <div class="profile-pic">
-                                <img src="storage/uploads/profile.png" alt="">
+                                <img src="{{ asset('storage/uploads/profile.png') }}" alt="">
                             </div>
                             <div class="">
-                                <h6 class="fs-5 fw-bold">{{ Auth::user()->name }}</h6>
-                                <span class="fs-6">Super Admin</span>
+                                <h6 class="fs-5 fw-bold text-secondary">{{ Auth::user()->name }}</h6>
+                                <span class="fs-6 text-secondary">Super Admin</span>
                             </div>
-                        </ul>
+                        </a>
 
                     </nav>
                     <!-- End of Topbar -->
@@ -136,4 +142,7 @@
         </div>
 
     </div>
+
+    @yield('script')
+
 </body>

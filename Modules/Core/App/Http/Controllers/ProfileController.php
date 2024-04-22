@@ -6,23 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Core\App\Http\Services\DashboardService;
+use Modules\Core\App\Http\Services\ProfileService;
 
-class DashboardController extends Controller
+class ProfileController extends Controller
 {
-    protected $dashboardService;
+    protected $profileService;
 
-    public function __construct(DashboardService $dashboardService)
+    public function __construct(ProfileService $profileService)
     {
-        $this->dashboardService = $dashboardService;
+        $this->profileService = $profileService;
     }
-
-    public function dashboard()
-    {
-        return $this->dashboardService->dashboard();
-        // return view('core::dashboard.index');
-    }
-
     public function index()
     {
         return view('core::index');
@@ -57,7 +50,7 @@ class DashboardController extends Controller
      */
     public function edit($id)
     {
-        return view('core::edit');
+        return $this->profileService->edit($id);
     }
 
     /**
@@ -65,7 +58,7 @@ class DashboardController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $this->profileService->update($request, $id);
     }
 
     /**

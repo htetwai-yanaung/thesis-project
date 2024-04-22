@@ -244,6 +244,7 @@ a:focus {
 
 #wrapper #content-wrapper #content {
   flex: 1 0 auto;
+  padding-bottom: 20px;
 }
 
 .container,

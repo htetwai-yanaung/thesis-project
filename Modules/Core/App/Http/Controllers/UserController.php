@@ -2,30 +2,28 @@
 
 namespace Modules\Core\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Core\App\Http\Services\DashboardService;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Modules\Core\App\Http\Services\UserService;
 
-class DashboardController extends Controller
+class UserController extends Controller
 {
-    protected $dashboardService;
+    protected $userService;
 
-    public function __construct(DashboardService $dashboardService)
+    public function __construct(UserService $userService)
     {
-        $this->dashboardService = $dashboardService;
+        $this->userService = $userService;
+    }
+    public function teacherList(Request $request)
+    {
+        return $this->userService->teacherList($request);
     }
 
-    public function dashboard()
+    public function studentList(Request $request)
     {
-        return $this->dashboardService->dashboard();
-        // return view('core::dashboard.index');
-    }
-
-    public function index()
-    {
-        return view('core::index');
+        return $this->userService->studentList($request);
     }
 
     /**
@@ -57,7 +55,7 @@ class DashboardController extends Controller
      */
     public function edit($id)
     {
-        return view('core::edit');
+        return $this->userService->edit($id);
     }
 
     /**
@@ -65,7 +63,7 @@ class DashboardController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $this->userService->update($request, $id);
     }
 
     /**
@@ -73,6 +71,6 @@ class DashboardController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return $this->userService->destroy($id);
     }
 }

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->foreignId('year');
-            $table->foreignId('role')->default(2);
+            $table->foreignId('year')->nullable();
+            $table->foreignId('role')->default(3);
             $table->string('password');
             $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamp('email_verified_at')->nullable();
