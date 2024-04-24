@@ -1,123 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: "Lato", sans-serif;
-    font-style: normal;
-}
 
-.light-mood{
-    --text-primary : #3a3a3a;
-    --text-secondary : #5E5E5E;
-    --main-color : #145DA0;
-    --light : #ffffff;
-    --border : rgba(0, 0, 0, 0.2);
-}
-.dark-mood{
-    --text-primary : #ffffff;
-    --text-secondary : #DDDDDD;
-    --main-color : #1ECBE1;
-    --light : #181818;
-    --border : rgba(255, 255, 255, 0.2);
-}
-body{
-    background-color: var(--light) !important;
-}
-h6{
-    font-size: 18px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-h5{
-    font-size: 24px !important;
-}
-h3{
-    font-size: 32px !important;
-}
-p{
-    font-size: 16px !important;
-}
-.text-primary{
-    color: var(--text-primary) !important;
-}
-.text-secondary{
-    color: var(--text-secondary) !important;
-}
-.text-info{
-    color: var(--main-color) !important;
-}
-.btn{
-    padding: 5px 10px !important;
-}
-.bg-primary{
-    background-color: var(--main-color) !important;
-}
-.btn-primary{
-    background-color: var(--main-color) !important;
-    transition: 0.3s ease-in-out;
-}
-.btn-outline-primary{
-    border: 1px solid var(--main-color) !important;
-}
-.btn-outline-primary:hover{
-    color: var(--light) !important;
-    background-color: var(--main-color) !important;
-}
+
 .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
     background: var(--main-color);
 }
-
-/* navigation */
-#navbar{
-    z-index: 10000;
-    box-shadow: 0px 0px 4px var(--border) !important;
-}
-.nav-link{
-    color: var(--text-primary) !important;
-}
-.nav-link.btn{
-    color: var(--light) !important;
-}
-.nav-link.active{
-    color: var(--main-color) !important;
-    font-weight: bold;
-}
-
-/* Profile Picture */
-.profile-pic{
-    display: inline-block;
-    vertical-align: middle;
-     width: 50px;
-     height: 50px;
-     overflow: hidden;
-    border-radius: 50%;
-    border: 1px solid var(--main-color) !important;
- }
-
- .profile-pic img{
-    width: 100%;
-    height: auto;
-    object-fit: cover;
- }
- .profile-menu .dropdown-menu {
-   right: 0;
-   left: unset;
- }
- .profile-menu .fa-fw {
-   margin-right: 10px;
- }
-
- .toggle-change::after {
-   border-top: 0;
-   border-bottom: 0.3em solid;
- }
-
- body{
-    /* margin-top:20px; */
-    background:#f8f8f8
-}
-/* admin-profile */
 
 
 /* up-to-date news  */
@@ -128,7 +13,7 @@ p{
 }
 .news .left .grid-system .item{
     position: relative;
-    background-image: url(./Images/Rectangle\ 20.png);
+    background-image: url(../Images/Rectangle\ 20.png);
     background-position: center;
     background-size: cover;
     min-height: 250px;
@@ -177,6 +62,7 @@ p{
     align-items: center;
 }
 .teacher-lists .owl-nav button span{
+    color: var(--text-primary ) !important;
     font-size: 60px;
 }
 .teacher-lists .owl-nav button:hover{
@@ -197,7 +83,7 @@ p{
 }
 .activity  .grid-system .item{
     position: relative;
-    background-image: url(storage/uploads/Rectangle\ 20.png);
+    background-image: url(../Images/Rectangle\ 20.png);
     background-position: center;
     background-size: cover;
     min-height: 200px;
@@ -260,59 +146,4 @@ p{
     .activity .grid-system .item{
         min-height: 100px !important;
     }
-}
-.thesis-image{
-    width: 90px;
-    height: 90px;
-}
-.thesis-detail{
-    width: 250px;
-    height: 250px;
-}
-.post-image{
-    width: 300px;
-    height: 250px;
-    
-}
-.post-detail{
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
-    
-}
-.column {
-    float: left;
-    width: 33.33%;
-    padding: 10px;
-  }
-  
-  /* Clear floats after image containers */
-  .row::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-  .row {
-    display: flex;
-  }
-  
-  .column {
-    flex: 33.33%;
-    padding: 5px;
-  }
-.profile{
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-}
-.post{
-    margin-bottom: 15px;
-}
-p{
-    text-indent: 30px;
-}
-.thesis-create{
-    position: relative;
-    left: 560px;
-    border-radius: 10%;
 }

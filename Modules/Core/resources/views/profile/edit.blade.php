@@ -4,12 +4,12 @@
     <div class="">
         <h1>Profile</h1>
         @if (session('error'))
-            <p class="bg-danger text-white p-2 text-center">{{ session('error') }}</p>
+            <p class="p-2 text-center text-white bg-danger">{{ session('error') }}</p>
         @endif
         @if (session('success'))
-            <p class="bg-success text-white p-2 text-center">{{ session('success') }}</p>
+            <p class="p-2 text-center text-white bg-success">{{ session('success') }}</p>
         @endif
-        <form action="{{ route('profile.update', $user->id) }}" method="POST" enctype="multipart/form-data" class="w-50 d-flex flex-column gap-3">
+        <form action="{{ route('profile.update', $user->id) }}" method="POST" enctype="multipart/form-data" class="gap-3 w-50 d-flex flex-column">
             @csrf
             <div class="">
                 <img src="{{ asset('storage/uploads/profile/'.$user->profile_photo_path) }}" alt="">
@@ -48,7 +48,7 @@
             @endif
             <div>
                 <label class="form-label">Role</label>
-                <select name="role" class="form-control" @if ($user->role == 1) disabled @endif>
+                <select name="role" class="form-control" >
                     <option value="1" @if($user->role == 1) selected @endif>Admin</option>
                     <option value="2" @if($user->role == 2) selected @endif>Teacher</option>
                     <option value="3" @if($user->role == 3) selected @endif>Student</option>

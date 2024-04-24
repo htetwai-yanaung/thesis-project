@@ -1,0 +1,38 @@
+
+form{
+    max-width: 600px;
+    margin: auto;
+}
+
+#file_upload{
+    overflow: hidden;
+}
+#file_upload>#img_preview>img{
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+}
+#file_upload>#hover_effect{
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+#file_upload>#hover_effect>i{
+    color: transparent;
+}
+
+ #hover_effect:hover{
+    background-color: rgba(0, 0, 0, 0.5) !important; 
+}
+#hover_effect:hover>i{
+    color: white !important;
+}

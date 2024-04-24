@@ -27,7 +27,7 @@ class ProfileService
         ];
         return view('core::profile.edit', $dataArr);
     }
-
+    
     public function update($request, $id){
         Validator::make($request->all(), [
             'image' => 'mimes:jpg,png,jpeg',
