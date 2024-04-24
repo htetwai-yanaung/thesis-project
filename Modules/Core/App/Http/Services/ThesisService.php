@@ -22,12 +22,13 @@ class ThesisService
     }
 
     public function store($request){
+        // dd($request->all());
         Validator::make($request->all(),[
             'title' => 'required',
             'description' => 'required',
             'year' => 'required',
             'project_type' => 'required',
-            // 'photo' => 'required|mimes:png,jpg',
+            // 'images' => 'required',
         ])->validate();
 
         DB::beginTransaction();
@@ -38,8 +39,9 @@ class ThesisService
             $thesis->year = $request->year;
             $thesis->project_type = $request->project_type;
             $thesis->user_id = Auth::user()->id;
-            // $thesis->photo = $request->photo;
             $thesis->save();
+
+            $this->imageService->storeProjectImage($request, $thesis->id);
 
             DB::commit();
 

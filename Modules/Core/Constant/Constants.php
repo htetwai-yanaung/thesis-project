@@ -11,4 +11,5 @@ class Constants
 
     //image path
     const profileImagePath = 'public/uploads/profile';
+    const projectImagePath = 'public/uploads/project';
 }

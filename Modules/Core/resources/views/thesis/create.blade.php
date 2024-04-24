@@ -9,12 +9,14 @@
         @if (session('success'))
             <p class="bg-success text-white p-2 text-center">{{ session('success') }}</p>
         @endif
-        <form action="{{ route('thesis.store') }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column gap-3 dropzone" id="my-great-dropzone">
+        <form action="{{ route('thesis.store') }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column gap-3">
             @csrf
             <div class="">
                 <label for="" class="form-label">Upload your project photo</label>
-                <input type="file" name="photo" class="form-control">
-                @error('photo')
+                <div class="dropzone" id="dropzone">
+                </div>
+
+                @error('images')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
@@ -66,23 +68,98 @@
                 @enderror
             </div>
             <div class="">
-                <button class="btn btn-primary float-end">Post Now</button>
+                <button type="submit" id="submit-all" class="btn btn-primary float-end">Post Now</button>
             </div>
         </form>
     </div>
 @endsection
 
 @section('script')
-<script>
-    Dropzone.options.myGreatDropzone = { // camelized version of the `id`
-      paramName: "file", // The name that will be used to transfer the file
-      maxFilesize: 2, // MB
-      accept: function(file, done) {
-        if (file.name == "justinbieber.jpg") {
-          done("Naha, you don't.");
-        }
-        else { done(); }
+{{-- <script>
+  var uploadedDocumentMap = {}
+  Dropzone.options.documentDropzone = {
+    url: '{{ route('thesis.store') }}',
+    maxFilesize: 2, // MB
+    addRemoveLinks: true,
+    headers: {
+      'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
+    success: function (file, response) {
+      $('form').append('<input type="hidden" name="document[]" value="' + response.name + '">')
+      uploadedDocumentMap[file.name] = response.name
+    },
+    removedfile: function (file) {
+      file.previewElement.remove()
+      var name = ''
+      if (typeof file.file_name !== 'undefined') {
+        name = file.file_name
+      } else {
+        name = uploadedDocumentMap[file.name]
       }
-    };
-  </script>
+      $('form').find('input[name="document[]"][value="' + name + '"]').remove()
+    },
+    init: function () {
+      @if(isset($project) && $project->document)
+        var files =
+          {!! json_encode($project->document) !!}
+        for (var i in files) {
+          var file = files[i]
+          this.options.addedfile.call(this, file)
+          file.previewElement.classList.add('dz-complete')
+          $('form').append('<input type="hidden" name="document[]" value="' + file.file_name + '">')
+        }
+      @endif
+    }
+  }
+</script> --}}
+<script>
+    Dropzone.options.dropzone = {
+        url: '{{ route('thesis.store') }}',
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 100,
+        maxFiles: 100,
+        maxFilesize: 12,
+        renameFile: function(file){
+            var dt = new Date();
+            var time = dt.getTime();
+            return '{{ Auth::user()->id }}'+'_thumbnail';
+        },
+        acceptedFiles: '.jpeg, .jpg, .png',
+        addRemoveLinks: true,
+        timeout: 5000,
+        init: function() {
+            // this.on("addedfile", file => {
+            //     console.log(file)
+            //     $('form').append('<input type="hidden" name="images[]" value="' + file.name + '">')
+            // });
+            // this.on("removedfile", file => {
+            //     console.log(file);
+            // })
+            this.on("sending", (file, xhr, formData) => {
+                formData.append('title','title');
+                formData.append('description','description');
+                formData.append('year','2');
+                formData.append('project_type','1');
+                // formData.append('images',file.name);
+            })
+            var myDropzone = this;
+            $("#submit-all").click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                myDropzone.processQueue();
+            })
+        },
+        success: function(file, response){
+            console.log(response);
+        },
+        error: function(file, response){
+            console.log(response);
+            return false;
+        }
+    }
+</script>
 @endsection

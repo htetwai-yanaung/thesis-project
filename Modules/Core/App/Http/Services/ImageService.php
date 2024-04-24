@@ -4,7 +4,9 @@ namespace Modules\Core\App\Http\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Modules\Core\App\Models\Image;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Modules\Core\Constant\Constants;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,7 +29,22 @@ class ImageService
         return $imageName;
     }
 
-    public function storeProjectImage($request){
-        dd($request);
+    public function storeProjectImage($request, $id){
+        // if($request->images){
+        //     $images = $request->images;
+        //     foreach($images as $image){
+        //         $path = public_path('storage/uploads/project/' . $image);
+        //         if(File::exists($path)){
+
+        //         }
+        //     }
+        // }
+        $imageName = uniqid().'_.'.$request->file->extension();
+        $request->file->storeAs(Constants::projectImagePath, $imageName);
+
+        $image = new Image();
+        $image->parent_id = $id;
+        $image->path = $imageName;
+        $image->save();
     }
 }
