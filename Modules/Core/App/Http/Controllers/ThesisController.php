@@ -14,11 +14,19 @@ class ThesisController
         $this->thesisService = $thesisService;
     }
 
+    public function index(Request $request){
+        return $this->thesisService->index($request);
+    }
+
     public function create(){
         return $this->thesisService->create();
     }
 
     public function store(Request $request){
         return $this->thesisService->store($request);
+    }
+
+    public function edit($id){
+        return $this->thesisService->edit($id);
     }
 }

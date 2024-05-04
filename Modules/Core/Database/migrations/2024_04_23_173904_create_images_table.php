@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('thesis_projects', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->foreignId('year');
-            $table->string('project_type');
-            $table->string('member')->nullable();
-            $table->foreignId('user_id');
-            $table->tinyInteger('status');
+            $table->foreignId('parent_id');
+            $table->string('image_type');
+            $table->string('file_type');
+            $table->string('path');
+            $table->string('ordering')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('thesis_projects');
+        Schema::dropIfExists('images');
     }
 };
