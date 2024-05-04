@@ -26,7 +26,15 @@
     <link rel="stylesheet" href="{{ asset( 'css/bootstrap.min.css' ) }}">
     <link rel="stylesheet" href="{{ asset( 'css/custom.css' ) }}">
     <link rel="stylesheet" href="{{ asset( 'css/admin.css' ) }}">
+
+    <link rel="stylesheet" href="{{asset('css/all.css')}}">
+    <script src="{{ asset( 'js/bootstrap.min.js' ) }}"></script>
+    <script src="{{ asset( 'js/bootstrap.bundle.min.js' ) }}"></script>
+    <script src="{{asset('js/all.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="{{ asset( 'css/drag-and-drop.css' ) }}">
+
 
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/basic.min.css" integrity="sha512-MeagJSJBgWB9n+Sggsr/vKMRFJWs+OUphiDV7TJiYu+TNQD9RtVJaPDYP8hA/PAjwRnkdvU+NsTncYTKlltgiw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" /> --}}
@@ -60,30 +68,34 @@
                         <span>Thesis</span></a>
                 </li>
                 <li class="nav-item active">
+
                     <a class="{{Route::current()->getName() == 'announcement.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('announcement.index') }}">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
+
                         <span>News</span></a>
                 </li>
                 <li class="nav-item active">
                     <a class="{{Route::current()->getName() == 'teacher.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('teacher.index') }}">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <i class="fa-solid fa-user-group"></i>
                         <span>Teacher List</span></a>
                 </li>
                 <li class="nav-item active">
                     <a class="{{Route::current()->getName() == 'student.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('student.index') }}">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <i class="fa-solid fa-user-group"></i>
                         <span>Student List</span></a>
                 </li>
                 <li class="nav-item active">
+
                     <a class="{{Route::current()->getName() == 'settings.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('settings.index') }}">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
+
                         <span>Setting</span></a>
                 </li>
                 <li class="nav-item active">
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button class="nav-link">
-                            <i class="fas fa-fw fa-tachometer-alt"></i>
+                            <i class="fa-solid fa-right-from-bracket text-danger"></i>
                             <span class="text-danger">Log Out</span></a>
                         </button>
                     </form>
@@ -96,12 +108,12 @@
                 <div id="content">
 
                     <!-- Topbar -->
-                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow d-flex px-4">
+                    <nav class="px-4 mb-4 bg-white shadow navbar navbar-expand navbar-light topbar static-top d-flex">
 
 
 
                         <!-- Topbar Navbar -->
-                        <a href="{{ route('profile.edit', Auth::user()->id) }}" class="navbar-nav ms-auto d-flex align-items-center gap-2 text-decoration-none">
+                        <a href="{{ route('profile.edit', Auth::user()->id) }}" class="gap-2 navbar-nav ms-auto d-flex align-items-center text-decoration-none">
 
                             <!-- Nav Item - User Information -->
 
@@ -129,7 +141,7 @@
                 <!-- Footer -->
                 <footer class="sticky-footer bg-success">
                     <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
+                        <div class="my-auto text-center copyright">
                             <span>Copyright &copy; Geek Tect</span>
                         </div>
                     </div>

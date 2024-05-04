@@ -1,0 +1,7 @@
+form{
+    max-width: 750px;
+}
+.pdf-file article,.upload-photo article{
+    border: 1px dashed var(--text-secondary);
+    border-radius: 7px;
+}

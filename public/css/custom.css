@@ -262,6 +262,62 @@ p{
     }
 }
 
+.thesis-image{
+    width: 90px;
+    height: 90px;
+}
+.thesis-detail{
+    width: 250px;
+    height: 250px;
+}
+.post-image{
+    width: 300px;
+    height: 250px;
+    
+}
+.post-detail{
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+.column {
+    float: left;
+    width: 33.33%;
+    padding: 10px;
+  }
+  
+  /* Clear floats after image containers */
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  .row {
+    display: flex;
+  }
+  
+  .column {
+    flex: 33.33%;
+    padding: 5px;
+  }
+.profile{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.post{
+    margin-bottom: 15px;
+}
+p{
+    text-indent: 30px;
+}
+.thesis-create{
+    position: relative;
+    left: 560px;
+    border-radius: 10%;
+}
+
 
 @-webkit-keyframes passing-through {
     0% {
