@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\View;
+use Modules\Core\App\Models\Setting;
 use Illuminate\Support\ServiceProvider;
 
 class HelperServiceProvider extends ServiceProvider
@@ -20,6 +22,12 @@ class HelperServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        View::composer('*', function ($view) {
+            $settings = Setting::first();
+            $view->with([
+                'siteName' => $settings->site_name,
+                'siteImage' => $settings->site_image
+            ]);
+        });
     }
 }

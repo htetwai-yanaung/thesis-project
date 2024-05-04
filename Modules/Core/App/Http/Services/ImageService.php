@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\Core\App\Models\Image;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Modules\Core\App\Models\Setting;
 use Modules\Core\Constant\Constants;
 use Illuminate\Support\Facades\Storage;
 
@@ -29,22 +30,55 @@ class ImageService
         return $imageName;
     }
 
-    public function storeProjectImage($request, $id){
-        // if($request->images){
-        //     $images = $request->images;
-        //     foreach($images as $image){
-        //         $path = public_path('storage/uploads/project/' . $image);
-        //         if(File::exists($path)){
+    public function storeProjectImages($request, $id){
+        if($request->file){
+            $images = $request->file;
+            try{
+                foreach($images as $image){
+                    $imageName = uniqid().'_.'.$image->extension();
+                    $imageType = Constants::imageFileType;
 
-        //         }
-        //     }
-        // }
-        $imageName = uniqid().'_.'.$request->file->extension();
-        $request->file->storeAs(Constants::projectImagePath, $imageName);
+                    if($image->extension() == 'pdf'){
+                        $image->storeAs(Constants::projectPdfPath, $imageName);
+                        $imageType = Constants::pdfFileType;
+                    }else{
+                        $image->storeAs(Constants::projectImagePath, $imageName);
+                    }
 
-        $image = new Image();
-        $image->parent_id = $id;
-        $image->path = $imageName;
-        $image->save();
+                    $thesisImage = new Image();
+                    $thesisImage->parent_id = $id;
+                    $thesisImage->image_type = Constants::projectImageType;
+                    $thesisImage->file_type = $imageType;
+                    $thesisImage->path = $imageName;
+                    $thesisImage->save();
+                }
+
+                return [
+                    'status' => 'success',
+                    'message' => 'File upload success'
+                ];
+            }catch(\Throwable $e){
+                return [
+                    'status' => 'error',
+                    'message' => $e->getMessage()
+                ];
+            }
+        }
+
+    }
+
+    public function updateSiteImage($request)
+    {
+        $settings = Setting::first();
+        $oldSiteImage = $settings->site_image;
+        if(File::exists(Constants::uploadsPath.'/'.$oldSiteImage)){
+            Storage::delete(Constants::uploadsPath.'/'.$oldSiteImage);
+        }
+
+        $imageName = uniqid().'_.'.$request->site_image->extension();
+        $request->site_image->storeAs(Constants::uploadsPath, $imageName);
+
+        $settings->site_image = $imageName;
+        $settings->update();
     }
 }

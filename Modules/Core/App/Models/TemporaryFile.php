@@ -4,17 +4,18 @@ namespace Modules\Core\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Core\Database\factories\ImageFactory;
+use Modules\Core\Database\factories\TemporaryFileFactory;
 
-class Image extends Model
+class TemporaryFile extends Model
 {
     use HasFactory;
 
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = ['parent_id', 'image_type', 'file_type', 'path', 'ordering'];
+    protected $fillable = ['folder', 'file'];
 
-    const parentId = 'parent_id';
-
+    const id = 'id';
+    const folder = 'folder';
+    const file = 'file';
 }

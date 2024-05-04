@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('project_type');
             $table->string('member')->nullable();
             $table->foreignId('user_id');
+            $table->tinyInteger('status');
             $table->timestamps();
         });
     }

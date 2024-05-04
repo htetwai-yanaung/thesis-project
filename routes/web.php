@@ -5,6 +5,8 @@ use Modules\Core\App\Http\Controllers\UserController;
 use Modules\Core\App\Http\Controllers\ThesisController;
 use Modules\Core\App\Http\Controllers\ProfileController;
 use Modules\Core\App\Http\Controllers\DashboardController;
+use Modules\Core\App\Http\Controllers\NewsController;
+use Modules\Core\App\Http\Controllers\SettingController;
 
 Route::get('/', function () {
     return view('template::index');
@@ -37,8 +39,41 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
         // thesis
         Route::prefix('thesis')->controller(ThesisController::class)->group(function() {
+            Route::get('/', 'index')->name('thesis.index');
             Route::get('/create', 'create')->name('thesis.create');
             Route::post('/store', 'store')->name('thesis.store');
+            Route::get('{id}/edit', 'edit')->name('thesis.edit');
+            Route::get('/delete-file', 'deleteFile')->name('thesis.deleteFile');
+        });
+
+        // settings
+        Route::prefix('settings')->controller(SettingController::class)->group(function() {
+            Route::get('/', 'index')->name('settings.index');
+            Route::post('/update', 'update')->name('settings.update');
+        });
+
+        // news
+        // Route::prefix('/news')->controller(NewsController::class)->group(function() {
+        //     Route::get('/', 'index')->name('news.index');
+        //     Route::get('/load-files', 'loadFiles')->name('news.loadFiles');
+        //     Route::get('/create', 'create')->name('news.create');
+        //     Route::post('/store', 'store')->name('news.store');
+        //     // Route::get('/{$id}/edit', 'edit')->name('news.edit');
+        //     // Route::post('/{$id}/update', 'update')->name('news.update');
+        //     Route::post('/store-temp-file', 'storeTempFile')->name('news.storeTempFile');
+        //     Route::delete('/delete-temp-file', 'deleteTempFile')->name('news.deleteTempFile');
+        // });
+        // Route::resource('news', NewsController::class);
+
+        // news
+        Route::prefix('announcement')->controller(NewsController::class)->group(function() {
+            Route::get('/', 'index')->name('announcement.index');
+            Route::get('/create', 'create')->name('announcement.create');
+            Route::get('/edit/{id}', 'edit')->name('announcement.edit');
+            Route::post('/store', 'store')->name('announcement.store');
+            Route::post('/update/{id}', 'update')->name('announcement.update');
+            Route::post('/store-temp-file', 'storeTempFile')->name('announcement.storeTempFile');
+            Route::delete('/delete-temp-file', 'deleteTempFile')->name('announcement.deleteTempFile');
         });
     });
 

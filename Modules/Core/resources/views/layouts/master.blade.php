@@ -21,10 +21,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.green.min.css" integrity="sha512-C8Movfk6DU/H5PzarG0+Dv9MA9IZzvmQpO/3cIlGIflmtY3vIud07myMu4M/NTPJl8jmZtt/4mC9bAioMZBBdA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="{{ asset( 'css/bootstrap.min.css' ) }}">
     <link rel="stylesheet" href="{{ asset( 'css/custom.css' ) }}">
     <link rel="stylesheet" href="{{ asset( 'css/admin.css' ) }}">
+    <link rel="stylesheet" href="{{ asset( 'css/drag-and-drop.css' ) }}">
 
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/basic.min.css" integrity="sha512-MeagJSJBgWB9n+Sggsr/vKMRFJWs+OUphiDV7TJiYu+TNQD9RtVJaPDYP8hA/PAjwRnkdvU+NsTncYTKlltgiw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" /> --}}
@@ -41,8 +43,8 @@
                 <!-- Sidebar - Brand -->
                 <a class="sidebar-brand d-flex align-items-center " href="index.html">
                     <div class="d-flex align-items-center text-info fw-bold">
-                        <img src="{{ asset('storage/uploads/Logo.png') }}" alt="" class="">
-                       <span> EC Department</span>
+                        <img src="{{ asset('storage/uploads/'.$siteImage) }}" alt="" class="">
+                       <span>{{ $siteName }}</span>
                       </div>
                 </a>
 
@@ -53,12 +55,12 @@
                         <span>Dashboard</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="{{Route::current()->getName() == 'admin.thesis' ? 'nav-link active' : 'nav-link'}}" href="index.html">
+                    <a class="{{Route::current()->getName() == 'thesis.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('thesis.index') }}">
                         <i class="fa-solid fa-rectangle-list"></i>
                         <span>Thesis</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
+                    <a class="{{Route::current()->getName() == 'announcement.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('announcement.index') }}">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>News</span></a>
                 </li>
@@ -73,7 +75,7 @@
                         <span>Student List</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
+                    <a class="{{Route::current()->getName() == 'settings.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('settings.index') }}">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Setting</span></a>
                 </li>
@@ -140,13 +142,14 @@
 
     </div>
 
-    <script src="{{ asset( 'js/bootstrap.min.js' ) }}"></script>
-    <script src="{{ asset( 'js/bootstrap.bundle.min.js' ) }}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
+    <script src="{{ asset( 'js/bootstrap.bundle.js' ) }}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
     {{-- dropzone js --}}
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.js" integrity="sha512-9e9rr82F9BPzG81+6UrwWLFj8ZLf59jnuIA/tIf8dEGoQVu7l5qvr02G/BiAabsFOYrIUTMslVN+iDYuszftVQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('js/drag-and-drop.js') }}"></script>
     @yield('script')
 
 </body>
