@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('thesis_projects', function (Blueprint $table) {
+        Schema::create('news', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->foreignId('year');
-            $table->string('project_type');
-            $table->string('member')->nullable();
             $table->foreignId('user_id');
-            $table->tinyInteger('status');
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('thesis_projects');
+        Schema::dropIfExists('news');
     }
 };
