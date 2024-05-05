@@ -12,9 +12,16 @@
         <form action="{{ route('profile.update', $user->id) }}" method="POST" enctype="multipart/form-data" class="gap-3 w-50 d-flex flex-column">
             @csrf
             <div class="">
-                <img src="{{ asset('storage/uploads/profile/'.$user->profile_photo_path) }}" alt="">
-                <label for="image"><i class="fas fa-fw fa-pencil"></i></label>
-                <input type="file" name="image" id="image" class="d-none">
+                <label for="image-input">
+                    @if ($user->profile_photo_path == null)
+                        <img src="{{ asset('images/default-profile-image.png') }}" class="img-thumbnail profile-img" id="profile-img" alt="profile-image">
+
+                    @else
+                        <img src="{{ asset('storage/uploads/profile/'.$user->profile_photo_path) }}" width="200" class="img-thumbnail profile-img" id="profile-img" alt="profile-image">
+
+                    @endif
+                </label>
+                <input type="file" name="image" id="image-input" class="d-none">
             </div>
             <div>
                 <label class="form-label">Name</label>
@@ -77,4 +84,29 @@
             </div>
         </form>
     </div>
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function() {
+        const $fileInput = $('#image-input');
+
+        $fileInput.on('change', function (e) {
+            const file = e.target.files;
+            handleFile(file);
+        });
+
+        function handleFile(file) {
+            console.log(file)
+            if (file[0].type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const $img = $('#profile-img');
+                    $img.attr('src', event.target.result);
+                };
+                reader.readAsDataURL(file[0]);
+            }
+        }
+    })
+</script>
 @endsection

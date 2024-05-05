@@ -1,7 +1,7 @@
 @extends('core::layouts.master')
 
 @section('content')
-    <form class="container" action="{{ route('settings.update') }}" method="POST">
+    <form class="container" action="{{ route('settings.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="w-50 d-flex flex-column gap-3">
             {{-- site name --}}
@@ -19,9 +19,16 @@
             </div>
 
             {{-- site logo --}}
-            <div class="">
+            {{-- <div class="">
                 <label for="" class="fw-bold">Logo</label>
                 <div class="dropzone w-50" id="dropzone"></div>
+            </div> --}}
+
+            <div class="">
+                <label for="site-image">
+                    <img src="{{ asset('storage/uploads/'.$settings->site_image) }}" width="200" class="img-thumbnail profile-img" id="site-img" alt="site-image">
+                </label>
+                <input type="file" name="site_image" id="site-image" class="d-none">
             </div>
 
 
@@ -35,6 +42,31 @@
 @endsection
 
 @section('script')
+<script>
+    $(document).ready(function() {
+        const $fileInput = $('#site-image');
+
+        $fileInput.on('change', function (e) {
+            const file = e.target.files;
+            handleFile(file);
+        });
+
+        function handleFile(file) {
+            console.log(file)
+            if (file[0].type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const $img = $('#site-img');
+                    $img.attr('src', event.target.result);
+                };
+                reader.readAsDataURL(file[0]);
+            }
+        }
+    })
+</script>
+@endsection
+
+{{-- @section('script')
     <script>
         Dropzone.options.dropzone = {
             url: '{{ route('settings.update') }}',
@@ -61,4 +93,6 @@
             }
         }
     </script>
-@endsection
+@endsection --}}
+
+

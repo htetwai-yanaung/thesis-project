@@ -26,15 +26,18 @@
     <link rel="stylesheet" href="{{ asset( 'css/bootstrap.min.css' ) }}">
     <link rel="stylesheet" href="{{ asset( 'css/custom.css' ) }}">
     <link rel="stylesheet" href="{{ asset( 'css/admin.css' ) }}">
+    <link rel="stylesheet" href="{{ asset( 'css/ckeditor.css' ) }}">
 
     <link rel="stylesheet" href="{{asset('css/all.css')}}">
     <script src="{{ asset( 'js/bootstrap.min.js' ) }}"></script>
     <script src="{{ asset( 'js/bootstrap.bundle.min.js' ) }}"></script>
     <script src="{{asset('js/all.js')}}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="{{ asset( 'css/drag-and-drop.css' ) }}">
 
+
+    <!-- include summernote css/js -->
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.css" integrity="sha512-ngQ4IGzHQ3s/Hh8kMyG4FC74wzitukRMIcTOoKT3EyzFZCILOPF0twiXOQn75eDINUfKBYmzYn2AA8DkAk8veQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
 
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/basic.min.css" integrity="sha512-MeagJSJBgWB9n+Sggsr/vKMRFJWs+OUphiDV7TJiYu+TNQD9RtVJaPDYP8hA/PAjwRnkdvU+NsTncYTKlltgiw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" /> --}}
@@ -49,11 +52,13 @@
             <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center " href="index.html">
-                    <div class="d-flex align-items-center text-info fw-bold">
-                        <img src="{{ asset('storage/uploads/'.$siteImage) }}" alt="" class="">
-                       <span>{{ $siteName }}</span>
-                      </div>
+                <a class="sidebar-brand d-flex align-items-center " href="{{ route('admin.dashboard') }}">
+                    <div class="d-flex align-items-center text-info fw-bold gap-2">
+                        <div class="profile-pic">
+                            <img src="{{ asset('storage/uploads/'.$siteImage) }}" alt="site-image" class="" >
+                        </div>
+                        <span>{{ $siteName }}</span>
+                    </div>
                 </a>
 
                 <!-- Nav Item - Dashboard -->
@@ -118,7 +123,7 @@
                             <!-- Nav Item - User Information -->
 
                             <div class="profile-pic">
-                                <img src="{{ asset('storage/uploads/profile.png') }}" alt="">
+                                <img src="{{ asset('storage/uploads/profile/'. Auth::user()->profile_photo_path) }}" alt="">
                             </div>
                             <div class="">
                                 <h6 class="fs-5 fw-bold text-secondary">{{ Auth::user()->name }}</h6>
@@ -155,13 +160,16 @@
     </div>
 
 
-    <script src="{{ asset( 'js/bootstrap.bundle.js' ) }}"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
     {{-- dropzone js --}}
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.js" integrity="sha512-9e9rr82F9BPzG81+6UrwWLFj8ZLf59jnuIA/tIf8dEGoQVu7l5qvr02G/BiAabsFOYrIUTMslVN+iDYuszftVQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('js/drag-and-drop.js') }}"></script>
+    <script src="{{ asset( 'js/bootstrap.bundle.min.js' ) }}"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js" integrity="sha512-6F1RVfnxCprKJmfulcxxym1Dar5FsT/V2jiEUvABiaEiFWoQ8yHvqRM/Slf0qJKiwin6IDQucjXuolCfCKnaJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+    {{-- CKEditor CDN --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
     @yield('script')
 
 </body>
