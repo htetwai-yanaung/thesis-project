@@ -3,8 +3,8 @@
 @section('content')
 <div class="row">
     <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card  h-100 py-2">
+    <div class="mb-4 col-xl-3 col-md-6">
+        <div class="py-2 card h-100">
             <div class="card-body">
                 <div class="no-gutters">
                     <div class="text-center">
@@ -18,8 +18,8 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card  h-100 py-2">
+    <div class="mb-4 col-xl-3 col-md-6">
+        <div class="py-2 card h-100">
             <div class="card-body">
                 <div class="no-gutters">
                     <div class="text-center">
@@ -33,8 +33,8 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card  h-100 py-2">
+    <div class="mb-4 col-xl-3 col-md-6">
+        <div class="py-2 card h-100">
             <div class="card-body">
                 <div class="no-gutters">
                     <div class="text-center">
@@ -48,8 +48,8 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card  h-100 py-2">
+    <div class="mb-4 col-xl-3 col-md-6">
+        <div class="py-2 card h-100">
             <div class="card-body">
                 <div class="no-gutters">
                     <div class="text-center">
@@ -70,10 +70,10 @@
 <div class="row">
     <div class="col-xl-5 col-md-6 col-sm-4">
         <table class="table table-hover">
-            <div class="table-label bg-white">
-                <div class="d-flex justify-content-between align-items-center p-3">
+            <div class="bg-white table-label">
+                <div class="p-3 d-flex justify-content-between align-items-center">
                 <span class="fw-bold text-info ">Teacher List</span>
-                <a href="" class="text-decoration-none">view all</a>
+                <a href="" class="text-decoration-none">View all</a>
                 </div>
             </div>
             <thead>
@@ -109,10 +109,10 @@
 
     <div class="col-xl-7 col-md-6 col-sm-8">
         <table class="table table-hover">
-            <div class="table-label bg-white">
-                <div class="d-flex justify-content-between align-items-center p-3">
+            <div class="bg-white table-label">
+                <div class="p-3 d-flex justify-content-between align-items-center">
                 <span class="fw-bold text-info">Student List</span>
-                <a href="" class="text-decoration-none">view all</a>
+                <a href="" class="text-decoration-none">View all</a>
                 </div>
             </div>
             <thead>
@@ -152,18 +152,18 @@
 <div class="row">
 
     <!-- Content Column -->
-    <div class="col-lg-6 bg-white">
+    <div class="bg-white col-lg-6">
     <ul style="list-style-type: none;">
-        <div class="d-flex justify-content-between align-items-center p-3">
+        <div class="p-3 d-flex justify-content-between align-items-center">
             <h4 class="fw-bold"><span class="text-primary">Thesis</span> in Department</h4>
-        <a href="" class="text-decoration-none">view all</a>
+        <a href="" class="text-decoration-none">View all</a>
         </div>
         <hr class="mt-0">
         <li class="bg-light" style="margin: 5px; padding: 10px;">
             <h4>Robotic Arm Project</h4>
             <div class="d-flex">
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae distinctio temporibus amet sit quod beatae.</p>
-                <img src="Images/thesis.jpg" alt="" srcset="">
+                <img src="storage/uploads/thesis.jpg" alt="" srcset="">
             </div>
             <div class="d-flex justify-content-between">
                 <span class="text-info">Tect Htun</span>
@@ -174,7 +174,7 @@
             <h4>Robotic Arm Project</h4>
             <div class="d-flex">
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae distinctio temporibus amet sit quod beatae.</p>
-                <img src="Images/thesis.jpg" alt="" srcset="">
+                <img src="storage/uploads/thesis.jpg" alt="" srcset="">
             </div>
             <div class="d-flex justify-content-between">
                 <span class="text-info">Tect Htun</span>
@@ -185,7 +185,7 @@
             <h4>Robotic Arm Project</h4>
             <div class="d-flex">
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae distinctio temporibus amet sit quod beatae.</p>
-                <img src="Images/thesis.jpg" alt="" srcset="">
+                <img src="storage/uploads/thesis.jpg" alt="" srcset="">
             </div>
             <div class="d-flex justify-content-between">
                 <span class="text-info">Tect Htun</span>
@@ -195,18 +195,18 @@
     </ul>
 
     </div>
-    <div class="col-lg-6 bg-white">
+    <div class="bg-white col-lg-6">
         <ul style="list-style-type: none;">
-        <div class="d-flex justify-content-between align-items-center p-3">
+        <div class="p-3 d-flex justify-content-between align-items-center">
             <h4 class="fw-bold"><span class="text-primary ">Thesis</span> in Department</h4>
-        <a href="" class="text-decoration-none">view all</a>
+        <a href="" class="text-decoration-none">View all</a>
         </div>
         <hr class="mt-0">
         <li class="bg-light" style="margin: 5px; padding: 10px;">
             <h4>Robotic Arm Project</h4>
             <div class="d-flex">
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae distinctio temporibus amet sit quod beatae.</p>
-                <img src="Images/thesis.jpg" alt="" srcset="">
+                <img src="storage/uploads/thesis.jpg" alt="" srcset="">
             </div>
             <div class="d-flex justify-content-between">
                 <span class="text-info">Tect Htun</span>
@@ -217,7 +217,7 @@
             <h4>Robotic Arm Project</h4>
             <div class="d-flex">
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae distinctio temporibus amet sit quod beatae.</p>
-                <img src="Images/thesis.jpg" alt="" srcset="">
+                <img src="storage/uploads/thesis.jpg" alt="" srcset="">
             </div>
             <div class="d-flex justify-content-between">
                 <span class="text-info">Tect Htun</span>
@@ -228,7 +228,7 @@
             <h4>Robotic Arm Project</h4>
             <div class="d-flex">
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repudiandae distinctio temporibus amet sit quod beatae.</p>
-                <img src="Images/thesis.jpg" alt="" srcset="">
+                <img src="storage/uploads/thesis.jpg" alt="" srcset="">
             </div>
             <div class="d-flex justify-content-between">
                 <span class="text-info">Tect Htun</span>

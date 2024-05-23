@@ -86,7 +86,7 @@
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button class="nav-link">
-                            <i class="fa-solid fa-right-from-bracket text-danger"></i>
+                            <a><i class="fa-solid fa-right-from-bracket text-danger"></i>
                             <span class="text-danger">Log Out</span></a>
                         </button>
                     </form>
@@ -104,6 +104,7 @@
 
 
                         <!-- Topbar Navbar -->
+                        @if (Auth::check())
                         <a href="{{ route('profile.edit', Auth::user()->id) }}" class="gap-2 navbar-nav ms-auto d-flex align-items-center text-decoration-none">
 
                             <!-- Nav Item - User Information -->
@@ -115,7 +116,11 @@
                                 <h6 class="fs-5 fw-bold text-secondary">{{ Auth::user()->name }}</h6>
                                 <span class="fs-6 text-secondary">Super Admin</span>
                             </div>
-                        </a>
+                        </a>   
+                        @else
+                            <a href="{{route('thesis#detail')}}"></a>
+                        @endif
+                        
 
                     </nav>
                     <!-- End of Topbar -->

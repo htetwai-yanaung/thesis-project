@@ -2,18 +2,19 @@
 
 namespace Modules\Template\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 
-class TemplateController extends Controller
+class ThesisController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        // return "hello";
         return view('template::thesis.index');
     }
 
@@ -25,9 +26,14 @@ class TemplateController extends Controller
         return view('template::create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
+   
+    public function detail(){
+        return view('template::thesis.detail');
+    }
+    // /**
+    //  * Store a newly created resource in storage.
+    //  */
     public function store(Request $request): RedirectResponse
     {
         //

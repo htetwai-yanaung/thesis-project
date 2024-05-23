@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 *{
     padding: 0;
@@ -92,34 +93,24 @@ p{
      height: 50px;
      overflow: hidden;
     border-radius: 50%;
-    border: 1px solid var(--main-color) !important;
  }
-
+ 
  .profile-pic img{
-    width: 100%;
-    height: auto;
     object-fit: cover;
  }
- .profile-menu .dropdown-menu {
-   right: 0;
-   left: unset;
- }
+ 
  .profile-menu .fa-fw {
    margin-right: 10px;
  }
-
+ 
  .toggle-change::after {
    border-top: 0;
    border-bottom: 0.3em solid;
  }
-
  body{
-    /* margin-top:20px; */
+    margin-top:20px;
     background:#f8f8f8
 }
-/* admin-profile */
-
-
 /* up-to-date news  */
 .news .left .grid-system{
     display: grid;
@@ -176,6 +167,7 @@ p{
     justify-content: space-between;
     align-items: center;
 }
+
 .teacher-lists .owl-nav button span{
     font-size: 60px;
 }
@@ -197,7 +189,7 @@ p{
 }
 .activity  .grid-system .item{
     position: relative;
-    background-image: url(storage/uploads/Rectangle\ 20.png);
+    background-image: url(./Images/Rectangle\ 20.png);
     background-position: center;
     background-size: cover;
     min-height: 200px;
@@ -262,6 +254,7 @@ p{
     }
 }
 .thesis-image{
+    margin-top: 10px;
     width: 90px;
     height: 90px;
 }
@@ -269,6 +262,7 @@ p{
     width: 250px;
     height: 250px;
 }
+
 .post-image{
     width: 300px;
     height: 250px;
@@ -276,9 +270,14 @@ p{
 }
 .post-detail{
     width: 70%;
+
     margin-left: auto;
     margin-right: auto;
     
+}
+.post-detail img{
+    width: auto;
+    height: auto;
 }
 .column {
     float: left;
