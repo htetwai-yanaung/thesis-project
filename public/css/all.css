@@ -73,13 +73,3 @@ p{
     z-index: 10000;
     box-shadow: 0px 0px 4px var(--border) !important;
 }
-.nav-link{
-    color: var(--text-primary) !important;
-}
-.nav-link.btn{
-    color: var(--light) !important;
-}
-.nav-link.active{
-    color: var(--main-color) !important;
-    font-weight: bold;
-}
