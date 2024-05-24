@@ -4,13 +4,21 @@ namespace Modules\Core\App\Http\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Modules\Core\Constant\Constants;
 
 class DashboardService
 {
     public function dashboard(){
-        $user = User::find(Auth::user()->id);
+        $students = User::where('role', Constants::student)->get();
+        $teachers = User::where('role', Constants::teacher)->get();
+        $totalStudents = $students->count();
+        $totalTeachers = $teachers->count();
+
         $dataArr = [
-            'user' => $user
+            'students' => $students,
+            'teachers' => $teachers,
+            'totalStudents' => $totalStudents,
+            'totalTeachers' => $totalTeachers,
         ];
         return view('core::dashboard.index', $dataArr);
     }

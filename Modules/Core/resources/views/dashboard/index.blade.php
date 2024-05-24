@@ -12,7 +12,7 @@
                         <div class="">Total Teachers</div>
                     </div>
                     <div class="text-center ">
-                        15
+                        {{ $totalTeachers }}
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                         <div class="">Total Students</div>
                     </div>
                     <div class="text-center ">
-                        70
+                        {{ $totalStudents }}
                     </div>
                 </div>
             </div>
@@ -73,35 +73,26 @@
             <div class="bg-white table-label">
                 <div class="p-3 d-flex justify-content-between align-items-center">
                 <span class="fw-bold text-info ">Teacher List</span>
-                <a href="" class="text-decoration-none">View all</a>
+
+                <a href="{{ route('teacher.index') }}" class="text-decoration-none">view all</a>
+
                 </div>
             </div>
             <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Role</th>
-                <th scope="col">Ph no</th>
-
-            </tr>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Ph no</th>
+                </tr>
             </thead>
             <tbody>
-            <tr>
-
-                <td>Mark</td>
-                <td>professor</td>
-                <td>09776349381</td>
-            </tr>
-            <tr>
-
-                <td>Jacob</td>
-                <td>professor</td>
-                <td>09776349381</td>
-            </tr>
-            <tr>
-                <td>Daw Hla</td>
-                <td>professor</td>
-                <td>09776349381</td>
-            </tr>
+                @for ($i = 0; $i < 5; $i++)
+                <tr>
+                    <td>{{ $teachers[$i]->name }}</td>
+                    <td>{{ $teachers[$i]->name }}</td>
+                    <td>{{ $teachers[$i]->name }}</td>
+                </tr>
+                @endfor
             </tbody>
         </table>
     </div>
@@ -112,7 +103,9 @@
             <div class="bg-white table-label">
                 <div class="p-3 d-flex justify-content-between align-items-center">
                 <span class="fw-bold text-info">Student List</span>
-                <a href="" class="text-decoration-none">View all</a>
+
+                <a href="{{ route('student.index') }}" class="text-decoration-none">view all</a>
+
                 </div>
             </div>
             <thead>
@@ -124,25 +117,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-
-                <td>Tun Tun</td>
-                <td>Third</td>
-                <td>09440239123</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>Tun Tun</td>
-                <td>Third</td>
-                <td>09440239123</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>Tun Tun</td>
-                <td>Third</td>
-                <td>09440239123</td>
-                <td>2</td>
-            </tr>
+                @for ($i = 0; $i < 5; $i++)
+                <tr>
+                    <td>{{ $students[$i]->name }}</td>
+                    <td>{{ $students[$i]->name }}</td>
+                    <td>{{ $students[$i]->name }}</td>
+                    <td>{{ $students[$i]->name }}</td>
+                </tr>
+                @endfor
             </tbody>
         </table>
     </div>
