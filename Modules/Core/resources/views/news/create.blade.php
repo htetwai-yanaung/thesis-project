@@ -21,6 +21,7 @@
 
 @section('script')
 <script>
+    FilePond.registerPlugin(FilePondPluginImagePreview);
     // Get a reference to the file input element
     const inputElement = document.querySelector('input[id="newsImage"]');
 

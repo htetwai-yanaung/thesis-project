@@ -83,3 +83,16 @@ p{
     color: var(--main-color) !important;
     font-weight: bold;
 }
+
+.filepond--item {
+    width: calc(50% - 0.5em);
+}
+
+.filepond--item-panel {
+    background-color: red;
+    /* height: 100px; */
+}
+
+.filepond--image-preview-wrapper{
+    height: 100px;
+}
