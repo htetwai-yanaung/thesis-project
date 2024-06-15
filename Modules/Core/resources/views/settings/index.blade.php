@@ -24,16 +24,20 @@
                 <div class="dropzone w-50" id="dropzone"></div>
             </div> --}}
 
-            <div class="">
-                <label for="site-image">
+            <div class="d-flex flex-column">
+                <label for="" class="fw-bold">Logo</label>
+                <label for="site-image" class="profile-img">
                     <img src="{{ asset('storage/uploads/'.$settings->site_image) }}" width="200" class="img-thumbnail profile-img" id="site-img" alt="site-image">
                 </label>
                 <input type="file" name="site_image" id="site-image" class="d-none">
             </div>
 
+            <div class="">
+                <label for="" class="fw-bold">Banner Images</label>
+                <div class="dropzone" id="dropzone1"></div>
+            </div>
 
             <div class="ms-auto">
-                <a class="btn btn-outline-primary">Cancel</a>
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>
 
@@ -63,6 +67,83 @@
             }
         }
     })
+</script>
+
+<script>
+    Dropzone.options.dropzone1 = {
+        url: "{{ route('settings.storeBannerImage') }}",
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+        autoProcessQueue: true,
+        uploadMultiple: true,
+        parallelUploads: 100,
+        maxFiles: 100,
+        maxFilesize: 12,
+        acceptedFiles: '.jpeg, .jpg, .png',
+        addRemoveLinks: true,
+        timeout: 5000,
+        init: function() {
+
+            var myDropzone = this;
+            @if($bannerImages != null)
+                @foreach ($bannerImages as $image)
+                    var siteImage = "{{ $image->path }}";
+                    var mockFile = { "name": siteImage };
+                    myDropzone.displayExistingFile(mockFile, `{{ asset('storage/uploads/project/${siteImage}') }}`)
+                @endforeach
+            @endif
+
+            // append form data
+            // this.on("sendingmultiple", (file, xhr, formData) => {
+            //     $("form").find("input").each(function(){
+            //         formData.append($(this).attr("name"), $(this).val());
+            //     });
+            //     $("form").find("textarea").each(function(){
+            //         formData.append($(this).attr("name"), $(this).val());
+            //     });
+            //     $("form").find("select").each(function(){
+            //         formData.append($(this).attr("name"), $(this).val());
+            //     });
+            // });
+
+
+            // when submit
+            // $("#submit-all").click(function (e) {
+            //     e.preventDefault();
+            //     e.stopPropagation();
+            //     if(myDropzone.getQueuedFiles().length == 0){
+            //         $('#image-error').show();
+            //     }else{
+            //         $('#image-error').hide();
+            //     }
+            //     console.log(myDropzone.files);
+            //     myDropzone.processQueue();
+            // })
+        },
+        removedfile: function(file) {
+            file.previewElement.remove();
+            $.ajax({
+                'type' : 'get',
+                'data' : {image: file.name},
+                'url' : "{{ route('settings.destroyBannerImage', "+data+") }}",
+                'dataType' : 'json',
+            });
+        },
+        success: function(file, response){
+            // window.location.href = "{{ route('thesis.index') }}";
+        },
+        errormultiple: function(file, response){
+            var myDropzone = this;
+            myDropzone.removeAllFiles();
+            file.forEach((e)=>{
+                myDropzone.addFile(e);
+            });
+            // $('#error-message').html("<p>"+response.message+"</p>")
+            // $('#liveToast').addClass('show');
+            return false;
+        }
+    }
 </script>
 @endsection
 

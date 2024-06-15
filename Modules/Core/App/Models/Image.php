@@ -16,5 +16,6 @@ class Image extends Model
     protected $fillable = ['parent_id', 'image_type', 'file_type', 'path', 'ordering'];
 
     const parentId = 'parent_id';
+    const imageType = 'image_type';
 
 }

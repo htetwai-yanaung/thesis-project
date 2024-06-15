@@ -23,4 +23,14 @@ class SettingController
     {
         return $this->settingService->update($request);
     }
+
+    public function storeBannerImage(Request $request)
+    {
+        return $this->settingService->storeBannerImage($request);
+    }
+
+    public function destroyBannerImage(Request $request)
+    {
+        return $this->settingService->destroyBannerImage($request);
+    }
 }

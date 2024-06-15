@@ -71,17 +71,13 @@
           </div>
         </nav>
 
-        <section class="slider-one" style="padding-top: 80px;">
+        <section class="slider-one" style="padding-top: 56px;">
           <article class="owl-carousel owl-theme slide-1">
-            <div class="item">
-              <img src="storage/uploads/Rectangle_1.png" alt="" class="">
-            </div>
-            <div class="item">
-              <img src="storage/uploads/Rectangle_1.png" alt="" class="">
-            </div>
-            <div class="item">
-              <img src="storage/uploads/Rectangle_1.png" alt="" class="">
-            </div>
+            @foreach ($bannerImages as $bannerImage)
+                <div class="item">
+                    <img src="{{ asset('storage/uploads/project/'.$bannerImage->path) }}" alt="" class="">
+                </div>
+            @endforeach
           </article>
         </section>
 

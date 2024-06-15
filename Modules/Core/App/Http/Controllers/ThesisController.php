@@ -29,4 +29,18 @@ class ThesisController
     public function edit($id){
         return $this->thesisService->edit($id);
     }
+
+    public function update($id, Request $request){
+        return $this->thesisService->update($id, $request);
+    }
+
+    public function storeTempFile(Request $request)
+    {
+        return $this->thesisService->storeTempFile($request);
+    }
+
+    public function deleteTempFile()
+    {
+        return $this->thesisService->deleteTempFile();
+    }
 }

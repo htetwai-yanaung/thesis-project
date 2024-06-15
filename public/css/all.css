@@ -84,15 +84,36 @@ p{
     font-weight: bold;
 }
 
-.filepond--item {
+/* .filepond--item {
     width: calc(50% - 0.5em);
+} */
+
+/**
+ * FilePond Custom Styles
+ */
+ .filepond--item {
+	width: calc(50% - 0.5em)
+}
+
+.filepond--drop-label {
+	color: #4c4e53;
+}
+
+.filepond--label-action {
+	text-decoration-color: #babdc0;
+}
+
+.filepond--panel-root {
+	border-radius: 2em;
+	background-color: #edf0f4;
+	height: 1em;
 }
 
 .filepond--item-panel {
-    background-color: red;
-    /* height: 100px; */
+	background-color: #595e68;
 }
 
-.filepond--image-preview-wrapper{
-    height: 100px;
+.filepond--drip-blob {
+	background-color: #7f8a9a;
 }
+

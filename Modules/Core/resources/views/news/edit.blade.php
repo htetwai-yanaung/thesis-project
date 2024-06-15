@@ -9,19 +9,31 @@
                 <input type="text" name="title" id="name" value="{{ $news->title }}" class="form-control">
             </div>
             <div class="mb-3">
-                <label for="desc">Description</label>
-                <textarea name="description" id="desc" class="form-control" cols="30" rows="10">{{ $news->description }}</textarea>
+                <label for="">Description</label>
+                <textarea name="description" id="editor" class="form-control">
+                    {{ $news->description }}
+                </textarea>
             </div>
-            <input type="file" name="news_image[]" id="newsImage" multiple>
+            <div class="mb-3">
+                <label for="">Upload Images</label>
+                <input type="file" name="news_image[]" id="newsImage" multiple
+                    data-style-item-panel-aspect-ratio="0.5625" class="form-control">
+            </div>
 
-            <button class="btn btn-primary">Save</button>
+            <div class="">
+                <a href="{{ route('announcement.index') }}" class="btn btn-outline-danger">Cancel</a>
+                <button class="btn btn-primary">Save</button>
+            </div>
         </form>
     </div>
 
 @endsection
 
 @section('script')
+<script src="{{ asset('js/ckeditor.js') }}"></script>
+
 <script>
+    FilePond.registerPlugin(FilePondPluginImagePreview);
     // Get a reference to the file input element
     const inputElement = document.querySelector('input[id="newsImage"]');
 

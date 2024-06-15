@@ -60,7 +60,7 @@
                             <img src="{{ asset('storage/uploads/project/'.$project->images[0]->path) }}" alt="" width="40px" height="40px" class="" style="width:40px; height:40px;">
                         </td>
                         <td>{{ $project->title }}</td>
-                        <td>{{ $project->description }}</td>
+                        <td>{!! $project->description !!}</td>
                         <td>{{ $project->owner->name }}</td>
                         <td>{{ $project->created_at->format('d/m/Y') }}</td>
                     </tr>

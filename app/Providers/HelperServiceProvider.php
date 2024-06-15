@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use Modules\Core\App\Models\Image;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Modules\Core\App\Models\Setting;
+use Modules\Core\Constant\Constants;
 use Illuminate\Support\ServiceProvider;
 
 class HelperServiceProvider extends ServiceProvider
@@ -24,9 +26,11 @@ class HelperServiceProvider extends ServiceProvider
     {
         View::composer('*', function ($view) {
             $settings = Setting::first();
+            $bannerImages = Image::where(Image::imageType, Constants::bannerImageType)->get();
             $view->with([
                 'siteName' => $settings->site_name,
-                'siteImage' => $settings->site_image
+                'siteImage' => $settings->site_image,
+                'bannerImages' => $bannerImages
             ]);
         });
     }

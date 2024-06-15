@@ -22,6 +22,12 @@
     --ck-todo-list-checkmark-size: 16px;
 }
 
+/* ckeditor  */
+.ck-editor__editable[role="textbox"] {
+    /* Editing area */
+    min-height: 200px;
+}
+
 /* @ckeditor/ckeditor5-table/theme/tablecaption.css */
 .ck-content .table > figcaption {
     display: table-caption;

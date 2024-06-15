@@ -4,6 +4,7 @@ namespace Modules\Core\App\Models;
 
 use App\Models\User;
 use Modules\Core\App\Models\Image;
+use Modules\Core\Constant\Constants;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Core\Database\factories\ThesisProjectFactory;
@@ -40,6 +41,6 @@ class ThesisProject extends Model
     }
 
     public function images(){
-        return $this->hasMany(Image::class, 'parent_id', 'id');
+        return $this->hasMany(Image::class, 'parent_id', 'id')->where(Image::imageType, Constants::projectImageType);
     }
 }

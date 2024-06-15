@@ -4,40 +4,56 @@ namespace Modules\Core\App\Http\Services;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Modules\Core\Constant\Constants;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Modules\Core\App\Models\TemporaryFile;
 use Modules\Core\App\Models\ThesisProject;
 use Modules\Core\App\Http\Services\ImageService;
-use Modules\Core\Constant\Constants;
+use Modules\Core\App\Http\Services\CategoryService;
 
 class ThesisService
 {
-    protected $imageService;
+    protected $imageService, $categoryService;
 
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService, CategoryService $categoryService)
     {
         $this->imageService = $imageService;
+        $this->categoryService = $categoryService;
     }
 
     public function index($request){
         $conds['search_term'] = $request->search_term ?? '';
         $thesisProjects = $this->getThesisProjects($conds);
 
+        $catConds['status'] = constants::publishedStatus;
+        $categories = $this->categoryService->getCategories($catConds);
+
         $dataArr = [
-            'thesisProjects' => $thesisProjects
+            'thesisProjects' => $thesisProjects,
+            'categories' => $categories,
         ];
 
         return view('core::thesis.index', $dataArr);
     }
 
     public function create(){
-        return view('core::thesis.create');
+        $catConds['status'] = constants::publishedStatus;
+        $categories = $this->categoryService->getCategories($catConds, true);
+
+        $dataArr = [
+            'categories' => $categories,
+        ];
+
+        return view('core::thesis.create', $dataArr);
     }
 
     public function store($request){
-        dd($request->all());
+        // dd($request->all());
         Validator::make($request->all(),[
             'title' => 'required',
             'description' => 'required',
+            'category' => 'required',
             'year' => 'required',
             'project_type' => 'required',
         ])->validate();
@@ -47,19 +63,21 @@ class ThesisService
             $thesis = new ThesisProject();
             $thesis->title = $request->title;
             $thesis->description = $request->description;
-            $thesis->year = $request->year;
+            $thesis->category_id = $request->category;
+            $thesis->year_id = $request->year;
             $thesis->project_type = $request->project_type;
             $thesis->status = Constants::approved;
             $thesis->user_id = Auth::user()->id;
             $thesis->save();
 
-            $this->imageService->storeProjectImages($request, $thesis->id);
+            $this->imageService->storeThesisImages($request, $thesis->id);
 
             DB::commit();
 
             return redirect()->route('thesis.index')->with(['success' => 'Project Create Success.']);
         }catch(\Throwable $e){
             DB::rollBack();
+            dd($e->getMessage());
             return redirect()->back()->with(['error' => $e->getMessage()]);
         }
 
@@ -95,11 +113,68 @@ class ThesisService
     public function edit($id){
         $relations = ['images', 'owner'];
         $thesisProject = $this->getThesisProject($id, $relations);
+        $catConds['status'] = constants::publishedStatus;
+        $categories = $this->categoryService->getCategories($catConds, true);
 
         $dataArr = [
             'thesisProject' => $thesisProject,
+            'categories' => $categories,
         ];
 
         return view('core::thesis.edit', $dataArr);
+    }
+
+    public function update($id, $request)
+    {
+        DB::beginTransaction();
+        try{
+            $thesis = $this->getThesisProject($id);
+            $thesis->title = $request->title;
+            $thesis->description = $request->description;
+            $thesis->category_id = $request->category;
+            $thesis->year_id = $request->year;
+            $thesis->project_type = $request->project_type;
+            $thesis->update();
+
+            $this->imageService->storeThesisImages($request, $id);
+
+            DB::commit();
+        }catch(\Throwable $e){
+            DB::rollBack();
+            $dataArr = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+            dd($e->getMessage());
+            return redirect()->back()->with($dataArr);
+        }
+        return redirect()->route('thesis.index');
+    }
+
+    public function storeTempFile($request)
+    {
+        foreach($request->thesis_image as $file){
+            $imageName = uniqid().'_.'.$file->extension();
+            $folder = uniqid('thesis_');
+            $file->storeAs('public/uploads/tmp/' . $folder, $imageName);
+
+            TemporaryFile::create([
+                'folder' => $folder,
+                'file' => $imageName,
+            ]);
+
+        }
+        return $folder;
+    }
+
+    public function deleteTempFile()
+    {
+        $tempFile = TemporaryFile::where(TemporaryFile::folder, request()->getContent())->first();
+        if($tempFile){
+            Storage::deleteDirectory('public/uploads/tmp/' . $tempFile->folder);
+            $tempFile->delete();
+            return response('');
+        }
+
     }
 }

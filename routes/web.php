@@ -43,13 +43,18 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/create', 'create')->name('thesis.create');
             Route::post('/store', 'store')->name('thesis.store');
             Route::get('{id}/edit', 'edit')->name('thesis.edit');
+            Route::post('{id}/update', 'update')->name('thesis.update');
             Route::get('/delete-file', 'deleteFile')->name('thesis.deleteFile');
+            Route::post('/store-temp-file', 'storeTempFile')->name('thesis.storeTempFile');
+            Route::delete('/delete-temp-file', 'deleteTempFile')->name('thesis.deleteTempFile');
         });
 
         // settings
         Route::prefix('settings')->controller(SettingController::class)->group(function() {
             Route::get('/', 'index')->name('settings.index');
             Route::post('/update', 'update')->name('settings.update');
+            Route::post('/banner-image', 'storeBannerImage')->name('settings.storeBannerImage');
+            Route::get('/banner-image/delete/{image}', 'destroyBannerImage')->name('settings.destroyBannerImage');
         });
 
         // news

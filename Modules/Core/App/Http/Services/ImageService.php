@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\File;
 use Modules\Core\App\Models\Setting;
 use Modules\Core\Constant\Constants;
 use Illuminate\Support\Facades\Storage;
+use Modules\Core\App\Models\TemporaryFile;
 
 class ImageService
 {
@@ -30,6 +31,7 @@ class ImageService
         return $imageName;
     }
 
+    // dropzone
     public function storeProjectImages($request, $id){
         if($request->file){
             $images = $request->file;
@@ -80,5 +82,52 @@ class ImageService
 
         $settings->site_image = $imageName;
         $settings->update();
+    }
+
+    public function getTempFiles($folder)
+    {
+        $tempFile = TemporaryFile::whereIn(TemporaryFile::folder, $folder)->get();
+
+        return $tempFile;
+    }
+
+    // filepond store/update thesis images
+    public function storeThesisImages($request, $thesisId)
+    {
+        $oldImages = $this->getImages($thesisId);
+        if($oldImages){
+            foreach($oldImages as $image){
+                $image->delete();
+                Storage::deleteDirectory(Constants::projectImagePath . $image->path);
+            }
+        }
+
+        $tempFile = $this->getTempFiles($request->thesis_image);
+
+        if($tempFile){
+            foreach($tempFile as $tmp){
+                Storage::copy(Constants::tmpImagePath . $tmp->folder . '/' . $tmp->file, Constants::projectImagePath . $tmp->file);
+
+                Image::create([
+                    'parent_id' => $thesisId,
+                    'image_type' => Constants::projectImageType,
+                    'file_type' => Constants::imageFileType,
+                    'path' => $tmp->file,
+                ]);
+
+                Storage::deleteDirectory(Constants::tmpImagePath . $tmp->folder);
+                $tmp->delete();
+            }
+        }
+    }
+
+    // get image by parent_id
+    public function getImages($parentId)
+    {
+        $images = Image::where([
+            Image::parentId => $parentId
+        ])->get();
+
+        return $images;
     }
 }

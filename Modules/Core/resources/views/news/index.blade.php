@@ -59,7 +59,11 @@
                             <img src="{{ asset('storage/uploads/news/'.$n->images[0]->path) }}" alt="" width="40px" height="40px" class="" style="width:40px; height:40px;">
                         </td>
                         <td>{{ $n->title }}</td>
-                        <td>{{ $n->description }}</td>
+                        <td >
+                            <div class="ck-content">
+                                {{ $n->description }}
+                            </div>
+                        </td>
                         <td>{{ $n->created_at->format('d/m/Y') }}</td>
                     </tr>
                 @endforeach

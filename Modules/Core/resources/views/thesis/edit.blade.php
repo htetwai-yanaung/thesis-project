@@ -16,80 +16,98 @@
         </div>
 
         <h1>Create Your Thesis</h1>
-        <form action="{{ route('thesis.store') }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column gap-3" id="data-form">
+        <form action="{{ route('thesis.update', $thesisProject->id) }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column gap-3" id="data-form">
             @csrf
             <div class="">
-                <label for="" class="form-label">Upload your project photo</label>
-                <div class="dropzone" id="dropzone1"></div>
-                <small id="image-error" class="text-danger">Please upload project's image(s).</small>
-                @error('file')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-            <div class="">
                 <label for="" class="form-label">Project Title</label>
-                <input type="text" name="title" class="form-control" value="{{ old('title',$thesisProject->title) }}" placeholder="Enter your project title">
+                <input type="text" name="title" value="{{ old('title', $thesisProject->title) }}" class="form-control" placeholder="Enter your project title">
                 @error('title')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
             <div class="">
-                <label for="" class="form-label">Project Description</label>
-                <textarea name="description" class="form-control" rows="3" placeholder="Enter your project description">{{ old('description', $thesisProject->description) }}</textarea>
+                <label for="category" class="form-label">Categories</label>
+                <select name="category" id="category" class="form-select">
+                    <option value="">Choose category</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" @if($category->id == $thesisProject->category_id) selected @endif>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+                @error('category')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="year" class="form-label">Year</label>
+                    <select name="year" id="year" class="form-select">
+                        <option value="">Choose year</option>
+                        <option value="6" @if($thesisProject->year_id == "6") selected @endif>Sixth Year</option>
+                        <option value="5" @if($thesisProject->year_id == "5") selected @endif>Fifth Year</option>
+                        <option value="4" @if($thesisProject->year_id == "4") selected @endif>Fourth Year</option>
+                        <option value="3" @if($thesisProject->year_id == "3") selected @endif>Third Year</option>
+                        <option value="2" @if($thesisProject->year_id == "2") selected @endif>Second Year</option>
+                        <option value="1" @if($thesisProject->year_id == "1") selected @endif>First Year</option>
+                    </select>
+                    @error('year')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                <div class="col">
+                    <label for="project_type" class="form-label">Project Type</label>
+                    <select name="project_type" id="project_type" class="form-select">
+                        <option value="">Project Type</option>
+                        <option value="1" @if($thesisProject->project_type == "1") selected @endif>Thesis Project</option>
+                        <option value="2" @if($thesisProject->project_type == "2") selected @endif>Group Project</option>
+                    </select>
+                    @error('project_type')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+            </div>
+            <div class="">
+                <label for="editor" class="form-label">Description</label>
+                <textarea name="description" id="editor" class="form-control">
+                    {{ old('description', $thesisProject->description) }}
+                </textarea>
                 @error('description')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
-            {{-- <div class="">
-                <label for="" class="form-label">Upload your project PDF file (Optional)</label>
-                <div class="dropzone" id="dropzone1"></div>
-
-                @error('pdf')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div> --}}
             <div class="">
-                <label for="" class="form-label">Attended Year</label>
-                <select name="year" class="form-select">
-                    <option value="">Choose attended year</option>
-                    <option value="1" @if($thesisProject->year == 1) selected @endif>1st Year</option>
-                    <option value="2" @if($thesisProject->year == 2) selected @endif>2nd Year</option>
-                    <option value="3" @if($thesisProject->year == 3) selected @endif>3rd Year</option>
-                    <option value="4" @if($thesisProject->year == 4) selected @endif>4th Year</option>
-                    <option value="5" @if($thesisProject->year == 5) selected @endif>5th Year</option>
-                    <option value="6" @if($thesisProject->year == 6) selected @endif>6th Year</option>
-                </select>
-                @error('year')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
+                <label for="" class="form-label">Upload Images</label>
+                <input type="file" name="thesis_image[]" id="thesisImage" multiple
+                    data-style-item-panel-aspect-ratio="0.5625" class="form-control">
             </div>
             <div class="">
-                <label for="" class="form-label">Project Type</label>
-                <select name="project_type" class="form-select">
-                    <option value="">Choose project type</option>
-                    <option value="1" @if($thesisProject->project_type == 1) selected @endif>Single Project</option>
-                    <option value="2" @if($thesisProject->project_type == 2) selected @endif>Group Project</option>
-                </select>
-                @error('project_type')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-            <div class="">
-                <button type="submit" id="submit-all" class="btn btn-primary float-end">Post Now</button>
+                <a href="{{ route('thesis.index') }}" class="btn btn-outline-danger">Cancel</a>
+                <button type="submit" id="submit-all" class="btn btn-primary float-end">Save</button>
             </div>
         </form>
     </div>
 @endsection
 
 @section('script')
+<script src="{{ asset('js/ckeditor.js') }}"></script>
 <script>
-    $(document).ready(function(){
-        $('#image-error').hide();
+    FilePond.registerPlugin(FilePondPluginImagePreview);
+    // Get a reference to the file input element
+    const inputElement = document.querySelector('input[id="thesisImage"]');
 
-        function showError(err){
-            console.log(err);
-        }
-    })
+    // Create a FilePond instance
+    const pond = FilePond.create(inputElement,{
+        server: {
+            process: "{{ route('thesis.storeTempFile') }}",
+            revert: "{{ route('thesis.deleteTempFile') }}",
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+        },
+    });
+
+    @foreach ($thesisProject->images as $image)
+        pond.addFile('{{ asset("storage/uploads/project/".$image->path) }}')
+    @endforeach
 </script>
 <script>
     // Dropzone.options.dropzone1 = {

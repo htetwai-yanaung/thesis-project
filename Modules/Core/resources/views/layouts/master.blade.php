@@ -24,15 +24,15 @@
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 
-
     <link rel="stylesheet" href="{{ asset( 'css/bootstrap.min.css' ) }}">
     <link rel="stylesheet" href="{{ asset( 'css/custom.css' ) }}">
     <link rel="stylesheet" href="{{ asset( 'css/admin.css' ) }}">
     <link rel="stylesheet" href="{{ asset( 'css/ckeditor.css' ) }}">
 
     <link rel="stylesheet" href="{{asset('css/all.css')}}">
-    <script src="{{ asset( 'js/bootstrap.min.js' ) }}"></script>
-    <script src="{{ asset( 'js/bootstrap.bundle.min.js' ) }}"></script>
+    {{-- <script src="{{ asset( 'js/bootstrap.min.js' ) }}"></script>
+    <script src="{{ asset( 'js/bootstrap.bundle.min.js' ) }}"></script> --}}
+    <script src="{{ asset( 'js/popper.min.js' ) }}"></script>
     <script src="{{asset('js/all.js')}}"></script>
 
     <link rel="stylesheet" href="{{ asset( 'css/drag-and-drop.css' ) }}">
@@ -116,23 +116,25 @@
 
                     <!-- Topbar -->
                     <nav class="px-4 mb-4 bg-white shadow navbar navbar-expand navbar-light topbar static-top d-flex">
-
-
-
                         <!-- Topbar Navbar -->
-                        <a href="{{ route('profile.edit', Auth::user()->id) }}" class="gap-2 navbar-nav ms-auto d-flex align-items-center text-decoration-none">
-
-                            <!-- Nav Item - User Information -->
-
-                            <div class="profile-pic">
-                                <img src="{{ asset('storage/uploads/profile/'. Auth::user()->profile_photo_path) }}" alt="">
+                        <div class="dropdown ms-auto">
+                            <div class="gap-2 navbar-nav d-flex align-items-center" id="profile-dropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="50,20">
+                                <div class="profile-pic">
+                                    <img src="{{ asset('storage/uploads/profile/'. Auth::user()->profile_photo_path) }}" alt="">
+                                </div>
+                                <div class="">
+                                    <h6 class="fs-5 fw-bold text-secondary">{{ Auth::user()->name }}</h6>
+                                    <span class="fs-6 text-secondary">Super Admin</span>
+                                </div>
                             </div>
-                            <div class="">
-                                <h6 class="fs-5 fw-bold text-secondary">{{ Auth::user()->name }}</h6>
-                                <span class="fs-6 text-secondary">Super Admin</span>
-                            </div>
-                        </a>
-
+                            <form action="{{ route('logout') }}" method="POST" class="dropdown-menu dropdown-menu-end" aria-labelledby="profile-dropdown">
+                                @csrf
+                                <a class="dropdown-item" href="{{ route('profile.edit', Auth::user()->id) }}">Profile</a>
+                                <a class="dropdown-item" href="/">Switch to FE</a>
+                                <hr class="dropdown-divider">
+                                <button class="dropdown-item text-danger">Log Out</button>
+                            </form>
+                        </div>
                     </nav>
                     <!-- End of Topbar -->
 
