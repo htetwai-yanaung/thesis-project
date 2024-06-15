@@ -7,19 +7,25 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class TemplateController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('template::thesis.index');
+        
+        return view('template::profile.index');
     }
 
     /**
      * Show the form for creating a new resource.
      */
+
+    public function setting(){
+        return view('template::profile.setting');
+    }
+
     public function create()
     {
         return view('template::create');

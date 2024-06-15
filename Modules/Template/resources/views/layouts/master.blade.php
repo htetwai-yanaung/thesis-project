@@ -21,20 +21,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.green.min.css" integrity="sha512-C8Movfk6DU/H5PzarG0+Dv9MA9IZzvmQpO/3cIlGIflmtY3vIud07myMu4M/NTPJl8jmZtt/4mC9bAioMZBBdA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <link rel="stylesheet" href="{{ asset( 'css/bootstrap.min.css' ) }}">
     <link rel="stylesheet" href="{{ asset( 'css/custom.css' ) }}">
-    <script src="{{ asset( 'js/bootstrap.min.js' ) }}"></script>
+    {{-- <link rel="stylesheet" href="{{asset('css/all.css')}}"> --}}
+
+    <script src="{{ asset( 'js/bootstrap.bundle.min.js' ) }}"></script>
+    <script src="{{asset('js/all.js')}}"></script>
 </head>
 
-<body>
+<body class="light-mood">
     <section class="main">
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light container-fluid position-fixed" id="navbar">
           <div class="container">
             <a class="navbar-brand" href="#">
               <div class="d-flex align-items-center text-info fw-bold">
-                <img src="./Images/Logo.png" alt="" class="">
+                <img src="storage/uploads/logo.png" alt="" class="">
                 EC Department
               </div>
             </a>
@@ -42,30 +44,66 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-              <ul class="navbar-nav ms-auto gap-3">
+              <ul class="gap-3 navbar-nav ms-auto">
                 <li class="nav-item">
                   <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">News</a>
+                  <a class="nav-link" href="{{route('news')}}">News</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Projects</a>
+                  <a class="nav-link" href="{{route('thesis#page')}}">Projects</a>
                 </li>
               </ul>
-              <ul class="navbar-nav ms-auto gap-2">
-                <li class="nav-item">
+              <ul class="gap-2 navbar-nav ms-auto">
+                <li class="align-items-center d-flex nav-item">
                   <div class="nav-link" style="cursor: pointer;">
-                    <span class=" d-none" id="moon">Theme<i class="fa-solid fa-moon ms-2"></i></span>
-                    <span class="" id="sun">Theme<i class="fa-solid fa-sun ms-2"></i></span>
+                    Theme
+                    <span class=" d-none" id="moon"><i class="fa-solid fa-moon ms-2"></i></span>
+                    <span class="" id="sun"><i class="fa-solid fa-sun ms-2"></i></span>
                   </div>
                 </li>
+                @if (Auth::check())
+                <li class="nav-item dropdown bgsucc">
+                  <a class="nav-link dropdown-toggle" href="#" id="user_name" role="button"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                      <img src="storage/uploads/Ellipse 4.png" alt="" class="me-2 rounded-circle"
+                          style="width: 40px; height: 40px" />
+                      Mg Tect Htun
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="user_name">
+                      <li class="dropdown-item">
+                        <i class="fa-solid fa-user"></i>
+                        <a class="mx-2 text-decoration-none" href="{{route('profile')}}"><span class="text-dark">Profile</span></a>
+
+                      </li>
+                      <li class="dropdown-item">
+                        <i class="fa-solid fa-gear"></i>
+                        <a class="mx-2 text-decoration-none" href="{{route('profile#setting')}}"><span class="text-dark">Setting</span></a>
+
+                      </li>
+                      <li>
+                          <hr class="dropdown-divider" />
+                      </li>
+                      <li class="dropdown-item">
+                         <form action="{{route('logout')}}" method="POST">
+                          @csrf
+                          <button class="nav-link">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                          <span class="text-dark"> Log out</span>
+                          </button>
+                         </form>
+                      </li>
+                  </ul>
+              </li>
+                @else
                 <li class="nav-item">
                   <a class="nav-link" href="{{ route('login') }}">Sign In</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link btn btn-primary text-white d-inline d-lg-block" href="{{ route('register') }}">Get Start</a>
+                  <a class="text-white nav-link btn btn-primary d-inline d-lg-block" href="{{ route('register') }}">Get Start</a>
                 </li>
+                @endif
               </ul>
             </div>
           </div>
@@ -81,339 +119,8 @@
           </article>
         </section>
 
-        <section class="news">
-          <div class="container position-relative">
-            <div class=" py-5 px-3 d-flex justify-content-center align-items-start flex-wrap gap-4">
-              <article class="left col-12 col-lg-7">
-                <h5 class="text-primary mb-3 fw-bold"><span class="text-info">Up to Date</span> News in our Department</h5>
-                <div class="grid-system">
-                  <a href="#" class="item">
-                    <div class="title px-2 py-3 text-white">Title</div>
-                  </a>
-                  <a href="#" class="item">
-                    <div class="title px-2 py-3 text-white">Title</div>
-                  </a>
-                  <a href="#" class="item">
-                    <div class="title px-2 py-3 text-white">Title</div>
-                  </a>
-                  <a href="#" class="item">
-                    <div class="title px-2 py-3 text-white">Title</div>
-                  </a>
-                  <a href="#" class="item">
-                    <div class="title px-2 py-3 text-white">Title</div>
-                  </a>
-                  <a href="#" class="item">
-                    <div class="title px-2 py-3 text-white">Title</div>
-                  </a>
-                </div>
-                <div class="text-end mt-2">
-                  <a href="" class="text-info text-decoration-none">See More...</a>
-                </div>
-              </article>
-              <article class="right col-12 col-lg-4">
-                <h5 class="text-primary fw-bold mb-3">Thesis Projects</h5>
-                <div class="project-container">
-                  <article class="project-post px-4 py-3">
-                    <a href="" class="text-decoration-none">
-                      <h6 class="title text-info">Title</h6>
-                    <p class="description text-secondary m-0 p-0">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
-                    <div class="d-flex justify-content-between align-items-center flex-wrap mt-2">
-                      <div class="d-flex align-items-center gap-2">
-                        <img src="storage/uploads/Rectangle_2.png" alt="" class="rounded-circle" style="width: 28px;">
-                        <span class="name text-secondary">Mg Tect Htun</span>
-                      </div>
-                      <span class="date text-secondary">02.03.2024</span>
-                    </div>
-                    </a>
-                  </article>
-                  <article class="project-post px-4 py-3">
-                    <a href="" class="text-decoration-none">
-                      <h6 class="title text-info">Title</h6>
-                    <p class="description text-secondary m-0 p-0">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
-                    <div class="d-flex justify-content-between align-items-center flex-wrap mt-2">
-                      <div class="d-flex align-items-center gap-2">
-                        <img src="storage/uploads/Rectangle_2.png" alt="" class="rounded-circle" style="width: 28px;">
-                        <span class="name text-secondary">Mg Tect Htun</span>
-                      </div>
-                      <span class="date text-secondary">02.03.2024</span>
-                    </div>
-                    </a>
-                  </article>
-                  <article class="project-post px-4 py-3">
-                    <a href="" class="text-decoration-none">
-                      <h6 class="title text-info">Title</h6>
-                    <p class="description text-secondary m-0 p-0">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
-                    <div class="d-flex justify-content-between align-items-center flex-wrap mt-2">
-                      <div class="d-flex align-items-center gap-2">
-                        <img src="storage/uploads/Rectangle_2.png" alt="" class="rounded-circle" style="width: 28px;">
-                        <span class="name text-secondary">Mg Tect Htun</span>
-                      </div>
-                      <span class="date text-secondary">02.03.2024</span>
-                    </div>
-                    </a>
-                  </article>
-                  <article class="project-post px-4 py-3">
-                    <a href="" class="text-decoration-none">
-                      <h6 class="title text-info">Title</h6>
-                    <p class="description text-secondary m-0 p-0">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
-                    <div class="d-flex justify-content-between align-items-center flex-wrap mt-2">
-                      <div class="d-flex align-items-center gap-2">
-                        <img src="storage/uploads/Rectangle_2.png" alt="" class="rounded-circle" style="width: 28px;">
-                        <span class="name text-secondary">Mg Tect Htun</span>
-                      </div>
-                      <span class="date text-secondary">02.03.2024</span>
-                    </div>
-                    </a>
-                  </article>
-                  <article class="project-post px-4 py-3">
-                    <a href="" class="text-decoration-none">
-                      <h6 class="title text-info">Title</h6>
-                    <p class="description text-secondary m-0 p-0">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
-                    <div class="d-flex justify-content-between align-items-center flex-wrap mt-2">
-                      <div class="d-flex align-items-center gap-2">
-                        <img src="./storage/uploads/Rectangle_2.png" alt="" class="rounded-circle" style="width: 28px;">
-                        <span class="name text-secondary">Mg Tect Htun</span>
-                      </div>
-                      <span class="date text-secondary">02.03.2024</span>
-                    </div>
-                    </a>
-                  </article>
-                  <div class="text-end mt-2">
-                    <a href="" class="text-info text-decoration-none">See More...</a>
-                  </div>
-                </div>
-              </article>
-              <div class="divider col-6 mx-auto bg-primary position-absolute bottom-0" style="height: 3px;left: 0;right: 0;"></div>
-            </div>
-          </div>
-        </section>
 
-        <section class="projects">
-          <div class="container position-relative">
-            <div class="py-5 mx-3">
-              <h3 class="text-center text-info">Popular Thesis Projects</h3>
-              <h3 class="text-center text-primary">in Our Department</h3>
-              <div class="post-con mt-5">
-                <div class="post-one">
-                  <div class="d-flex justify-content-center align-items-start flex-wrap gap-4">
-                    <img src="./storage/uploads/Rectangle_2.png" alt="" class="img-fluid">
-                    <div class="col-12 col-md-7">
-                      <h5 class="title fw-bold text-primary">Automatic Robotic Arm</h5>
-                      <p class="description text-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse . . .</p>
-                      <div class="">
-                        <div class="project-type text-info">Third Year Group I Projects</div>
-                        <p class="date text-secondary">03.02.2024</p>
-                      </div>
-                      <div class="btn btn-primary">See Details</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="post-two my-5">
-                  <div class="d-flex justify-content-center align-items-start flex-md-row-reverse flex-wrap gap-4">
-                    <img src="./storage/uploads/Rectangle_2.png" alt="" class="img-fluid">
-                    <div class="col-12 col-md-7">
-                      <h5 class="title fw-bold text-primary">Automatic Robotic Arm</h5>
-                      <p class="description text-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse . . .</p>
-                      <div class="">
-                        <div class="project-type text-info">Third Year Group I Projects</div>
-                        <p class="date text-secondary">03.02.2024</p>
-                      </div>
-                      <div class="btn btn-primary">See Details</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="post-three">
-                  <div class="d-flex justify-content-center align-items-start flex-wrap gap-4">
-                    <img src="./storage/uploads/Rectangle_2.png" alt="" class="img-fluid">
-                    <div class="col-12 col-md-7">
-                      <h5 class="title fw-bold text-primary">Automatic Robotic Arm</h5>
-                      <p class="description text-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse . . .</p>
-                      <div class="">
-                        <div class="project-type text-info">Third Year Group I Projects</div>
-                        <p class="date text-secondary">03.02.2024</p>
-                      </div>
-                      <div class="btn btn-primary">See Details</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="text-center mt-5">
-                <div class="btn text-info btn-outline-primary">
-                  <i class="fa-solid fa-arrow-right me-2"></i>
-                  Explore more
-                </div>
-              </div>
-              <div class="divider col-6 mx-auto bg-primary position-absolute bottom-0" style="height: 3px;left: 0;right: 0;"></div>
-            </div>
-          </div>
-        </section>
-
-        <section class="teacher-lists">
-          <div class="container px-3 py-5 position-relative">
-            <h5 class="text-center text-primary mb-3 pt-3"><span class="text-info">Teachers</span> in Our Department</h5>
-            <div class="col-12 col-md-10 col-lg-8 mx-auto">
-              <article class="owl-carousel owl-theme slide-2 position-relative pb-3">
-                <div class="item">
-                  <div class="d-flex justify-content-center align-items-center pt-3">
-                    <div class="">
-                      <img src="storage/uploads/Ellipse 4.png" alt="" class="rounded-circle mx-auto" style="width: 100px;height: 100px;">
-                      <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                      <p class="text-secondary">Role</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="d-flex justify-content-center align-items-center pt-3">
-                    <div class="">
-                      <img src="storage/uploads/Ellipse 4.png" alt="" class="rounded-circle mx-auto" style="width: 100px;height: 100px;">
-                      <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                      <p class="text-secondary">Role</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="d-flex justify-content-center align-items-center pt-3">
-                    <div class="">
-                      <img src="storage/uploads/Ellipse 4.png" alt="" class="rounded-circle mx-auto" style="width: 100px;height: 100px;">
-                      <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                      <p class="text-secondary">Role</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="d-flex justify-content-center align-items-center pt-3">
-                    <div class="">
-                      <img src="storage/uploads/Ellipse 4.png" alt="" class="rounded-circle mx-auto" style="width: 100px;height: 100px;">
-                      <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                      <p class="text-secondary">Role</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="d-flex justify-content-center align-items-center pt-3">
-                    <div class="">
-                      <img src="storage/uploads/Ellipse 4.png" alt="" class="rounded-circle mx-auto" style="width: 100px;height: 100px;">
-                      <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                      <p class="text-secondary">Role</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="d-flex justify-content-center align-items-center pt-3">
-                    <div class="">
-                      <img src="storage/uploads/Ellipse 4.png" alt="" class="rounded-circle mx-auto" style="width: 100px;height: 100px;">
-                      <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                      <p class="text-secondary">Role</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="d-flex justify-content-center align-items-center pt-3">
-                    <div class="">
-                      <img src="storage/uploads/Ellipse 4.png" alt="" class="rounded-circle mx-auto" style="width: 100px;height: 100px;">
-                      <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                      <p class="text-secondary">Role</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="d-flex justify-content-center align-items-center pt-3">
-                    <div class="">
-                      <img src="storage/uploads/Ellipse 4.png" alt="" class="rounded-circle mx-auto" style="width: 100px;height: 100px;">
-                      <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                      <p class="text-secondary">Role</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="d-flex justify-content-center align-items-center pt-3">
-                    <div class="">
-                      <img src="storage/uploads/Ellipse 4.png" alt="" class="rounded-circle mx-auto" style="width: 100px;height: 100px;">
-                      <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                      <p class="text-secondary">Role</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="d-flex justify-content-center align-items-center pt-3">
-                    <div class="">
-                      <img src="storage/uploads/Ellipse 4.png" alt="" class="rounded-circle mx-auto" style="width: 100px;height: 100px;">
-                      <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                      <p class="text-secondary">Role</p>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </div>
-            <div class="divider col-6 mx-auto bg-primary position-absolute bottom-0" style="height: 3px;left: 0;right: 0;"></div>
-          </div>
-        </section>
-
-        <section class="activity">
-          <div class="container">
-            <div class="py-5 px-3">
-              <h5 class="text-primary text-center"><span class="text-info">Activities</span> in Our Department</h5>
-              <div class="grid-system col-12 col-lg-10 mx-auto mt-4">
-                <div class="item">
-                  <div class="title px-2 py-3 text-white">Title</div>
-                </div>
-                <div class="item">
-                  <div class="title px-2 py-3 text-white">Title</div>
-                </div>
-                <div class="item">
-                  <div class="title px-2 py-3 text-white">Title</div>
-                </div>
-                <div class="item">
-                  <div class="title px-2 py-3 text-white">Title</div>
-                </div>
-                <div class="item">
-                  <div class="title px-2 py-3 text-white">Title</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="contact-us">
-          <div class="container">
-            <div class="px-3">
-              <div class="d-flex flex-wrap">
-                <div class="col-12 col-md-6">
-                  <div class="d-flex align-items-center justify-content-md-center justify-content-start py-5">
-                    <div class="">
-                      <h5 class="text-primary mb-3">Contact Us</h5>
-                      <div class="location text-secondary">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <span class="ms-2">Sagaing, Myanmar</span>
-                      </div>
-                      <div class="mail text-secondary my-2">
-                        <i class="fa-solid fa-envelope"></i>
-                        <span class="ms-2">ECdepartment@gmail.com</span>
-                      </div>
-                      <div class="phone text-secondary">
-                        <i class="fa-solid fa-phone"></i>
-                        <span class="ms-2">09 982232373, 09 976745800</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-6">
-                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3701.2852955943604!2d95.95182417542819!3d21.92358105644437!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30cb0e3bca42881b%3A0xe9cde11970f1fb66!2sSagaing%20Technological%20University!5e0!3m2!1sen!2smm!4v1712119335962!5m2!1sen!2smm" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-100 h-100"></iframe>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="footer">
-          <div class="container-fluid bg-primary py-3 px-2">
-            <h6 class="text-white text-center">
-              Copyright
-              <i class="fa-solid fa-copyright"></i>
-              Designed by Geeky Dev
-            </h6>
-          </div>
-        </section>
+        @yield('content')
 
       </section>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

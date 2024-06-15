@@ -7,14 +7,14 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class TemplateController extends Controller
+class NewsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('template::thesis.index');
+        return view('template::news.index');
     }
 
     /**
