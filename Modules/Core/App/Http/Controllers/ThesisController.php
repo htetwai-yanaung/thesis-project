@@ -19,11 +19,13 @@ class ThesisController
     }
 
     public function create(){
-        return $this->thesisService->create();
+        $dataArr = $this->thesisService->create();
+        return view('core::thesis.create', $dataArr);
     }
 
     public function store(Request $request){
-        return $this->thesisService->store($request);
+        $dataArr = $this->thesisService->store($request);
+        return redirect()->route('thesis.index')->with($dataArr);
     }
 
     public function edit($id){

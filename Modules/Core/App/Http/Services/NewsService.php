@@ -17,7 +17,7 @@ class NewsService
         $dataArr = [
             'news' => $news,
         ];
-        return view('core::news.index', $dataArr);
+        return view('template::news.index', $dataArr);
     }
 
     public function edit($id)

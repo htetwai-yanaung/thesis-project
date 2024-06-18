@@ -45,7 +45,7 @@ class ThesisService
             'categories' => $categories,
         ];
 
-        return view('core::thesis.create', $dataArr);
+        return $dataArr;
     }
 
     public function store($request){
@@ -74,12 +74,21 @@ class ThesisService
 
             DB::commit();
 
-            return redirect()->route('thesis.index')->with(['success' => 'Project Create Success.']);
+            $dataArr = [
+                'status' => 'success',
+                'message' => 'Project Create Success.'
+            ];
+
         }catch(\Throwable $e){
             DB::rollBack();
             dd($e->getMessage());
-            return redirect()->back()->with(['error' => $e->getMessage()]);
+            $dataArr = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
         }
+
+        return $dataArr;
 
     }
 

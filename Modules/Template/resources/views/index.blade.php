@@ -1,7 +1,7 @@
 @extends('template::layouts.master')
 
 @section('content')
-<section class="slider-one" style="padding-top: 80px;">
+{{-- <section class="slider-one" style="padding-top: 80px;">
     <article class="owl-carousel owl-theme slide-1">
       <div class="item">
         <img src="storage/uploads/Rectangle_1.png" alt="" class="">
@@ -12,6 +12,15 @@
       <div class="item">
         <img src="storage/uploads/Rectangle_1.png" alt="" class="">
       </div>
+    </article>
+  </section> --}}
+  <section class="slider-one" style="padding-top: 56px;">
+    <article class="owl-carousel owl-theme slide-1">
+      @foreach ($bannerImages as $bannerImage)
+          <div class="item">
+              <img src="{{ asset('storage/uploads/project/'.$bannerImage->path) }}" alt="" class="">
+          </div>
+      @endforeach
     </article>
   </section>
 
@@ -339,15 +348,4 @@
     </div>
   </section>
 
-  <section class="footer">
-    <div class="px-2 py-3 container-fluid bg-primary">
-      <h6 class="text-center text-white">
-        Copyright
-        <i class="fa-solid fa-copyright"></i>
-        Designed by Geeky Dev
-      </h6>
-    </div>
-  </section>
-
-    <p>Module: {!! config('template.name') !!}</p>
 @endsection

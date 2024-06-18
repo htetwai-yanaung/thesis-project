@@ -33,15 +33,9 @@ class ProfileService
             'image' => 'mimes:jpg,png,jpeg',
             'name' => 'required',
             'email' => 'required|unique:users,email,'.$id,
-            // 'year' => 'required',
-            'role' => 'required',
+            'year' => 'required',
             'password' => isset($request->password) || isset($request->password_confirmation) ? 'same:password_confirmation' : ''
         ])->validate();
-
-        if($request->hasFile('image')){
-            $request['id'] = $id;
-            $this->imageService->storeProfileImage($request);
-        }
 
         DB::beginTransaction();
         try{
@@ -54,12 +48,25 @@ class ProfileService
                 $user->password = Hash::make($request->password);
             }
             $user->update();
-            DB::commit();
 
-            return redirect()->back()->with(['success'=>'Profile successfully updated.']);
+            if($request->hasFile('image')){
+                $request['id'] = $id;
+                $this->imageService->storeProfileImage($request);
+            }
+
+            DB::commit();
+            $dataArr = [
+                'status' => 'success',
+                'message' => 'Profile successfully updated.'
+            ];
+            return redirect()->back()->with($dataArr);
         }catch(\Throwable $e){
             DB::rollBack();
-            return redirect()->back()->with(['error'=>$e->getMessage()]);
+            $dataArr = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+            return redirect()->back()->with($dataArr);
         }
 
     }

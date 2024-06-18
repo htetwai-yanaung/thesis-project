@@ -6,9 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Modules\Core\App\Http\Services\ThesisService;
 
 class ThesisController extends Controller
 {
+    protected $thesisService;
+
+    public function __construct(ThesisService $thesisService)
+    {
+        $this->thesisService = $thesisService;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -23,20 +30,22 @@ class ThesisController extends Controller
      */
     public function create()
     {
-        return view('template::create');
+        $datArr = $this->thesisService->create();
+        return view('template::thesis.create', $datArr);
     }
 
 
-   
+
     public function detail(){
         return view('template::thesis.detail');
     }
     // /**
     //  * Store a newly created resource in storage.
     //  */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        //
+        $datArr = $this->thesisService->store($request);
+        return redirect()->back()->with($datArr);
     }
 
     /**
@@ -58,7 +67,7 @@ class ThesisController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, $id)
     {
         //
     }
