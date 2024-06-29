@@ -2,20 +2,25 @@
 
 namespace Modules\Core\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Validator;
+use Modules\Core\App\Http\Services\UserService;
 use Modules\Core\App\Http\Services\ProfileService;
+use Modules\Core\Constant\Constants;
 
 class ProfileController extends Controller
 {
-    protected $profileService;
+    protected $profileService, $userService;
 
-    public function __construct(ProfileService $profileService)
+    public function __construct(ProfileService $profileService, UserService $userService)
     {
         $this->profileService = $profileService;
+        $this->userService = $userService;
     }
+
     public function index()
     {
         return view('core::index');
@@ -50,7 +55,12 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        return $this->profileService->edit($id);
+        $user = $this->userService->getUser($id);
+        $dataArr = [
+            'user' => $user
+        ];
+
+        return view('core::profile.edit', $dataArr);
     }
 
     /**
@@ -58,7 +68,19 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $this->profileService->update($request, $id);
+        $user = $this->userService->getUser($id);
+
+        Validator::make($request->all(), [
+            'image' => 'mimes:jpg,png,jpeg',
+            'name' => 'required',
+            'email' => 'required|unique:users,email,'.$id,
+            'year' => $user->role == Constants::student ? 'required' : '',
+            'password' => isset($request->password) || isset($request->password_confirmation) ? 'same:password_confirmation' : ''
+        ])->validate();
+
+        $user = $this->userService->update($request, $id);
+
+        return redirect()->back()->with($user);
     }
 
     /**

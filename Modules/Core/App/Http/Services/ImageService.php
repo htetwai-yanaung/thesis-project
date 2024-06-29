@@ -94,7 +94,7 @@ class ImageService
     // filepond store/update thesis images
     public function storeThesisImages($request, $thesisId)
     {
-        $oldImages = $this->getImages($thesisId);
+        $oldImages = $this->getImages($thesisId, 'project');
         if($oldImages){
             foreach($oldImages as $image){
                 $image->delete();
@@ -122,12 +122,43 @@ class ImageService
     }
 
     // get image by parent_id
-    public function getImages($parentId)
+    public function getImages($parentId, $imageType)
     {
         $images = Image::where([
-            Image::parentId => $parentId
+            Image::parentId => $parentId,
+            Image::imageType => $imageType,
         ])->get();
 
         return $images;
+    }
+
+    // store and udpate images for both thesis and news
+    public function storeImages($images, $parentId, $filePath, $imageType)
+    {
+        $oldImages = $this->getImages($parentId, $imageType);
+        if($oldImages){
+            foreach($oldImages as $image){
+                $image->delete();
+                Storage::deleteDirectory($filePath . $image->path);
+            }
+        }
+
+        $tempFile = $this->getTempFiles($images);
+
+        if($tempFile){
+            foreach($tempFile as $tmp){
+                Storage::copy('public/uploads/tmp/' . $tmp->folder . '/' . $tmp->file, $filePath . $tmp->file);
+
+                Image::create([
+                    'parent_id' => $parentId,
+                    'image_type' => $imageType,
+                    'file_type' => Constants::imageFileType,
+                    'path' => $tmp->file,
+                ]);
+
+                Storage::deleteDirectory('public/uploads/tmp/' . $tmp->folder);
+                $tmp->delete();
+            }
+        }
     }
 }

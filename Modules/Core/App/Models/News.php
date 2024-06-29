@@ -15,8 +15,17 @@ class News extends Model
      */
     protected $fillable = ['title', 'description', 'user_id'];
 
+    protected $table = 'news';
+
+    const tableName = 'news';
+    const id = 'id';
+    const title = 'title';
+    const description = 'description';
+    const userId = 'user_id';
+    const createdAt = 'created_at';
+
     public function images(){
-        return $this->hasMany(Image::class, 'parent_id', 'id');
+        return $this->hasMany(Image::class, 'parent_id', 'id')->where('image_type', 'news');
     }
 
 }

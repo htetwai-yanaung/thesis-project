@@ -6,23 +6,32 @@
             @csrf
             <div class="mb-3">
                 <label for="name">Name</label>
-                <input type="text" name="title" id="name" value="{{ $news->title }}" class="form-control">
+                <input type="text" name="title" id="name" value="{{ old('title',$news->title) }}" class="form-control">
+                @error('title')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="">Description</label>
                 <textarea name="description" id="editor" class="form-control">
-                    {{ $news->description }}
+                    {{ old('description',$news->description) }}
                 </textarea>
+                @error('description')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="">Upload Images</label>
                 <input type="file" name="news_image[]" id="newsImage" multiple
                     data-style-item-panel-aspect-ratio="0.5625" class="form-control">
+                @error('news_image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
             <div class="">
                 <a href="{{ route('announcement.index') }}" class="btn btn-outline-danger">Cancel</a>
-                <button class="btn btn-primary">Save</button>
+                <button class="btn btn-primary float-end">Save</button>
             </div>
         </form>
     </div>

@@ -3,107 +3,100 @@
 namespace Modules\Core\App\Http\Services;
 
 use Modules\Core\App\Models\News;
+use Illuminate\Support\Facades\DB;
 use Modules\Core\App\Models\Image;
 use Illuminate\Support\Facades\Auth;
 use Modules\Core\Constant\Constants;
 use Illuminate\Support\Facades\Storage;
 use Modules\Core\App\Models\TemporaryFile;
+use PHPUnit\TextUI\Configuration\Constant;
 
 class NewsService
 {
-    public function index()
+    protected $imageService;
+
+    public function __construct(ImageService $imageService)
     {
-        $news = News::with(['images'])->paginate(10);
-        $dataArr = [
-            'news' => $news,
-        ];
-        return view('template::news.index', $dataArr);
+        $this->imageService = $imageService;
     }
 
-    public function edit($id)
+    public function getNews($id, $relations = null)
     {
-        $news = $this->getNews($id);
-        $dataArr = [
-            'news' => $news,
-            'images' => $news->images,
-        ];
-        return view('core::news.edit', $dataArr);
-    }
-
-    public function getNews($id)
-    {
-        $relations = ['images'];
-        $news = News::with($relations)->find($id);
+        $news = News::when($relations, function($query, $relations){
+            $query->with($relations);
+        })->find($id);
 
         return $news;
     }
 
+    public function getAllNews($conds = null, $relations = null, $noPage = false)
+    {
+        $news = News::when($conds, function($query, $conds){
+            if(isset($conds['search_term'])){
+                $search = $conds['search_term'];
+                $query->where(function($query) use($search){
+                    $query->where(News::tableName . '.' . News::title, 'like', '%' . $search . '%')
+                    ->orWhere(News::tableName . '.' . News::description, 'like', '%' . $search . '%');
+                });
+            }
+        })
+        ->when($relations, function($query, $relations){
+            $query->with($relations);
+        })
+        ->orderBy(News::createdAt, 'desc');
+        if($noPage){
+            return $news->get();
+        }else{
+            return $news->paginate(10);
+        }
+    }
+
     public function store($request)
     {
-        $tempFile = $this->getTempFile($request->news_image);
+        DB::beginTransaction();
+        try{
+            $news = new News();
+            $news->title = $request->title;
+            $news->description = $request->description;
+            $news->user_id = Auth::user()->id;
+            $news->save();
 
-        if($tempFile){
-            $news = News::create([
-                'title' => $request->title,
-                'description' => $request->description,
-                'user_id' => Auth::user()->id,
-            ]);
+            $this->imageService->storeImages($request->news_image, $news->id, Constants::newsImagePath, Constants::newsImageType);
 
-            foreach($tempFile as $tmp){
-                Storage::copy('public/uploads/tmp/' . $tmp->folder . '/' . $tmp->file, 'public/uploads/news/' . $tmp->file);
-
-                Image::create([
-                    'parent_id' => $news->id,
-                    'image_type' => Constants::newsImageType,
-                    'file_type' => Constants::imageFileType,
-                    'path' => $tmp->file,
-                ]);
-
-                Storage::deleteDirectory('public/uploads/tmp/' . $tmp->folder);
-                $tmp->delete();
-            }
+            DB::commit();
+            return [
+                'success' => 'News successfully created'
+            ];
+        }catch(\Throwable $e){
+            DB::rollback();
+            return [
+                'error' => $e->getMessage()
+            ];
         }
-
-        return redirect()->route('announcement.index');
     }
 
     public function update($request, $id)
     {
-        $tempFile = $this->getTempFile($request->news_image);
+        DB::beginTransaction();
+        try{
+            $news = $this->getNews($id);
+            $news->title = $request->title;
+            $news->description = $request->description;
+            $news->user_id = Auth::user()->id;
+            $news->update();
 
-        if($tempFile){
-            $news = News::find($id)->update([
-                'title' => $request->title,
-                'description' => $request->description,
-                'user_id' => Auth::user()->id,
-            ]);
+            $this->imageService->storeImages($request->news_image, $id, Constants::newsImagePath, Constants::newsImageType);
 
-            $oldImages = Image::where([
-                'parent_id' => $id,
-                'image_type' => Constants::newsImageType
-            ])->get();
-
-            foreach($oldImages as $oldImage){
-                Storage::delete('public/uploads/news/' . $oldImage->path);
-                $oldImage->delete();
-            }
-
-            foreach($tempFile as $tmp){
-                Storage::copy('public/uploads/tmp/' . $tmp->folder . '/' . $tmp->file, 'public/uploads/news/' . $tmp->file);
-
-                Image::create([
-                    'parent_id' => $id,
-                    'image_type' => Constants::newsImageType,
-                    'file_type' => Constants::imageFileType,
-                    'path' => $tmp->file,
-                ]);
-
-                Storage::deleteDirectory('public/uploads/tmp/' . $tmp->folder);
-                $tmp->delete();
-            }
+            DB::commit();
+            return [
+                'success' => 'News successfully updated.'
+            ];
+        }catch(\Throwable $e){
+            DB::rollback();
+            return [
+                'error' => $e->getMessage()
+            ];
         }
-
-        return redirect()->route('announcement.index');
     }
 
     public function storeTempFile($request)

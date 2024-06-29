@@ -17,8 +17,8 @@
   <section class="slider-one" style="padding-top: 56px;">
     <article class="owl-carousel owl-theme slide-1">
       @foreach ($bannerImages as $bannerImage)
-          <div class="item">
-              <img src="{{ asset('storage/uploads/project/'.$bannerImage->path) }}" alt="" class="">
+          <div class="item" style="height: 500px">
+              <img src="{{ asset('storage/uploads/project/'.$bannerImage->path) }}" alt="" class="" >
           </div>
       @endforeach
     </article>
@@ -62,7 +62,7 @@
               <p class="p-0 m-0 description text-secondary">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
               <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
                 <div class="gap-2 d-flex align-items-center">
-                  <img src="storage/uploads/Rectangle_2.png" alt="" class="rounded-circle" style="width: 28px;">
+                  <img src="{{ asset('images/images.png') }}" alt="" class="rounded-circle" style="width: 28px;">
                   <span class="name text-secondary">Mg Tect Htun</span>
                 </div>
                 <span class="date text-secondary">02.03.2024</span>
@@ -75,7 +75,7 @@
               <p class="p-0 m-0 description text-secondary">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
               <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
                 <div class="gap-2 d-flex align-items-center">
-                  <img src="storage/uploads/Rectangle_2.png" alt="" class="rounded-circle" style="width: 28px;">
+                  <img src="{{ asset('images/images.png') }}" alt="" class="rounded-circle" style="width: 28px;">
                   <span class="name text-secondary">Mg Tect Htun</span>
                 </div>
                 <span class="date text-secondary">02.03.2024</span>
@@ -88,7 +88,7 @@
               <p class="p-0 m-0 description text-secondary">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
               <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
                 <div class="gap-2 d-flex align-items-center">
-                  <img src="storage/uploads/Rectangle_2.png" alt="" class="rounded-circle" style="width: 28px;">
+                  <img src="{{ asset('images/images.png') }}" alt="" class="rounded-circle" style="width: 28px;">
                   <span class="name text-secondary">Mg Tect Htun</span>
                 </div>
                 <span class="date text-secondary">02.03.2024</span>
@@ -101,7 +101,7 @@
               <p class="p-0 m-0 description text-secondary">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
               <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
                 <div class="gap-2 d-flex align-items-center">
-                  <img src="storage/uploads/Rectangle_2.png" alt="" class="rounded-circle" style="width: 28px;">
+                  <img src="{{ asset('images/images.png') }}" alt="" class="rounded-circle" style="width: 28px;">
                   <span class="name text-secondary">Mg Tect Htun</span>
                 </div>
                 <span class="date text-secondary">02.03.2024</span>
@@ -114,7 +114,7 @@
               <p class="p-0 m-0 description text-secondary">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
               <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
                 <div class="gap-2 d-flex align-items-center">
-                  <img src="./storage/uploads/Rectangle_2.png" alt="" class="rounded-circle" style="width: 28px;">
+                  <img src="{{ asset('images/images.png') }}" alt="" class="rounded-circle" style="width: 28px;">
                   <span class="name text-secondary">Mg Tect Htun</span>
                 </div>
                 <span class="date text-secondary">02.03.2024</span>
@@ -139,7 +139,7 @@
         <div class="mt-5 post-con">
           <div class="post-one">
             <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start">
-              <img src="./storage/uploads/Rectangle_2.png" alt="" class="img-fluid">
+              <img src="{{ asset('images/images.png') }}" alt="" class="img-fluid">
               <div class="col-12 col-md-7">
                 <h5 class="title fw-bold text-primary">Automatic Robotic Arm</h5>
                 <p class="description text-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse . . .</p>
@@ -153,7 +153,7 @@
           </div>
           <div class="my-5 post-two">
             <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start flex-md-row-reverse">
-              <img src="./storage/uploads/Rectangle_2.png" alt="" class="img-fluid">
+              <img src="{{ asset('images/images.png') }}" alt="" class="img-fluid">
               <div class="col-12 col-md-7">
                 <h5 class="title fw-bold text-primary">Automatic Robotic Arm</h5>
                 <p class="description text-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse . . .</p>
@@ -167,7 +167,7 @@
           </div>
           <div class="post-three">
             <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start">
-              <img src="./storage/uploads/Rectangle_2.png" alt="" class="img-fluid">
+              <img src="{{ asset('images/images.png') }}" alt="" class="img-fluid">
               <div class="col-12 col-md-7">
                 <h5 class="title fw-bold text-primary">Automatic Robotic Arm</h5>
                 <p class="description text-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse . . .</p>
@@ -199,7 +199,7 @@
           <div class="item">
             <div class="pt-3 d-flex justify-content-center align-items-center">
               <div class="">
-                <img src="storage/uploads/Ellipse 4.png" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
+                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
                 <h6 class="text-primary">U Aung Kyaw Moe</h6>
                 <p class="text-secondary">Role</p>
               </div>
@@ -208,7 +208,7 @@
           <div class="item">
             <div class="pt-3 d-flex justify-content-center align-items-center">
               <div class="">
-                <img src="storage/uploads/Ellipse 4.png" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
+                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
                 <h6 class="text-primary">U Aung Kyaw Moe</h6>
                 <p class="text-secondary">Role</p>
               </div>
@@ -217,7 +217,7 @@
           <div class="item">
             <div class="pt-3 d-flex justify-content-center align-items-center">
               <div class="">
-                <img src="storage/uploads/Ellipse 4.png" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
+                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
                 <h6 class="text-primary">U Aung Kyaw Moe</h6>
                 <p class="text-secondary">Role</p>
               </div>
@@ -226,7 +226,7 @@
           <div class="item">
             <div class="pt-3 d-flex justify-content-center align-items-center">
               <div class="">
-                <img src="storage/uploads/Ellipse 4.png" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
+                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
                 <h6 class="text-primary">U Aung Kyaw Moe</h6>
                 <p class="text-secondary">Role</p>
               </div>
@@ -235,7 +235,7 @@
           <div class="item">
             <div class="pt-3 d-flex justify-content-center align-items-center">
               <div class="">
-                <img src="storage/uploads/Ellipse 4.png" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
+                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
                 <h6 class="text-primary">U Aung Kyaw Moe</h6>
                 <p class="text-secondary">Role</p>
               </div>
@@ -244,7 +244,7 @@
           <div class="item">
             <div class="pt-3 d-flex justify-content-center align-items-center">
               <div class="">
-                <img src="storage/uploads/Ellipse 4.png" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
+                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
                 <h6 class="text-primary">U Aung Kyaw Moe</h6>
                 <p class="text-secondary">Role</p>
               </div>
@@ -253,7 +253,7 @@
           <div class="item">
             <div class="pt-3 d-flex justify-content-center align-items-center">
               <div class="">
-                <img src="storage/uploads/Ellipse 4.png" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
+                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
                 <h6 class="text-primary">U Aung Kyaw Moe</h6>
                 <p class="text-secondary">Role</p>
               </div>
@@ -262,7 +262,7 @@
           <div class="item">
             <div class="pt-3 d-flex justify-content-center align-items-center">
               <div class="">
-                <img src="storage/uploads/Ellipse 4.png" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
+                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
                 <h6 class="text-primary">U Aung Kyaw Moe</h6>
                 <p class="text-secondary">Role</p>
               </div>
@@ -271,7 +271,7 @@
           <div class="item">
             <div class="pt-3 d-flex justify-content-center align-items-center">
               <div class="">
-                <img src="storage/uploads/Ellipse 4.png" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
+                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
                 <h6 class="text-primary">U Aung Kyaw Moe</h6>
                 <p class="text-secondary">Role</p>
               </div>
@@ -280,7 +280,7 @@
           <div class="item">
             <div class="pt-3 d-flex justify-content-center align-items-center">
               <div class="">
-                <img src="storage/uploads/Ellipse 4.png" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
+                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
                 <h6 class="text-primary">U Aung Kyaw Moe</h6>
                 <p class="text-secondary">Role</p>
               </div>

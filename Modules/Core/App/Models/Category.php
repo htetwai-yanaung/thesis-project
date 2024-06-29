@@ -17,6 +17,7 @@ class Category extends Model
 
     protected $table = 'categories';
 
+    const tableName = 'categories';
     const id = 'id';
     const name = 'name';
     const description = 'description';

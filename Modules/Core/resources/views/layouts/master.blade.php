@@ -77,24 +77,29 @@
                 <li class="nav-item active">
 
                     <a class="{{Route::current()->getName() == 'announcement.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('announcement.index') }}">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <i class="fa-solid fa-rss"></i>
 
                         <span>News</span></a>
                 </li>
                 <li class="nav-item active">
+                    <a class="{{Route::current()->getName() == 'category.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('category.index') }}">
+                        <i class="fa-solid fa-shapes"></i>
+                        <span>Categories</span></a>
+                </li>
+                <li class="nav-item active">
                     <a class="{{Route::current()->getName() == 'teacher.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('teacher.index') }}">
-                        <i class="fa-solid fa-user-group"></i>
+                        <i class="fa-solid fa-users"></i>
                         <span>Teacher List</span></a>
                 </li>
                 <li class="nav-item active">
                     <a class="{{Route::current()->getName() == 'student.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('student.index') }}">
-                        <i class="fa-solid fa-user-group"></i>
+                        <i class="fa-solid fa-users"></i>
                         <span>Student List</span></a>
                 </li>
                 <li class="nav-item active">
 
                     <a class="{{Route::current()->getName() == 'settings.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('settings.index') }}">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <i class="fas fa-fw fa-gear"></i>
 
                         <span>Setting</span></a>
                 </li>
@@ -120,7 +125,7 @@
                         <div class="dropdown ms-auto">
                             <div class="gap-2 navbar-nav d-flex align-items-center" id="profile-dropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="50,20">
                                 <div class="profile-pic">
-                                    <img src="{{ asset('storage/uploads/profile/'. Auth::user()->profile_photo_path) }}" alt="">
+                                    <img src="{{ asset('storage/uploads/profile/'. Auth::user()->profile_photo_path) }}" alt="" class="rounded-circle img-thumbnail">
                                 </div>
                                 <div class="">
                                     <h6 class="fs-5 fw-bold text-secondary">{{ Auth::user()->name }}</h6>

@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="">
-        <h1>Thesis Projects List</h1>
+        <h1>News List</h1>
         <div class="row justify-content-end mb-3">
             <div class="col-3">
-                <a href="{{ route('announcement.create') }}" class="btn btn-primary float-end">Create New Project</a>
+                <a href="{{ route('announcement.create') }}" class="btn btn-primary float-end">Create A News</a>
             </div>
         </div>
         <form action="{{ route('announcement.index') }}" method="GET" class="row justify-content-end">
@@ -21,11 +21,11 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Delete Account</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Delete News</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Are you sure you want to delete this account? It can't be undo.
+                        Are you sure you want to delete this news? It can't be undo.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -41,7 +41,7 @@
                     <th scope="col">Action</th>
                     <th scope="col">No.</th>
                     <th scope="col">Cover</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">Title</th>
                     <th scope="col">Description</th>
                     <th scope="col">Created Date</th>
                 </tr>
@@ -56,12 +56,14 @@
                         </td>
                         <th scope="row">{{ ($news->currentPage() * $news->perPage()) - $news->perPage() + $key + 1 }}</th>
                         <td>
-                            <img src="{{ asset('storage/uploads/news/'.$n->images[0]->path) }}" alt="" width="40px" height="40px" class="" style="width:40px; height:40px;">
+                            @if (count($n->images) > 0)
+                                <img src="{{ asset('storage/uploads/news/'.$n->images[0]->path) }}" alt="" width="40px" height="40px" class="" style="width:40px; height:40px;">
+                            @endif
                         </td>
                         <td>{{ $n->title }}</td>
                         <td >
                             <div class="ck-content">
-                                {{ $n->description }}
+                                {!! $n->description !!}
                             </div>
                         </td>
                         <td>{{ $n->created_at->format('d/m/Y') }}</td>

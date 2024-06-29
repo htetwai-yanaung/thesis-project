@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 use Modules\Core\App\Http\Services\NewsService;
 
 class NewsController extends Controller
@@ -19,9 +20,16 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->newsService->index();
+        $conds['search_term'] = $request->search_term;
+        $relations = ['images'];
+        $news = $this->newsService->getAllNews($conds, $relations);
+
+        $dataArr = [
+            'news' => $news
+        ];
+        return view('core::news.index', $dataArr);
     }
 
     /**
@@ -37,7 +45,18 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->newsService->store($request);
+        Validator::make($request->all(), [
+            'title' => 'required',
+            'description' => 'required',
+            'news_image' => 'required'
+        ])->validate();
+
+        $news = $this->newsService->store($request);
+
+        if(isset($news['error'])){
+            return redirect()->back()->with($news);
+        }
+        return redirect()->route('announcement.index')->with($news);
     }
 
     public function storeTempFile(Request $request)
@@ -68,7 +87,12 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
-        return $this->newsService->edit($id);
+        $news = $this->newsService->getNews($id);
+        $dataArr = [
+            'news' => $news,
+            'images' => $news->images,
+        ];
+        return view('core::news.edit', $dataArr);
     }
 
     /**
@@ -76,7 +100,18 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $this->newsService->update($request, $id);
+        Validator::make($request->all(), [
+            'title' => 'required',
+            'description' => 'required',
+            'news_image' => 'required'
+        ])->validate();
+
+        $news = $this->newsService->update($request, $id);
+
+        if(isset($news['error'])){
+            return redirect()->back()->with($news);
+        }
+        return redirect()->route('announcement.index')->with($news);
     }
 
     /**

@@ -85,6 +85,13 @@
                         <a class="mx-2 text-decoration-none" href="{{route('user.profile.setting', Auth::user()->id)}}"><span class="text-dark">Setting</span></a>
 
                       </li>
+                      @if (Auth::user()->role == 1)
+                      <li class="dropdown-item">
+                        <i class="fa-solid fa-gear"></i>
+                        <a class="mx-2 text-decoration-none" href="{{route('admin.dashboard')}}"><span class="text-dark">Switch to Admin</span></a>
+
+                      </li>
+                      @endif
                       <li>
                           <hr class="dropdown-divider" />
                       </li>
@@ -151,30 +158,6 @@
             }
             prevScrollpos = currentScrollPos;
           }
-
-          // switch theme
-          document.getElementById('sun').addEventListener('click',()=>{
-            document.body.classList.toggle('light-mood');
-            document.body.classList.toggle('dark-mood');
-            document.getElementById('moon').classList.remove('d-none');
-            document.getElementById('sun').classList.add('d-none');
-            document.getElementById('navbar').classList.toggle('navbar-light');
-            document.getElementById('navbar').classList.toggle('navbar-dark');
-            document.getElementById('navbar').classList.toggle('bg-light');
-            document.getElementById('navbar').classList.toggle('bg-dark');
-
-          })
-          document.getElementById('moon').addEventListener('click',()=>{
-            document.body.classList.toggle('dark-mood');
-            document.body.classList.toggle('light-mood');
-            document.getElementById('sun').classList.remove('d-none');
-            document.getElementById('moon').classList.add('d-none');
-            document.getElementById('navbar').classList.toggle('navbar-light');
-            document.getElementById('navbar').classList.toggle('navbar-dark');
-            document.getElementById('navbar').classList.toggle('bg-light');
-            document.getElementById('navbar').classList.toggle('bg-dark');
-
-          })
 
             $(document).ready(function() {
             $('.slide-1').owlCarousel({

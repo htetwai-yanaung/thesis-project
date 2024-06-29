@@ -3,19 +3,33 @@
 namespace Modules\Core\App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Modules\Core\App\Http\Services\CategoryService;
 use Modules\Core\App\Http\Services\ThesisService;
-
+use Modules\Core\Constant\Constants;
 class ThesisController
 {
-    protected $thesisService;
+    protected $thesisService, $categoryService;
 
-    public function __construct(ThesisService $thesisService)
+    public function __construct(ThesisService $thesisService, CategoryService $categoryService)
     {
         $this->thesisService = $thesisService;
+        $this->categoryService = $categoryService;
     }
 
     public function index(Request $request){
-        return $this->thesisService->index($request);
+        $conds['search_term'] = $request->search_term ?? '';
+        $categoryId = $request->category_id;
+        $thesisProjects = $this->thesisService->getThesisProjects($conds, $categoryId);
+
+        $catConds['status'] = constants::publishedStatus;
+        $categories = $this->categoryService->getCategories($catConds, true);
+
+        $dataArr = [
+            'thesisProjects' => $thesisProjects,
+            'categories' => $categories,
+        ];
+
+        return view('core::thesis.index', $dataArr);
     }
 
     public function create(){
@@ -25,7 +39,7 @@ class ThesisController
 
     public function store(Request $request){
         $dataArr = $this->thesisService->store($request);
-        return redirect()->route('thesis.index')->with($dataArr);
+        return redirect()->route('user.thesis.create')->with($dataArr);
     }
 
     public function edit($id){

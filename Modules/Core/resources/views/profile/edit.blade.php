@@ -78,9 +78,9 @@
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
-            <div class="ms-auto">
-                <a class="btn btn-outline-primary">Cancel</a>
-                <button type="submit" class="btn btn-primary">Save</button>
+            <div class="">
+                {{-- <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-danger">Cancel</a> --}}
+                <button type="submit" class="btn btn-primary float-end">Save</button>
             </div>
         </form>
     </div>

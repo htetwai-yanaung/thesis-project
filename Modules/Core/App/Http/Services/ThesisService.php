@@ -22,21 +22,6 @@ class ThesisService
         $this->categoryService = $categoryService;
     }
 
-    public function index($request){
-        $conds['search_term'] = $request->search_term ?? '';
-        $thesisProjects = $this->getThesisProjects($conds);
-
-        $catConds['status'] = constants::publishedStatus;
-        $categories = $this->categoryService->getCategories($catConds);
-
-        $dataArr = [
-            'thesisProjects' => $thesisProjects,
-            'categories' => $categories,
-        ];
-
-        return view('core::thesis.index', $dataArr);
-    }
-
     public function create(){
         $catConds['status'] = constants::publishedStatus;
         $categories = $this->categoryService->getCategories($catConds, true);
@@ -50,13 +35,27 @@ class ThesisService
 
     public function store($request){
         // dd($request->all());
-        Validator::make($request->all(),[
+        $validator = Validator::make($request->all(),[
             'title' => 'required',
             'description' => 'required',
             'category' => 'required',
             'year' => 'required',
             'project_type' => 'required',
-        ])->validate();
+        ]);
+
+        if($validator->fails()){
+            if($request->thesis_image != null){
+                $tempFiles = $this->imageService->getTempFiles($request->thesis_image);
+                if($tempFiles){
+                    foreach($tempFiles as $tempFile){
+                        Storage::deleteDirectory(Constants::tmpImagePath . $tempFile->folder);
+                        $tempFile->delete();
+                    }
+                }
+            }
+
+            $validator->validate();
+        }
 
         DB::beginTransaction();
         try{
@@ -92,8 +91,8 @@ class ThesisService
 
     }
 
-    public function getThesisProjects($conds = null){
-        $relations = ['images', 'owner'];
+    public function getThesisProjects($conds = null, $categoryId = null){
+        $relations = ['images', 'owner', 'category'];
 
         $thesisProjects = ThesisProject::with($relations)
             ->when($conds, function($q, $conds){
@@ -104,6 +103,9 @@ class ThesisService
                         ->orWhere(ThesisProject::tableName . '.' . ThesisProject::desc, 'like', '%' . $search . '%');
                     });
                 }
+            })
+            ->when($categoryId, function($query, $categoryId){
+                $query->where(ThesisProject::categoryId, $categoryId);
             })
             ->paginate(10);
 

@@ -19,7 +19,8 @@ class ThesisProject extends Model
     protected $fillable = [
         'title',
         'description',
-        'year',
+        'category_id',
+        'year_id',
         'project_type',
         'member',
         'user_id',
@@ -30,7 +31,8 @@ class ThesisProject extends Model
     const id = 'id';
     const title = 'title';
     const desc = 'description';
-    const year = 'year';
+    const categoryId = 'category_id';
+    const yearId = 'year_id';
     const projectType = 'project_type';
     const member = 'member';
     const userId = 'user_id';
@@ -42,5 +44,9 @@ class ThesisProject extends Model
 
     public function images(){
         return $this->hasMany(Image::class, 'parent_id', 'id')->where(Image::imageType, Constants::projectImageType);
+    }
+
+    public function category(){
+        return $this->hasOne(Category::class, 'id', 'category_id');
     }
 }

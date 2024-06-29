@@ -12,6 +12,7 @@ class Constants
     //image path
     const profileImagePath = 'public/uploads/profile/';
     const projectImagePath = 'public/uploads/project/';
+    const newsImagePath = 'public/uploads/news/';
     const projectPdfPath = 'public/uploads/document/';
     const tmpImagePath = 'public/uploads/tmp/';
     const uploadsPath = 'public/uploads/';

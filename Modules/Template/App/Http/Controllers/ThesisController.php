@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Validator;
 use Modules\Core\App\Http\Services\ThesisService;
 
 class ThesisController extends Controller

@@ -10,7 +10,13 @@
         </div>
         <form action="{{ route('thesis.index') }}" method="GET" class="row justify-content-end">
             {{-- @csrf --}}
-            <div class="d-flex col-3 gap-2">
+            <div class="d-flex col-5 gap-2">
+                <select name="category_id" id="" class="form-select">
+                    <option value="">All</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" @selected(request()->get('category_id') == $category->id)>{{ $category->name }}</option>
+                    @endforeach
+                </select>
                 <input type="text" name="search_term" value="{{ request()->get('search_term') }}" placeholder="Search ..." class="form-control">
                 <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
@@ -42,7 +48,7 @@
                     <th scope="col">No.</th>
                     <th scope="col">Cover</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Description</th>
+                    <th scope="col">Category</th>
                     <th scope="col">Owner</th>
                     <th scope="col">Created Date</th>
                 </tr>
@@ -60,7 +66,7 @@
                             <img src="{{ asset('storage/uploads/project/'.$project->images[0]->path) }}" alt="" width="40px" height="40px" class="" style="width:40px; height:40px;">
                         </td>
                         <td>{{ $project->title }}</td>
-                        <td>{!! $project->description !!}</td>
+                        <td>{{ $project->category->name }}</td>
                         <td>{{ $project->owner->name }}</td>
                         <td>{{ $project->created_at->format('d/m/Y') }}</td>
                     </tr>
