@@ -37,13 +37,18 @@ class ThesisProject extends Model
     const member = 'member';
     const userId = 'user_id';
     const status = 'status';
+    const createdAt = 'created_at';
 
     public function owner(){
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function images(){
-        return $this->hasMany(Image::class, 'parent_id', 'id')->where(Image::imageType, Constants::projectImageType);
+        return $this->hasMany(Image::class, 'parent_id', 'id')->where([Image::imageType => Constants::projectImageType, Image::fileType => Constants::imageFileType]);
+    }
+
+    public function pdfs(){
+        return $this->hasMany(Image::class, 'parent_id', 'id')->where([Image::imageType => Constants::projectImageType, Image::fileType => Constants::pdfFileType]);
     }
 
     public function category(){

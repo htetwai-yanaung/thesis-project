@@ -2,19 +2,33 @@
 
 namespace Modules\Template\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Modules\Core\Constant\Constants;
+use Illuminate\Http\RedirectResponse;
+use Modules\Core\App\Http\Services\UserService;
+use Modules\Core\App\Http\Services\ThesisService;
 
 class TemplateController extends Controller
 {
+    public function __construct(protected ThesisService $thesisService,
+    protected UserService $userService)
+    {
+
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('template::thesis.index');
+        $thesisProjects = $this->thesisService->getThesisProjects();
+        $teachers = $this->userService->getUsers(['role' => Constants::teacher]);
+        $dataArr = [
+            'thesisProjects' => $thesisProjects,
+            'teachers' => $teachers
+        ];
+        return view('template::index', $dataArr);
     }
 
     /**
@@ -28,7 +42,7 @@ class TemplateController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         //
     }
@@ -52,7 +66,7 @@ class TemplateController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, $id)
     {
         //
     }

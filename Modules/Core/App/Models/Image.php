@@ -17,5 +17,6 @@ class Image extends Model
 
     const parentId = 'parent_id';
     const imageType = 'image_type';
+    const fileType = 'file_type';
 
 }

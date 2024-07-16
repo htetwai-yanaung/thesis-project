@@ -10,10 +10,9 @@ use Modules\Core\App\Http\Controllers\CategoryController;
 use Modules\Core\App\Http\Controllers\DashboardController;
 use Modules\Template\App\Http\Controllers\ThesisController as UserThesisController;
 use Modules\Template\App\Http\Controllers\ProfileController as UserProfileController;
+use Modules\Template\App\Http\Controllers\TemplateController;
 
-Route::get('/', function () {
-    return view('template::index');
-})->name('dashboard');
+Route::get('/', [TemplateController::class, 'index'])->name('dashboard');
 
 // thesis
 Route::get('thesis_page',[UserThesisController::class,'index'])->name('thesis#page');
@@ -108,6 +107,9 @@ Route::prefix('thesis')->controller(ThesisController::class)->group(function() {
     Route::delete('/delete-temp-file', 'deleteTempFile')->name('thesis.deleteTempFile');
 });
 
-
+Route::prefix('dropzone')->controller(ThesisController::class)->group(function() {
+    Route::post('/store-temp-file', 'dropzoneTempStore')->name('dropzone.tempStore');
+    Route::delete('/delete-temp-file', 'dropzoneTempDelete')->name('dropzone.tempDelete');
+});
 
 

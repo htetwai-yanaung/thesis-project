@@ -107,6 +107,7 @@ class ThesisService
             ->when($categoryId, function($query, $categoryId){
                 $query->where(ThesisProject::categoryId, $categoryId);
             })
+            ->orderBy(ThesisProject::createdAt, 'desc')
             ->paginate(10);
 
         return $thesisProjects;
@@ -122,7 +123,7 @@ class ThesisService
     }
 
     public function edit($id){
-        $relations = ['images', 'owner'];
+        $relations = ['images', 'pdfs', 'owner'];
         $thesisProject = $this->getThesisProject($id, $relations);
         $catConds['status'] = constants::publishedStatus;
         $categories = $this->categoryService->getCategories($catConds, true);

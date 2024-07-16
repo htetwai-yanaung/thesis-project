@@ -62,9 +62,14 @@
         </div>
         <div class="">
             <label for="" class="form-label">Upload Images</label>
+            <div class="dropzone" id="dropzone1"></div>
+            {{-- <input type="hidden" name="image" id="file" > --}}
+        </div>
+        {{-- <div class="">
+            <label for="" class="form-label">Upload Images</label>
             <input type="file" name="thesis_image[]" id="thesisImage" multiple
                 data-style-item-panel-aspect-ratio="0.5625" class="form-control">
-        </div>
+        </div> --}}
 
         <div class="">
             <a href="{{ route('thesis.index') }}" class="btn btn-outline-danger">Cancel</a>
@@ -76,7 +81,7 @@
 
 @section('script')
 <script src="{{ asset('js/ckeditor.js') }}"></script>
-<script>
+{{-- <script>
     FilePond.registerPlugin(FilePondPluginImagePreview);
     // Get a reference to the file input element
     const inputElement = document.querySelector('input[id="thesisImage"]');
@@ -91,6 +96,48 @@
             },
         },
     });
+</script> --}}
+<script>
+
+    let images = [];
+    let thesisImages = document.getElementById('file');
+    let form = document.getElementById('dropzone1');
+
+    Dropzone.options.dropzone1 = {
+        url: "{{ route('dropzone.tempStore') }}",
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+        method: "post",
+        paramName: "file",
+        maxFilesize: 3, //MB
+        uploadMultiple: false,
+        addRemoveLinks: true,
+        parallelUploads: 100,
+        acceptedFiles: 'image/*, application/pdf',
+        // dictDefaultMessage: "Drop images here or click to upload",
+        // previewTemplate: previewTemplate,
+        init: function() {
+            this.on("addedfile", file => {
+                if(file.type == 'application/pdf'){
+                    file.previewElement.querySelector('img').src = '{{ asset("images/pdf.png") }}';
+                }
+            });
+            this.on("successmultiple", (file, response) => {
+                console.log(response);
+            });
+        },
+        success: function(file, response){
+            let input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'thesis_image[]';
+                input.value = response;
+                file.previewElement.appendChild(input);
+        },
+        error: function(file, response){
+            console.log(response);
+        }
+    }
 </script>
 {{-- <script>
     Dropzone.options.dropzone1 = {

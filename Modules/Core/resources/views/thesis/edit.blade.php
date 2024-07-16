@@ -7,7 +7,7 @@
             <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" autohide="true" delay="3000">
                 <div class="toast-header">
                 {{-- <img src="..." class="rounded me-2" alt="..."> --}}
-                <strong class="me-auto">Project Create Error</strong>
+                <strong class="me-auto">Project Update Error</strong>
                 <small>11 mins ago</small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <h1>Create Your Thesis</h1>
+        <h1>Edit Your Thesis</h1>
         <form action="{{ route('thesis.update', $thesisProject->id) }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column gap-3" id="data-form">
             @csrf
             <div class="">
@@ -76,8 +76,9 @@
             </div>
             <div class="">
                 <label for="" class="form-label">Upload Images</label>
-                <input type="file" name="thesis_image[]" id="thesisImage" multiple
-                    data-style-item-panel-aspect-ratio="0.5625" class="form-control">
+                <div class="dropzone" id="dropzone1"></div>
+                {{-- <input type="file" name="thesis_image[]" id="thesisImage" multiple
+                    data-style-item-panel-aspect-ratio="0.5625" class="form-control"> --}}
             </div>
             <div class="">
                 <a href="{{ route('thesis.index') }}" class="btn btn-outline-danger">Cancel</a>
@@ -89,7 +90,7 @@
 
 @section('script')
 <script src="{{ asset('js/ckeditor.js') }}"></script>
-<script>
+{{-- <script>
     FilePond.registerPlugin(FilePondPluginImagePreview);
     // Get a reference to the file input element
     const inputElement = document.querySelector('input[id="thesisImage"]');
@@ -108,117 +109,71 @@
     @foreach ($thesisProject->images as $image)
         pond.addFile('{{ asset("storage/uploads/project/".$image->path) }}')
     @endforeach
-</script>
+</script> --}}
 <script>
-    // Dropzone.options.dropzone1 = {
-    //     url: '{{ route('thesis.store') }}',
-    //     headers: {
-    //         'X-CSRF-TOKEN': "{{ csrf_token() }}"
-    //     },
-    //     autoProcessQueue: false,
-    //     uploadMultiple: true,
-    //     parallelUploads: 100,
-    //     maxFiles: 100,
-    //     maxFilesize: 12,
-    //     renameFile: function(file){
-    //         var dt = new Date();
-    //         var time = dt.getTime();
-    //         return '{{ Auth::user()->id }}'+'_thumbnail';
-    //     },
-    //     acceptedFiles: '.jpeg, .jpg, .png, .pdf',
-    //     addRemoveLinks: true,
-    //     timeout: 5000,
-    //     init: function() {
-    //         var myDropzone = this;
-    //         var project = <?php echo $thesisProject; ?>;
-    //         // console.log(project)
-    //         // for (const image of project.images) {
-    //         //     let mockFile = { name: "Filename", size: 12345 };
-    //         //     myDropzone.displayExistingFile(mockFile, `{{ asset('storage/uploads/project/${image.path}') }}`);
-    //         // }
 
-    //         @if(isset($thesisProject) && $thesisProject->images->count() > 0)
-    //             @foreach($thesisProject->images as $image)
-    //                 var mockFile = { name: "{{ $image->path }}", size: {{ $image->file_size }}, accepted: true };
-    //                 myDropzone.emit("addedfile", mockFile);
-    //                 myDropzone.emit("thumbnail", mockFile, "{{ asset('storage/uploads/project/') }}"+"{{ $image->path }}");
-    //                 myDropzone.emit("complete", mockFile);
-    //             @endforeach
-    //         @endif
-
-    //         // append form data
-    //         this.on("sendingmultiple", (file, xhr, formData) => {
-    //             $("form").find("input").each(function(){
-    //                 formData.append($(this).attr("name"), $(this).val());
-    //             });
-    //             $("form").find("textarea").each(function(){
-    //                 formData.append($(this).attr("name"), $(this).val());
-    //             });
-    //             $("form").find("select").each(function(){
-    //                 formData.append($(this).attr("name"), $(this).val());
-    //             });
-    //         });
-
-
-
-    //         // when submit
-    //         $("#submit-all").click(function (e) {
-    //             e.preventDefault();
-    //             e.stopPropagation();
-    //             if(myDropzone.getQueuedFiles().length == 0){
-    //                 $('#image-error').show();
-    //             }else{
-    //                 $('#image-error').hide();
-    //             }
-    //             console.log(myDropzone.files);
-    //             myDropzone.processQueue();
-    //         })
-    //     },
-    //     success: function(file, response){
-    //         window.location.href = "{{ route('thesis.index') }}";
-    //     },
-    //     errormultiple: function(file, response){
-    //         var myDropzone = this;
-    //         myDropzone.removeAllFiles();
-    //         file.forEach((e)=>{
-    //             myDropzone.addFile(e);
-    //         });
-    //         $('#error-message').html("<p>"+response.message+"</p>")
-    //         $('#liveToast').addClass('show');
-    //         return false;
-    //     }
-    // }
-
-    Dropzone.autoDiscover = false;
-    var myDropzone = new Dropzone("#dropzone1",{
-        url: '{{ route('thesis.store') }}',
+    Dropzone.options.dropzone1 = {
+        url: "{{ route('dropzone.tempStore') }}",
         headers: {
             'X-CSRF-TOKEN': "{{ csrf_token() }}"
         },
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        // previewTemplate: previewTemplate,
-        parallelUploads: 100,
-        maxFiles: 100,
-        maxFilesize: 12,
-        acceptedFiles: '.jpeg, .jpg, .png, .pdf',
+        method: "post",
+        paramName: "file",
+        maxFilesize: 3, //MB
+        uploadMultiple: false,
         addRemoveLinks: true,
+        parallelUploads: 100,
+        acceptedFiles: 'image/*, application/pdf',
         dictDefaultMessage: "Drop images here or click to upload",
-        timeout: 5000,
-    })
-    @if(isset($thesisProject) && $thesisProject->images->count() > 0)
-        @foreach($thesisProject->images as $image)
-            var mockFile = { name: "{{ $image->path }}", size: "{{ $image->file_size }}", accepted: true };
-            myDropzone.emit("addedfile", mockFile);
-            @if($image->type == 'pdf'){
-                myDropzone.emit("thumbnail", mockFile, "{{ asset('storage/uploads/pdf-logo.jpg') }}");
-            }@else{
-                myDropzone.emit("thumbnail", mockFile, "{{ asset('storage/uploads/project/') }}"+"/{{ $image->path }}");
-            }
+        // previewTemplate: previewTemplate,
+        init: function() {
+            this.on("addedfile", file => {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'thesis_image[]';
+                input.value = file.name;
+                file.previewElement.appendChild(input);
+                if(file.type == 'application/pdf'){
+                    file.previewElement.querySelector('img').src = '{{ asset("images/pdf.png") }}';
+                }
+
+            });
+            this.on("successmultiple", (file, response) => {
+                console.log(response);
+            });
+
+            @if(isset($thesisProject) && $thesisProject->images->count() > 0)
+                @foreach($thesisProject->images as $image)
+                    var mockFile = { name: "{{ $image->path }}", size: "{{ $image->file_size }}", accepted: true };
+                    // console.log(mockFile);
+                    // this.emit("addedfile", mockFile);
+                    this.displayExistingFile(mockFile, "{{ asset('storage/uploads/project/') }}"+"/{{ $image->path }}")
+                    // this.emit("complete", mockFile);
+                @endforeach
             @endif
-            myDropzone.emit("complete", mockFile);
-        @endforeach
-    @endif
+            @if(isset($thesisProject) && $thesisProject->pdfs->count() > 0)
+                @foreach($thesisProject->pdfs as $pdf)
+                    var mockFile = { name: "{{ $pdf->path }}", size: "{{ $pdf->file_size }}", accepted: true };
+                    // console.log(mockFile);
+                    // this.emit("addedfile", mockFile);
+                    this.displayExistingFile(mockFile, "{{ asset('images/pdf.png') }}")
+                    // this.emit("complete", mockFile);
+                @endforeach
+            @endif
+        },
+        success: function(file, response){
+            var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'thesis_image[]';
+                input.value = response;
+                file.previewElement.appendChild(input);
+        },
+        error: function(file, response){
+            console.log(response);
+        }
+    }
+
+
 
 </script>
 @endsection

@@ -56,71 +56,25 @@
         <article class="right col-12 col-lg-4">
           <h5 class="mb-3 text-primary fw-bold">Thesis Projects</h5>
           <div class="project-container">
+            @for ($i = 1; $i <= 5; $i++)
             <article class="px-4 py-3 project-post">
-              <a href="" class="text-decoration-none">
-                <h6 class="title text-info">Title</h6>
-              <p class="p-0 m-0 description text-secondary">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
-              <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
-                <div class="gap-2 d-flex align-items-center">
-                  <img src="{{ asset('images/images.png') }}" alt="" class="rounded-circle" style="width: 28px;">
-                  <span class="name text-secondary">Mg Tect Htun</span>
+                <a href="" class="text-decoration-none">
+                  <h6 class="title text-info">{{ $thesisProjects[$i]->title }}</h6>
+                <p class="p-0 m-0 description text-secondary">{!! $thesisProjects[$i]->description !!}</p>
+                <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
+                  <div class="gap-2 d-flex align-items-center">
+                    <img src="@if ($thesisProjects[$i]->owner->profile_photo_path == null)
+                        {{ asset('images/images.png') }}
+                    @else
+                        {{ asset('storage/uploads/profile/'.$thesisProjects[$i]->owner->profile_photo_path) }}
+                    @endif" alt="" class="rounded-circle" style="width: 28px;">
+                    <span class="name text-secondary">{{ $thesisProjects[$i]->owner->name }}</span>
+                  </div>
+                  <span class="date text-secondary">{{ $thesisProjects[$i]->created_at }}</span>
                 </div>
-                <span class="date text-secondary">02.03.2024</span>
-              </div>
-              </a>
-            </article>
-            <article class="px-4 py-3 project-post">
-              <a href="" class="text-decoration-none">
-                <h6 class="title text-info">Title</h6>
-              <p class="p-0 m-0 description text-secondary">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
-              <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
-                <div class="gap-2 d-flex align-items-center">
-                  <img src="{{ asset('images/images.png') }}" alt="" class="rounded-circle" style="width: 28px;">
-                  <span class="name text-secondary">Mg Tect Htun</span>
-                </div>
-                <span class="date text-secondary">02.03.2024</span>
-              </div>
-              </a>
-            </article>
-            <article class="px-4 py-3 project-post">
-              <a href="" class="text-decoration-none">
-                <h6 class="title text-info">Title</h6>
-              <p class="p-0 m-0 description text-secondary">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
-              <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
-                <div class="gap-2 d-flex align-items-center">
-                  <img src="{{ asset('images/images.png') }}" alt="" class="rounded-circle" style="width: 28px;">
-                  <span class="name text-secondary">Mg Tect Htun</span>
-                </div>
-                <span class="date text-secondary">02.03.2024</span>
-              </div>
-              </a>
-            </article>
-            <article class="px-4 py-3 project-post">
-              <a href="" class="text-decoration-none">
-                <h6 class="title text-info">Title</h6>
-              <p class="p-0 m-0 description text-secondary">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
-              <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
-                <div class="gap-2 d-flex align-items-center">
-                  <img src="{{ asset('images/images.png') }}" alt="" class="rounded-circle" style="width: 28px;">
-                  <span class="name text-secondary">Mg Tect Htun</span>
-                </div>
-                <span class="date text-secondary">02.03.2024</span>
-              </div>
-              </a>
-            </article>
-            <article class="px-4 py-3 project-post">
-              <a href="" class="text-decoration-none">
-                <h6 class="title text-info">Title</h6>
-              <p class="p-0 m-0 description text-secondary">Lorem ipsum dolor sit amet, consectr adipiscing elit, sed do eiusmod tempor . . .</p>
-              <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
-                <div class="gap-2 d-flex align-items-center">
-                  <img src="{{ asset('images/images.png') }}" alt="" class="rounded-circle" style="width: 28px;">
-                  <span class="name text-secondary">Mg Tect Htun</span>
-                </div>
-                <span class="date text-secondary">02.03.2024</span>
-              </div>
-              </a>
-            </article>
+                </a>
+              </article>
+            @endfor
             <div class="mt-2 text-end">
               <a href="" class="text-info text-decoration-none">See More...</a>
             </div>
@@ -196,96 +150,22 @@
       <h5 class="pt-3 mb-3 text-center text-primary"><span class="text-info">Teachers</span> in Our Department</h5>
       <div class="mx-auto col-12 col-md-10 col-lg-8">
         <article class="pb-3 owl-carousel owl-theme slide-2 position-relative">
-          <div class="item">
-            <div class="pt-3 d-flex justify-content-center align-items-center">
-              <div class="">
-                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
-                <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                <p class="text-secondary">Role</p>
+          @foreach ($teachers as $teacher)
+            <div class="item">
+              <div class="pt-3 d-flex justify-content-center align-items-center">
+                <div class="">
+                  <img src="@if ($teacher->profile_photo_path == null)
+                    {{ asset('images/images.png') }}
+                  @else
+                    {{ asset('storage/uploads/profile/'.$teacher->profile_photo_path) }}
+                  @endif" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
+                  <h6 class="text-primary">{{ $teacher->name }}</h6>
+                  {{-- <p class="text-secondary">Teacher</p> --}}
+                </div>
               </div>
             </div>
-          </div>
-          <div class="item">
-            <div class="pt-3 d-flex justify-content-center align-items-center">
-              <div class="">
-                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
-                <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                <p class="text-secondary">Role</p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="pt-3 d-flex justify-content-center align-items-center">
-              <div class="">
-                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
-                <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                <p class="text-secondary">Role</p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="pt-3 d-flex justify-content-center align-items-center">
-              <div class="">
-                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
-                <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                <p class="text-secondary">Role</p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="pt-3 d-flex justify-content-center align-items-center">
-              <div class="">
-                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
-                <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                <p class="text-secondary">Role</p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="pt-3 d-flex justify-content-center align-items-center">
-              <div class="">
-                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
-                <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                <p class="text-secondary">Role</p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="pt-3 d-flex justify-content-center align-items-center">
-              <div class="">
-                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
-                <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                <p class="text-secondary">Role</p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="pt-3 d-flex justify-content-center align-items-center">
-              <div class="">
-                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
-                <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                <p class="text-secondary">Role</p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="pt-3 d-flex justify-content-center align-items-center">
-              <div class="">
-                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
-                <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                <p class="text-secondary">Role</p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="pt-3 d-flex justify-content-center align-items-center">
-              <div class="">
-                <img src="{{ asset('images/images.png') }}" alt="" class="mx-auto rounded-circle" style="width: 100px;height: 100px;">
-                <h6 class="text-primary">U Aung Kyaw Moe</h6>
-                <p class="text-secondary">Role</p>
-              </div>
-            </div>
-          </div>
+
+          @endforeach
         </article>
       </div>
       <div class="bottom-0 mx-auto divider col-6 bg-primary position-absolute" style="height: 3px;left: 0;right: 0;"></div>

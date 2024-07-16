@@ -69,6 +69,26 @@ class ImageService
 
     }
 
+    // dropzone
+    public function storeTempFile($image)
+    {
+        DB::beginTransaction();
+        try{
+            $imageName = uniqid().'_.'.$image->extension();
+            $folder = uniqid('thesis_');
+            $image->storeAs('public/uploads/tmp/' . $folder, $imageName);
+
+            TemporaryFile::create([
+                'folder' => $folder,
+                'file' => $imageName,
+            ]);
+            DB::commit();
+            return $imageName;
+        }catch(\Throwable $e){
+            return $e;
+        }
+    }
+
     public function updateSiteImage($request)
     {
         $settings = Setting::first();
@@ -84,9 +104,9 @@ class ImageService
         $settings->update();
     }
 
-    public function getTempFiles($folder)
+    public function getTempFiles($file)
     {
-        $tempFile = TemporaryFile::whereIn(TemporaryFile::folder, $folder)->get();
+        $tempFile = TemporaryFile::whereIn(TemporaryFile::file, $file)->get();
 
         return $tempFile;
     }
@@ -96,9 +116,11 @@ class ImageService
     {
         $oldImages = $this->getImages($thesisId, 'project');
         if($oldImages){
-            foreach($oldImages as $image){
-                $image->delete();
-                Storage::deleteDirectory(Constants::projectImagePath . $image->path);
+            foreach($oldImages as $oldImage){
+                if(!in_array($oldImage->path, $request->thesis_image)){
+                    $oldImage->delete();
+                    Storage::deleteDirectory(Constants::projectImagePath . $oldImage->path);
+                }
             }
         }
 
@@ -108,10 +130,11 @@ class ImageService
             foreach($tempFile as $tmp){
                 Storage::copy(Constants::tmpImagePath . $tmp->folder . '/' . $tmp->file, Constants::projectImagePath . $tmp->file);
 
+                $ext = substr(strrchr($tmp->file, '.'), 1);
                 Image::create([
                     'parent_id' => $thesisId,
                     'image_type' => Constants::projectImageType,
-                    'file_type' => Constants::imageFileType,
+                    'file_type' => $ext == Constants::pdfFileType ? Constants::pdfFileType : Constants::imageFileType,
                     'path' => $tmp->file,
                 ]);
 
