@@ -2,19 +2,30 @@
 
 namespace Modules\Template\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Modules\Core\App\Http\Services\NewsService;
 
 class NewsController extends Controller
 {
+    public function __construct(
+        protected NewsService $newsService)
+    {
+
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('template::news.index');
+        $allNews = $this->newsService->getAllNews(null, ['owner','images']);
+
+        $dataArr = [
+            'allNews' => $allNews
+        ];
+        return view('template::news.index', $dataArr);
     }
 
     /**
@@ -28,7 +39,7 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         //
     }
@@ -52,7 +63,7 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, $id)
     {
         //
     }

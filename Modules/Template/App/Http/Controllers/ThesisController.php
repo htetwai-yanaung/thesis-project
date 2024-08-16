@@ -22,8 +22,12 @@ class ThesisController extends Controller
      */
     public function index()
     {
-        // return "hello";
-        return view('template::thesis.index');
+        $thesisProjects = $this->thesisService->getThesisProjects();
+
+        $datArr = [
+            'thesisProjects' => $thesisProjects
+        ];
+        return view('template::thesis.index', $datArr);
     }
 
     /**

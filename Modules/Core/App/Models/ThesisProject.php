@@ -7,6 +7,7 @@ use Modules\Core\App\Models\Image;
 use Modules\Core\Constant\Constants;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Core\Database\Factories\ProjectFactory;
 use Modules\Core\Database\factories\ThesisProjectFactory;
 
 class ThesisProject extends Model
@@ -38,6 +39,11 @@ class ThesisProject extends Model
     const userId = 'user_id';
     const status = 'status';
     const createdAt = 'created_at';
+
+    public static function newFactory()
+    {
+        return new ProjectFactory();
+    }
 
     public function owner(){
         return $this->belongsTo(User::class, 'user_id', 'id');

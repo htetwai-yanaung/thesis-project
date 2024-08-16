@@ -7,13 +7,15 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Modules\Core\Constant\Constants;
 use Illuminate\Http\RedirectResponse;
+use Modules\Core\App\Http\Services\NewsService;
 use Modules\Core\App\Http\Services\UserService;
 use Modules\Core\App\Http\Services\ThesisService;
 
 class TemplateController extends Controller
 {
     public function __construct(protected ThesisService $thesisService,
-    protected UserService $userService)
+        protected UserService $userService,
+        protected NewsService $newsService)
     {
 
     }
@@ -24,9 +26,11 @@ class TemplateController extends Controller
     {
         $thesisProjects = $this->thesisService->getThesisProjects();
         $teachers = $this->userService->getUsers(['role' => Constants::teacher]);
+        $allNews = $this->newsService->getAllNews(null, ['images'], false, 9);
         $dataArr = [
             'thesisProjects' => $thesisProjects,
-            'teachers' => $teachers
+            'teachers' => $teachers,
+            'allNews' => $allNews
         ];
         return view('template::index', $dataArr);
     }

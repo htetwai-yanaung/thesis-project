@@ -2,9 +2,10 @@
 
 namespace Modules\Core\App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Core\Database\factories\NewsFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class News extends Model
 {
@@ -24,7 +25,18 @@ class News extends Model
     const userId = 'user_id';
     const createdAt = 'created_at';
 
-    public function images(){
+    protected static function newFactory()
+    {
+        return NewsFactory::new();
+    }
+
+    public function owner()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function images()
+    {
         return $this->hasMany(Image::class, 'parent_id', 'id')->where('image_type', 'news');
     }
 

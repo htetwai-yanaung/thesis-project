@@ -10,6 +10,7 @@ use Modules\Core\App\Http\Controllers\CategoryController;
 use Modules\Core\App\Http\Controllers\DashboardController;
 use Modules\Template\App\Http\Controllers\ThesisController as UserThesisController;
 use Modules\Template\App\Http\Controllers\ProfileController as UserProfileController;
+use Modules\Template\App\Http\Controllers\NewsController as UserNewsController;
 use Modules\Template\App\Http\Controllers\TemplateController;
 
 Route::get('/', [TemplateController::class, 'index'])->name('dashboard');
@@ -19,7 +20,7 @@ Route::get('thesis_page',[UserThesisController::class,'index'])->name('thesis#pa
 Route::get('thesis_detail',[UserThesisController::class,'detail'])->name('thesis#detail');
 
 // News
-Route::get('/news',[NewsController::class,'userIndex'])->name('news');
+Route::get('/news',[UserNewsController::class, 'index'])->name('news');
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
 

@@ -30,24 +30,14 @@
         <article class="left col-12 col-lg-7">
           <h5 class="mb-3 text-primary fw-bold"><span class="text-info">Up to Date</span> News in our Department</h5>
           <div class="grid-system">
-            <a href="#" class="item">
-              <div class="px-2 py-3 text-white title">Title</div>
-            </a>
-            <a href="#" class="item">
-              <div class="px-2 py-3 text-white title">Title</div>
-            </a>
-            <a href="#" class="item">
-              <div class="px-2 py-3 text-white title">Title</div>
-            </a>
-            <a href="#" class="item">
-              <div class="px-2 py-3 text-white title">Title</div>
-            </a>
-            <a href="#" class="item">
-              <div class="px-2 py-3 text-white title">Title</div>
-            </a>
-            <a href="#" class="item">
-              <div class="px-2 py-3 text-white title">Title</div>
-            </a>
+            @foreach ($allNews as $news)
+                <a href="#" class="item">
+                    @if ($news->images->count() > 0)
+                        <x-image src="{{ 'storage/uploads/news/'.$news->images[0]->path }}" class="w-100 h-100 object-fit-cover"/>
+                    @endif
+                    <div class="px-2 py-3 text-white title">{{ $news->title }}</div>
+                </a>
+            @endforeach
           </div>
           <div class="mt-2 text-end">
             <a href="" class="text-info text-decoration-none">See More...</a>
@@ -59,21 +49,21 @@
             @for ($i = 1; $i <= 5; $i++)
             <article class="px-4 py-3 project-post">
                 <a href="" class="text-decoration-none">
-                  <h6 class="title text-info">{{ $thesisProjects[$i]->title }}</h6>
-                <p class="p-0 m-0 description text-secondary">{!! $thesisProjects[$i]->description !!}</p>
-                <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
-                  <div class="gap-2 d-flex align-items-center">
-                    <img src="@if ($thesisProjects[$i]->owner->profile_photo_path == null)
-                        {{ asset('images/images.png') }}
-                    @else
-                        {{ asset('storage/uploads/profile/'.$thesisProjects[$i]->owner->profile_photo_path) }}
-                    @endif" alt="" class="rounded-circle" style="width: 28px;">
-                    <span class="name text-secondary">{{ $thesisProjects[$i]->owner->name }}</span>
-                  </div>
-                  <span class="date text-secondary">{{ $thesisProjects[$i]->created_at }}</span>
-                </div>
+                    <h6 class="title text-info">{{ $thesisProjects[$i]->title }}</h6>
+                    <p class="p-0 m-0 description text-secondary">{!! Str::limit($thesisProjects[$i]->description, 300, '...') !!}</p>
+                    <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
+                        <div class="gap-2 d-flex align-items-center">
+                            <x-image
+                                src="{{ 'storage/uploads/profile/'.$thesisProjects[$i]->owner->profile_photo_path }}"
+                                default="images/images.png"
+                                class="object-fit-cover rounded-circle"
+                                style="width: 28px; height: 28px;"/>
+                            <span class="name text-secondary">{{ $thesisProjects[$i]->owner->name }}</span>
+                        </div>
+                        <span class="date text-secondary">{{ $thesisProjects[$i]->created_at }}</span>
+                    </div>
                 </a>
-              </article>
+            </article>
             @endfor
             <div class="mt-2 text-end">
               <a href="" class="text-info text-decoration-none">See More...</a>

@@ -14,13 +14,15 @@
     <meta name="author" content="{{ $author ?? '' }}">
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    {{-- <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" /> --}}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.green.min.css" integrity="sha512-C8Movfk6DU/H5PzarG0+Dv9MA9IZzvmQpO/3cIlGIflmtY3vIud07myMu4M/NTPJl8jmZtt/4mC9bAioMZBBdA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    {{-- owl carousel --}}
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
+
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 
@@ -52,7 +54,7 @@
                 <a class="sidebar-brand d-flex align-items-center " href="{{ route('admin.dashboard') }}">
                     <div class="d-flex align-items-center text-info fw-bold gap-2">
                         <div class="profile-pic">
-                            <img src="{{ asset('storage/uploads/'.$siteImage) }}" alt="site-image" class="" >
+                            <x-image src="{{ 'storage/uploads/'.$siteImage }}" />
                         </div>
                         <span>{{ $siteName }}</span>
                     </div>
@@ -120,7 +122,7 @@
                         <div class="dropdown ms-auto">
                             <div class="gap-2 navbar-nav d-flex align-items-center" id="profile-dropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="50,20">
                                 <div class="profile-pic">
-                                    <img src="{{ asset('storage/uploads/profile/'. Auth::user()->profile_photo_path) }}" alt="" class="rounded-circle img-thumbnail">
+                                    <x-image src="{{ 'storage/uploads/profile/'.Auth::user()->profile_photo_path }}" class="rounded-circle img-thumbnail"/>
                                 </div>
                                 <div class="">
                                     <h6 class="fs-5 fw-bold text-secondary">{{ Auth::user()->name }}</h6>
@@ -172,8 +174,13 @@
     <script src="{{ asset('js/drag-and-drop.js') }}"></script>
     <script src="{{ asset( 'js/bootstrap.bundle.min.js' ) }}"></script>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js" integrity="sha512-6F1RVfnxCprKJmfulcxxym1Dar5FsT/V2jiEUvABiaEiFWoQ8yHvqRM/Slf0qJKiwin6IDQucjXuolCfCKnaJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+
     {{-- CKEditor CDN --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/41.4.2/ckeditor.min.js" integrity="sha512-z5R1qDiHpqoswJJOldglYtCSpaDg3JUEoZL/M/4LDCL6XUwB2cHmCtzCXWcCbA3CCuGxTCxdKA9ybTJu2zqTng==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('js/ckeditor.min.js') }}" ></script>
+
+    {{-- owl carousel --}}
+    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+
     @yield('script')
 
 </body>

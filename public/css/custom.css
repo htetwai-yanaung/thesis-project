@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap'); */
 *{
     padding: 0;
     margin: 0;
@@ -129,9 +129,9 @@ p{
 }
 .news .left .grid-system .item{
     position: relative;
-    background-image: url(../images/images.png);
+    /* background-image: url(../images/images.png);
     background-position: center;
-    background-size: cover;
+    background-size: cover;*/
     min-height: 250px;
     border-radius: 7px;
     box-shadow: 2px 2px 8px var(--border) !important;

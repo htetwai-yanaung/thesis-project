@@ -57,7 +57,7 @@
                         <th scope="row">{{ ($news->currentPage() * $news->perPage()) - $news->perPage() + $key + 1 }}</th>
                         <td>
                             @if (count($n->images) > 0)
-                                <img src="{{ asset('storage/uploads/news/'.$n->images[0]->path) }}" alt="" width="40px" height="40px" class="" style="width:40px; height:40px;">
+                                <x-image src="{{ 'storage/uploads/news/'.$n->images[0]->path }}" style="width:40px; height:40px;" />
                             @endif
                         </td>
                         <td>{{ $n->title }}</td>

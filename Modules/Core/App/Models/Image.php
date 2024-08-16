@@ -19,4 +19,9 @@ class Image extends Model
     const imageType = 'image_type';
     const fileType = 'file_type';
 
+    public static function newFactory()
+    {
+        return new ImageFactory();
+    }
+
 }

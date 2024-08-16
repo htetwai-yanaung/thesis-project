@@ -29,7 +29,7 @@ class NewsService
         return $news;
     }
 
-    public function getAllNews($conds = null, $relations = null, $noPage = false)
+    public function getAllNews($conds = null, $relations = null, $noPage = false, $paginate = 10)
     {
         $news = News::when($conds, function($query, $conds){
             if(isset($conds['search_term'])){
@@ -43,11 +43,11 @@ class NewsService
         ->when($relations, function($query, $relations){
             $query->with($relations);
         })
-        ->orderBy(News::createdAt, 'desc');
+        ->orderBy(News::id, 'desc');
         if($noPage){
             return $news->get();
         }else{
-            return $news->paginate(10);
+            return $news->paginate($paginate);
         }
     }
 

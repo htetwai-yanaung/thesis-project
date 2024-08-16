@@ -13,7 +13,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(30)->create();
+        // \App\Models\User::factory(30)->create();
+
+        \Modules\Core\App\Models\News::factory(10)->create();
+        \Modules\Core\App\Models\ThesisProject::factory(10)->create();
+
+        // for($i = 1; $i <= 10; $i++){
+        //     \Modules\Core\App\Models\Image::factory()->create(['parent_id' => $i, 'image_type' => 'news']);
+        // }
+        // for($i = 1; $i <= 10; $i++){
+        //     \Modules\Core\App\Models\Image::factory()->create(['parent_id' => $i, 'image_type' => 'project']);
+        // }
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

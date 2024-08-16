@@ -63,7 +63,7 @@
                         </td>
                         <th scope="row">{{ ($thesisProjects->currentPage() * $thesisProjects->perPage()) - $thesisProjects->perPage() + $key + 1 }}</th>
                         <td>
-                            <img src="{{ asset('storage/uploads/project/'.$project->images[0]->path) }}" alt="" width="40px" height="40px" class="" style="width:40px; height:40px;">
+                            <x-image src="{{ 'storage/uploads/project/'.$project->images[0]->path }}" style="width:40px; height:40px;" />
                         </td>
                         <td>{{ $project->title }}</td>
                         <td>{{ $project->category->name }}</td>
