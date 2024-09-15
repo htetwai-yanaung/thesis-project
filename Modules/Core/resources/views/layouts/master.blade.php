@@ -1,186 +1,1161 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
+    <meta
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+      name="viewport"
+    />
+    <link
+      rel="icon"
+      href="assets/img/kaiadmin/favicon.ico"
+      type="image/x-icon"
+    />
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Fonts and icons -->
+    <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
+    {{-- <script>
+      WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: ["{{ asset('assets/css/fonts.min.css') }}"],
+        },
+        active: function () {
+          sessionStorage.fonts = true;
+        },
+      });
+    </script> --}}
 
-    <title>Core Module - {{ config('app.name', 'Laravel') }}</title>
-
-    <meta name="description" content="{{ $description ?? '' }}">
-    <meta name="keywords" content="{{ $keywords ?? '' }}">
-    <meta name="author" content="{{ $author ?? '' }}">
-
-    <!-- Fonts -->
-    {{-- <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" /> --}}
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    {{-- owl carousel --}}
-    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
-
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/css/plugins.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/css/kaiadmin.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/css/fonts.css')}}" />
+    <link rel="stylesheet" href="{{ asset( 'css/ckeditor.css' ) }}">
+    <link rel="stylesheet" href="{{ asset( 'css/dropzone.css' ) }}">
     <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="{{ asset( 'css/bootstrap.min.css' ) }}">
-    <link rel="stylesheet" href="{{ asset( 'css/custom.css' ) }}">
-    <link rel="stylesheet" href="{{ asset( 'css/admin.css' ) }}">
-    <link rel="stylesheet" href="{{ asset( 'css/ckeditor.css' ) }}">
-
-    <link rel="stylesheet" href="{{asset('css/all.css')}}">
-    <script src="{{ asset( 'js/popper.min.js' ) }}"></script>
-    <script src="{{asset('js/all.js')}}"></script>
-
-    <link rel="stylesheet" href="{{ asset( 'css/drag-and-drop.css' ) }}">
-
-    {{-- dropzone --}}
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    {{-- <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" /> --}}
-
-</head>
-
-<body class="light-mood">
-    {{-- @yield('content') --}}
-
-    <div id="page-top">
-        <div id="wrapper">
-            <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
-
-                <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center " href="{{ route('admin.dashboard') }}">
-                    <div class="d-flex align-items-center text-info fw-bold gap-2">
-                        <div class="profile-pic">
-                            <x-image src="{{ 'storage/uploads/'.$siteImage }}" />
-                        </div>
-                        <span>{{ $siteName }}</span>
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    {{-- <link rel="stylesheet" href="assets/css/demo.css" /> --}}
+  </head>
+  <body>
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <div class="sidebar" data-background-color="white">
+        <div class="sidebar-logo">
+          <!-- Logo Header -->
+          <div class="logo-header" data-background-color="dark">
+            <div class="logo ">
+                <a href="{{ route('admin.dashboard') }}" class="d-flex">
+                    <div class="avatar-sm">
+                        <x-image src="{{ 'storage/uploads/'.$siteImage }}" class="avatar-img rounded-circle" height="20" />
                     </div>
+                    <span class="ms-2 text-white">
+                        <span class="fw-bold">{{ $siteName }}</span>
+                    </span>
                 </a>
-
-                <!-- Nav Item - Dashboard -->
-                <li class="nav-item active">
-                    <a class="{{Route::current()->getName() == 'admin.dashboard' ? 'nav-link active' : 'nav-link'}}" href="{{ route('admin.dashboard') }}">
-                        <i class="fa-solid fa-table-columns"></i>
-                        <span>Dashboard</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="{{Route::current()->getName() == 'thesis.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('thesis.index') }}">
-                        <i class="fa-solid fa-rectangle-list"></i>
-                        <span>Thesis</span></a>
-                </li>
-                <li class="nav-item active">
-
-                    <a class="{{Route::current()->getName() == 'announcement.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('announcement.index') }}">
-                        <i class="fa-solid fa-rss"></i>
-
-                        <span>News</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="{{Route::current()->getName() == 'category.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('category.index') }}">
-                        <i class="fa-solid fa-shapes"></i>
-                        <span>Categories</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="{{Route::current()->getName() == 'teacher.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('teacher.index') }}">
-                        <i class="fa-solid fa-users"></i>
-                        <span>Teacher List</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="{{Route::current()->getName() == 'student.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('student.index') }}">
-                        <i class="fa-solid fa-users"></i>
-                        <span>Student List</span></a>
-                </li>
-                <li class="nav-item active">
-
-                    <a class="{{Route::current()->getName() == 'settings.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('settings.index') }}">
-                        <i class="fas fa-fw fa-gear"></i>
-
-                        <span>Setting</span></a>
-                </li>
-                <li class="nav-item active">
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button class="nav-link">
-                            <a><i class="fa-solid fa-right-from-bracket text-danger"></i>
-                            <span class="text-danger">Log Out</span></a>
-                        </button>
-                    </form>
-                </li>
-            </ul>
-            <!-- Content Wrapper -->
-            <div id="content-wrapper" class="d-flex flex-column">
-
-                <!-- Main Content -->
-                <div id="content">
-
-                    <!-- Topbar -->
-                    <nav class="px-4 mb-4 bg-white shadow navbar navbar-expand navbar-light topbar static-top d-flex">
-                        <!-- Topbar Navbar -->
-                        <div class="dropdown ms-auto">
-                            <div class="gap-2 navbar-nav d-flex align-items-center" id="profile-dropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="50,20">
-                                <div class="profile-pic">
-                                    <x-image src="{{ 'storage/uploads/profile/'.Auth::user()->profile_photo_path }}" class="rounded-circle img-thumbnail"/>
-                                </div>
-                                <div class="">
-                                    <h6 class="fs-5 fw-bold text-secondary">{{ Auth::user()->name }}</h6>
-                                    <span class="fs-6 text-secondary">Super Admin</span>
-                                </div>
-                            </div>
-                            <form action="{{ route('logout') }}" method="POST" class="dropdown-menu dropdown-menu-end" aria-labelledby="profile-dropdown">
-                                @csrf
-                                <a class="dropdown-item" href="{{ route('profile.edit', Auth::user()->id) }}">Profile</a>
-                                <a class="dropdown-item" href="/">Switch to FE</a>
-                                <hr class="dropdown-divider">
-                                <button class="dropdown-item text-danger">Log Out</button>
-                            </form>
-                        </div>
-                    </nav>
-                    <!-- End of Topbar -->
-
-                    <!-- Begin Page Content -->
-                    <div class="container-fluid">
-                        @yield('content')
-                    </div>
-                    <!-- /.container-fluid -->
-
-                </div>
-                <!-- End of Main Content -->
-
-                <!-- Footer -->
-                <footer class="sticky-footer bg-success">
-                    <div class="container my-auto">
-                        <div class="my-auto text-center copyright">
-                            <span>Copyright &copy; Geek Tect</span>
-                        </div>
-                    </div>
-                </footer>
-                <!-- End of Footer -->
-
             </div>
-            <!-- End of Content Wrapper -->
+            <div class="nav-toggle">
+              <button class="btn btn-toggle toggle-sidebar">
+                <i class="gg-menu-right"></i>
+              </button>
+              <button class="btn btn-toggle sidenav-toggler">
+                <i class="gg-menu-left"></i>
+              </button>
+            </div>
+            <button class="topbar-toggler more">
+              <i class="gg-more-vertical-alt"></i>
+            </button>
+          </div>
+          <!-- End Logo Header -->
+        </div>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+          <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+              <li class="{{Route::current()->getName() == 'admin.dashboard' ? 'nav-item active' : 'nav-item'}}">
+                <a href="{{ route('admin.dashboard') }}">
+                  <i class="fas fa-home"></i>
+                  <p>Dashboard</p>
+                </a>
+              </li>
+              <li class="{{Route::current()->getName() == 'thesis.index' ? 'nav-item active' : 'nav-item'}}">
+                <a href="{{ route('thesis.index') }}">
+                  <i class="fas fa-file"></i>
+                  <p>Thesis</p>
+                </a>
+              </li>
+              <li class="{{Route::current()->getName() == 'announcement.index' ? 'nav-item active' : 'nav-item'}}">
+                <a href="{{ route('announcement.index') }}">
+                  <i class="fas fa-book-open"></i>
+                  <p>News</p>
+                </a>
+              </li>
+              <li class="{{Route::current()->getName() == 'teacher.index' || Route::current()->getName() == 'student.index' ? 'nav-item active' : 'nav-item'}}">
+                <a data-bs-toggle="collapse" href="#user">
+                  <i class="fas fa-users"></i>
+                  <p>Users</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="user">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="{{ route('teacher.index') }}">
+                        <span class="sub-item">Teachers</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{{ route('student.index') }}">
+                        <span class="sub-item">Students</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="{{Route::current()->getName() == 'category.index' || Route::current()->getName() == 'category.index' ? 'nav-item active' : 'nav-item'}}">
+                <a data-bs-toggle="collapse" href="#category">
+                  <i class="fas fa-th-list"></i>
+                  <p>Category</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="category">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="{{ route('category.index') }}">
+                        <span class="sub-item">Category</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="components/buttons.html">
+                        <span class="sub-item">Buttons</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="{{Route::current()->getName() == 'settings.index' ? 'nav-item active' : 'nav-item'}}">
+                <a href="{{ route('settings.index') }}">
+                  <i class="fas fa-cog"></i>
+                  <p>Settings</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- End Sidebar -->
+
+      <div class="main-panel">
+        <div class="main-header">
+          <div class="main-header-logo">
+            <!-- Logo Header -->
+            <div class="logo-header" data-background-color="dark">
+              <a href="{{ route('admin.dashboard') }}" class="logo">
+                <x-image src="{{ 'storage/uploads/'.$siteImage }}" class="navbar-brand" height="20" />
+              </a>
+              <div class="nav-toggle">
+                <button class="btn btn-toggle toggle-sidebar">
+                  <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                  <i class="gg-menu-left"></i>
+                </button>
+              </div>
+              <button class="topbar-toggler more">
+                <i class="gg-more-vertical-alt"></i>
+              </button>
+            </div>
+            <!-- End Logo Header -->
+          </div>
+          <!-- Navbar Header -->
+          <nav
+            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+          >
+            <div class="container-fluid">
+
+
+              <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                <li class="nav-item topbar-user dropdown hidden-caret">
+                  <a
+                    class="dropdown-toggle profile-pic"
+                    data-bs-toggle="dropdown"
+                    href="#"
+                    aria-expanded="false"
+                  >
+                    <div class="avatar-sm">
+                      <img
+                        src="{{ asset('assets/img/profile.jpg') }}"
+                        alt="..."
+                        class="avatar-img rounded-circle"
+                      />
+                    </div>
+                    <span class="profile-username">
+                      <span class="op-7">Hi,</span>
+                      <span class="fw-bold">Hizrian</span>
+                    </span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-user animated fadeIn">
+                    <div class="dropdown-user-scroll scrollbar-outer">
+                      <li>
+                        <div class="user-box">
+                          <div class="avatar-lg">
+                            <img
+                              src="{{ asset('assets/img/profile.jpg') }}"
+                              alt="image profile"
+                              class="avatar-img rounded"
+                            />
+                          </div>
+                          <div class="u-text">
+                            <h4>Hizrian</h4>
+                            <p class="text-muted">hello@example.com</p>
+                            <a
+                              href="profile.html"
+                              class="btn btn-xs btn-secondary btn-sm"
+                              >View Profile</a
+                            >
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">My Profile</a>
+                        <a class="dropdown-item" href="#">My Balance</a>
+                        <a class="dropdown-item" href="#">Inbox</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Account Setting</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Logout</a>
+                      </li>
+                    </div>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <!-- End Navbar -->
         </div>
 
+        <div class="container">
+          <div class="page-inner">
+            @yield('content')
+            {{-- <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+              <div>
+                <h3 class="fw-bold mb-3">Dashboard</h3>
+                <h6 class="op-7 mb-2">Free Bootstrap 5 Admin Dashboard</h6>
+              </div>
+              <div class="ms-md-auto py-2 py-md-0">
+                <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
+                <a href="#" class="btn btn-primary btn-round">Add Customer</a>
+              </div>
+            </div> --}}
+            {{-- <div class="row">
+              <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-icon">
+                        <div
+                          class="icon-big text-center icon-primary bubble-shadow-small"
+                        >
+                          <i class="fas fa-users"></i>
+                        </div>
+                      </div>
+                      <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                          <p class="card-category">Visitors</p>
+                          <h4 class="card-title">1,294</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-icon">
+                        <div
+                          class="icon-big text-center icon-info bubble-shadow-small"
+                        >
+                          <i class="fas fa-user-check"></i>
+                        </div>
+                      </div>
+                      <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                          <p class="card-category">Subscribers</p>
+                          <h4 class="card-title">1303</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-icon">
+                        <div
+                          class="icon-big text-center icon-success bubble-shadow-small"
+                        >
+                          <i class="fas fa-luggage-cart"></i>
+                        </div>
+                      </div>
+                      <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                          <p class="card-category">Sales</p>
+                          <h4 class="card-title">$ 1,345</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-icon">
+                        <div
+                          class="icon-big text-center icon-secondary bubble-shadow-small"
+                        >
+                          <i class="far fa-check-circle"></i>
+                        </div>
+                      </div>
+                      <div class="col col-stats ms-3 ms-sm-0">
+                        <div class="numbers">
+                          <p class="card-category">Order</p>
+                          <h4 class="card-title">576</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8">
+                <div class="card card-round">
+                  <div class="card-header">
+                    <div class="card-head-row">
+                      <div class="card-title">User Statistics</div>
+                      <div class="card-tools">
+                        <a
+                          href="#"
+                          class="btn btn-label-success btn-round btn-sm me-2"
+                        >
+                          <span class="btn-label">
+                            <i class="fa fa-pencil"></i>
+                          </span>
+                          Export
+                        </a>
+                        <a href="#" class="btn btn-label-info btn-round btn-sm">
+                          <span class="btn-label">
+                            <i class="fa fa-print"></i>
+                          </span>
+                          Print
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="chart-container" style="min-height: 375px">
+                      <canvas id="statisticsChart"></canvas>
+                    </div>
+                    <div id="myChartLegend"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card card-primary card-round">
+                  <div class="card-header">
+                    <div class="card-head-row">
+                      <div class="card-title">Daily Sales</div>
+                      <div class="card-tools">
+                        <div class="dropdown">
+                          <button
+                            class="btn btn-sm btn-label-light dropdown-toggle"
+                            type="button"
+                            id="dropdownMenuButton"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            Export
+                          </button>
+                          <div
+                            class="dropdown-menu"
+                            aria-labelledby="dropdownMenuButton"
+                          >
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#"
+                              >Something else here</a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-category">March 25 - April 02</div>
+                  </div>
+                  <div class="card-body pb-0">
+                    <div class="mb-4 mt-2">
+                      <h1>$4,578.58</h1>
+                    </div>
+                    <div class="pull-in">
+                      <canvas id="dailySalesChart"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <div class="card card-round">
+                  <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-end text-primary">+5%</div>
+                    <h2 class="mb-2">17</h2>
+                    <p class="text-muted">Users online</p>
+                    <div class="pull-in sparkline-fix">
+                      <div id="lineChart"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card card-round">
+                  <div class="card-header">
+                    <div class="card-head-row card-tools-still-right">
+                      <h4 class="card-title">Users Geolocation</h4>
+                      <div class="card-tools">
+                        <button
+                          class="btn btn-icon btn-link btn-primary btn-xs"
+                        >
+                          <span class="fa fa-angle-down"></span>
+                        </button>
+                        <button
+                          class="btn btn-icon btn-link btn-primary btn-xs btn-refresh-card"
+                        >
+                          <span class="fa fa-sync-alt"></span>
+                        </button>
+                        <button
+                          class="btn btn-icon btn-link btn-primary btn-xs"
+                        >
+                          <span class="fa fa-times"></span>
+                        </button>
+                      </div>
+                    </div>
+                    <p class="card-category">
+                      Map of the distribution of users around the world
+                    </p>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="table-responsive table-hover table-sales">
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <div class="flag">
+                                    <img
+                                      src="assets/img/flags/id.png"
+                                      alt="indonesia"
+                                    />
+                                  </div>
+                                </td>
+                                <td>Indonesia</td>
+                                <td class="text-end">2.320</td>
+                                <td class="text-end">42.18%</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div class="flag">
+                                    <img
+                                      src="assets/img/flags/us.png"
+                                      alt="united states"
+                                    />
+                                  </div>
+                                </td>
+                                <td>USA</td>
+                                <td class="text-end">240</td>
+                                <td class="text-end">4.36%</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div class="flag">
+                                    <img
+                                      src="assets/img/flags/au.png"
+                                      alt="australia"
+                                    />
+                                  </div>
+                                </td>
+                                <td>Australia</td>
+                                <td class="text-end">119</td>
+                                <td class="text-end">2.16%</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div class="flag">
+                                    <img
+                                      src="assets/img/flags/ru.png"
+                                      alt="russia"
+                                    />
+                                  </div>
+                                </td>
+                                <td>Russia</td>
+                                <td class="text-end">1.081</td>
+                                <td class="text-end">19.65%</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div class="flag">
+                                    <img
+                                      src="assets/img/flags/cn.png"
+                                      alt="china"
+                                    />
+                                  </div>
+                                </td>
+                                <td>China</td>
+                                <td class="text-end">1.100</td>
+                                <td class="text-end">20%</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div class="flag">
+                                    <img
+                                      src="assets/img/flags/br.png"
+                                      alt="brazil"
+                                    />
+                                  </div>
+                                </td>
+                                <td>Brasil</td>
+                                <td class="text-end">640</td>
+                                <td class="text-end">11.63%</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="mapcontainer">
+                          <div
+                            id="world-map"
+                            class="w-100"
+                            style="height: 300px"
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="card card-round">
+                  <div class="card-body">
+                    <div class="card-head-row card-tools-still-right">
+                      <div class="card-title">New Customers</div>
+                      <div class="card-tools">
+                        <div class="dropdown">
+                          <button
+                            class="btn btn-icon btn-clean me-0"
+                            type="button"
+                            id="dropdownMenuButton"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <i class="fas fa-ellipsis-h"></i>
+                          </button>
+                          <div
+                            class="dropdown-menu"
+                            aria-labelledby="dropdownMenuButton"
+                          >
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#"
+                              >Something else here</a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-list py-4">
+                      <div class="item-list">
+                        <div class="avatar">
+                          <img
+                            src="assets/img/jm_denis.jpg"
+                            alt="..."
+                            class="avatar-img rounded-circle"
+                          />
+                        </div>
+                        <div class="info-user ms-3">
+                          <div class="username">Jimmy Denis</div>
+                          <div class="status">Graphic Designer</div>
+                        </div>
+                        <button class="btn btn-icon btn-link op-8 me-1">
+                          <i class="far fa-envelope"></i>
+                        </button>
+                        <button class="btn btn-icon btn-link btn-danger op-8">
+                          <i class="fas fa-ban"></i>
+                        </button>
+                      </div>
+                      <div class="item-list">
+                        <div class="avatar">
+                          <span
+                            class="avatar-title rounded-circle border border-white"
+                            >CF</span
+                          >
+                        </div>
+                        <div class="info-user ms-3">
+                          <div class="username">Chandra Felix</div>
+                          <div class="status">Sales Promotion</div>
+                        </div>
+                        <button class="btn btn-icon btn-link op-8 me-1">
+                          <i class="far fa-envelope"></i>
+                        </button>
+                        <button class="btn btn-icon btn-link btn-danger op-8">
+                          <i class="fas fa-ban"></i>
+                        </button>
+                      </div>
+                      <div class="item-list">
+                        <div class="avatar">
+                          <img
+                            src="assets/img/talha.jpg"
+                            alt="..."
+                            class="avatar-img rounded-circle"
+                          />
+                        </div>
+                        <div class="info-user ms-3">
+                          <div class="username">Talha</div>
+                          <div class="status">Front End Designer</div>
+                        </div>
+                        <button class="btn btn-icon btn-link op-8 me-1">
+                          <i class="far fa-envelope"></i>
+                        </button>
+                        <button class="btn btn-icon btn-link btn-danger op-8">
+                          <i class="fas fa-ban"></i>
+                        </button>
+                      </div>
+                      <div class="item-list">
+                        <div class="avatar">
+                          <img
+                            src="assets/img/chadengle.jpg"
+                            alt="..."
+                            class="avatar-img rounded-circle"
+                          />
+                        </div>
+                        <div class="info-user ms-3">
+                          <div class="username">Chad</div>
+                          <div class="status">CEO Zeleaf</div>
+                        </div>
+                        <button class="btn btn-icon btn-link op-8 me-1">
+                          <i class="far fa-envelope"></i>
+                        </button>
+                        <button class="btn btn-icon btn-link btn-danger op-8">
+                          <i class="fas fa-ban"></i>
+                        </button>
+                      </div>
+                      <div class="item-list">
+                        <div class="avatar">
+                          <span
+                            class="avatar-title rounded-circle border border-white bg-primary"
+                            >H</span
+                          >
+                        </div>
+                        <div class="info-user ms-3">
+                          <div class="username">Hizrian</div>
+                          <div class="status">Web Designer</div>
+                        </div>
+                        <button class="btn btn-icon btn-link op-8 me-1">
+                          <i class="far fa-envelope"></i>
+                        </button>
+                        <button class="btn btn-icon btn-link btn-danger op-8">
+                          <i class="fas fa-ban"></i>
+                        </button>
+                      </div>
+                      <div class="item-list">
+                        <div class="avatar">
+                          <span
+                            class="avatar-title rounded-circle border border-white bg-secondary"
+                            >F</span
+                          >
+                        </div>
+                        <div class="info-user ms-3">
+                          <div class="username">Farrah</div>
+                          <div class="status">Marketing</div>
+                        </div>
+                        <button class="btn btn-icon btn-link op-8 me-1">
+                          <i class="far fa-envelope"></i>
+                        </button>
+                        <button class="btn btn-icon btn-link btn-danger op-8">
+                          <i class="fas fa-ban"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="card card-round">
+                  <div class="card-header">
+                    <div class="card-head-row card-tools-still-right">
+                      <div class="card-title">Transaction History</div>
+                      <div class="card-tools">
+                        <div class="dropdown">
+                          <button
+                            class="btn btn-icon btn-clean me-0"
+                            type="button"
+                            id="dropdownMenuButton"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                          >
+                            <i class="fas fa-ellipsis-h"></i>
+                          </button>
+                          <div
+                            class="dropdown-menu"
+                            aria-labelledby="dropdownMenuButton"
+                          >
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#"
+                              >Something else here</a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="table-responsive">
+                      <!-- Projects table -->
+                      <table class="table align-items-center mb-0">
+                        <thead class="thead-light">
+                          <tr>
+                            <th scope="col">Payment Number</th>
+                            <th scope="col" class="text-end">Date & Time</th>
+                            <th scope="col" class="text-end">Amount</th>
+                            <th scope="col" class="text-end">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">
+                              <button
+                                class="btn btn-icon btn-round btn-success btn-sm me-2"
+                              >
+                                <i class="fa fa-check"></i>
+                              </button>
+                              Payment from #10231
+                            </th>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
+                            <td class="text-end">$250.00</td>
+                            <td class="text-end">
+                              <span class="badge badge-success">Completed</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              <button
+                                class="btn btn-icon btn-round btn-success btn-sm me-2"
+                              >
+                                <i class="fa fa-check"></i>
+                              </button>
+                              Payment from #10231
+                            </th>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
+                            <td class="text-end">$250.00</td>
+                            <td class="text-end">
+                              <span class="badge badge-success">Completed</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              <button
+                                class="btn btn-icon btn-round btn-success btn-sm me-2"
+                              >
+                                <i class="fa fa-check"></i>
+                              </button>
+                              Payment from #10231
+                            </th>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
+                            <td class="text-end">$250.00</td>
+                            <td class="text-end">
+                              <span class="badge badge-success">Completed</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              <button
+                                class="btn btn-icon btn-round btn-success btn-sm me-2"
+                              >
+                                <i class="fa fa-check"></i>
+                              </button>
+                              Payment from #10231
+                            </th>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
+                            <td class="text-end">$250.00</td>
+                            <td class="text-end">
+                              <span class="badge badge-success">Completed</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              <button
+                                class="btn btn-icon btn-round btn-success btn-sm me-2"
+                              >
+                                <i class="fa fa-check"></i>
+                              </button>
+                              Payment from #10231
+                            </th>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
+                            <td class="text-end">$250.00</td>
+                            <td class="text-end">
+                              <span class="badge badge-success">Completed</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              <button
+                                class="btn btn-icon btn-round btn-success btn-sm me-2"
+                              >
+                                <i class="fa fa-check"></i>
+                              </button>
+                              Payment from #10231
+                            </th>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
+                            <td class="text-end">$250.00</td>
+                            <td class="text-end">
+                              <span class="badge badge-success">Completed</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th scope="row">
+                              <button
+                                class="btn btn-icon btn-round btn-success btn-sm me-2"
+                              >
+                                <i class="fa fa-check"></i>
+                              </button>
+                              Payment from #10231
+                            </th>
+                            <td class="text-end">Mar 19, 2020, 2.45pm</td>
+                            <td class="text-end">$250.00</td>
+                            <td class="text-end">
+                              <span class="badge badge-success">Completed</span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> --}}
+          </div>
+        </div>
+
+        <footer class="footer">
+          <div class="container-fluid d-flex justify-content-between">
+            <nav class="pull-left">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="http://www.themekita.com">
+                    ThemeKita
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"> Help </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"> Licenses </a>
+                </li>
+              </ul>
+            </nav>
+            <div class="copyright">
+              2024, made with <i class="fa fa-heart heart text-danger"></i> by
+              <a href="http://www.themekita.com">ThemeKita</a>
+            </div>
+            <div>
+              Distributed by
+              <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
+            </div>
+          </div>
+        </footer>
+      </div>
+
+      <!-- Custom template | don't include it in your project! -->
+      <div class="custom-template">
+        <div class="title">Settings</div>
+        <div class="custom-content">
+          <div class="switcher">
+            <div class="switch-block">
+              <h4>Logo Header</h4>
+              <div class="btnSwitch">
+                <button
+                  type="button"
+                  class="selected changeLogoHeaderColor"
+                  data-color="dark"
+                ></button>
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="blue"
+                ></button>
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="purple"
+                ></button>
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="light-blue"
+                ></button>
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="green"
+                ></button>
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="orange"
+                ></button>
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="red"
+                ></button>
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="white"
+                ></button>
+                <br />
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="dark2"
+                ></button>
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="blue2"
+                ></button>
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="purple2"
+                ></button>
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="light-blue2"
+                ></button>
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="green2"
+                ></button>
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="orange2"
+                ></button>
+                <button
+                  type="button"
+                  class="changeLogoHeaderColor"
+                  data-color="red2"
+                ></button>
+              </div>
+            </div>
+            <div class="switch-block">
+              <h4>Navbar Header</h4>
+              <div class="btnSwitch">
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="dark"
+                ></button>
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="blue"
+                ></button>
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="purple"
+                ></button>
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="light-blue"
+                ></button>
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="green"
+                ></button>
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="orange"
+                ></button>
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="red"
+                ></button>
+                <button
+                  type="button"
+                  class="selected changeTopBarColor"
+                  data-color="white"
+                ></button>
+                <br />
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="dark2"
+                ></button>
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="blue2"
+                ></button>
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="purple2"
+                ></button>
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="light-blue2"
+                ></button>
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="green2"
+                ></button>
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="orange2"
+                ></button>
+                <button
+                  type="button"
+                  class="changeTopBarColor"
+                  data-color="red2"
+                ></button>
+              </div>
+            </div>
+            <div class="switch-block">
+              <h4>Sidebar</h4>
+              <div class="btnSwitch">
+                <button
+                  type="button"
+                  class="changeSideBarColor"
+                  data-color="white"
+                ></button>
+                <button
+                  type="button"
+                  class="selected changeSideBarColor"
+                  data-color="dark"
+                ></button>
+                <button
+                  type="button"
+                  class="changeSideBarColor"
+                  data-color="dark2"
+                ></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="custom-toggle">
+          <i class="icon-settings"></i>
+        </div>
+      </div>
+      <!-- End Custom template -->
     </div>
+    <!--   Core JS Files   -->
+    <script src="{{asset('assets/js/core/jquery-3.7.1.min.js')}}"></script>
+    <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
+    <script src="{{asset('assets/js/core/bootstrap.min.js')}}"></script>
 
+    <!-- jQuery Scrollbar -->
+    <script src="{{asset('assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js')}}"></script>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-    {{-- dropzone js --}}
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.js" integrity="sha512-9e9rr82F9BPzG81+6UrwWLFj8ZLf59jnuIA/tIf8dEGoQVu7l5qvr02G/BiAabsFOYrIUTMslVN+iDYuszftVQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
-    <script src="{{ asset('js/drag-and-drop.js') }}"></script>
-    <script src="{{ asset( 'js/bootstrap.bundle.min.js' ) }}"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js" integrity="sha512-6F1RVfnxCprKJmfulcxxym1Dar5FsT/V2jiEUvABiaEiFWoQ8yHvqRM/Slf0qJKiwin6IDQucjXuolCfCKnaJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+    <!-- Chart JS -->
+    <script src="{{asset('assets/js/plugin/chart.js/chart.min.js')}}"></script>
 
-    {{-- CKEditor CDN --}}
+    <!-- jQuery Sparkline -->
+    <script src="{{asset('assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js')}}"></script>
+
+    <!-- Chart Circle -->
+    <script src="{{asset('assets/js/plugin/chart-circle/circles.min.js')}}"></script>
+
+    <!-- Datatables -->
+    <script src="{{asset('assets/js/plugin/datatables/datatables.min.js')}}"></script>
+
+    <!-- Bootstrap Notify -->
+    <script src="{{asset('assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js')}}"></script>
+
+    <!-- jQuery Vector Maps -->
+    <script src="{{asset('assets/js/plugin/jsvectormap/jsvectormap.min.js')}}"></script>
+    <script src="{{asset('assets/js/plugin/jsvectormap/world.js')}}"></script>
+
+    <!-- Sweet Alert -->
+    <script src="{{asset('assets/js/plugin/sweetalert/sweetalert.min.js')}}"></script>
+
+    <!-- Kaiadmin JS -->
+    <script src="{{asset('assets/js/kaiadmin.min.js')}}"></script>
+
     <script src="{{ asset('js/ckeditor.min.js') }}" ></script>
 
-    {{-- owl carousel --}}
-    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 
+
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    {{-- <script src="{{asset('assets/js/setting-demo.js')}}"></script> --}}
+    {{-- <script src="{{asset('assets/js/demo.js')}}"></script> --}}
+    <script>
+      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#177dff",
+        fillColor: "rgba(23, 125, 255, 0.14)",
+      });
+
+      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#f3545d",
+        fillColor: "rgba(243, 84, 93, .14)",
+      });
+
+      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#ffa534",
+        fillColor: "rgba(255, 165, 52, .14)",
+      });
+    </script>
     @yield('script')
-
-</body>
+  </body>
+</html>

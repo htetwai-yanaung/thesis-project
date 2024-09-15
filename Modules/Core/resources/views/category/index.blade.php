@@ -2,18 +2,38 @@
 
 @section('content')
 <div class="">
-    <h1>Category List</h1>
+    <h3 class="fw-bold mb-3">Category</h3>
     <div class="row justify-content-end mb-3">
         <div class="col-3">
-            <a href="{{ route('category.create') }}" class="btn btn-primary float-end">Create New Category</a>
+            <a href="{{ route('category.create') }}" class="btn btn-primary float-end">
+                <span class="btn-label">
+                  <i class="fas fa-plus"></i>
+                </span>
+                Create New Category
+            </a>
+            {{-- <a href="{{ route('thesis.create') }}" class="btn btn-primary float-end">Create New Project</a> --}}
         </div>
     </div>
-    <form action="{{ route('category.index') }}" method="GET" class="d-flex justify-content-end">
+    <form action="{{ route('category.index') }}" method="GET" class="row mb-3">
         {{-- @csrf --}}
-
-        <div class="d-flex col-3 gap-2">
-            <input type="text" name="search_term" value="{{ request()->get('search_term') }}" placeholder="Search ..." class="form-control">
-            <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <div class="d-flex">
+            <div class="ms-auto d-flex gap-2">
+                <div class="">
+                    <div class="input-icon">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search for..."
+                        name="search_term"
+                        value="{{ request()->get('search_term') }}"
+                      />
+                      <span class="input-icon-addon">
+                        <i class="fa fa-search"></i>
+                      </span>
+                    </div>
+                </div>
+                {{-- <button class="btn btn-primary btn-sm"><i class="fas fa-search"></i></button> --}}
+            </div>
         </div>
     </form>
 
@@ -36,11 +56,69 @@
         </div>
     </div>
 
-    @if (session('success'))
+    {{-- @if (session('success'))
         <p class="p-2 text-center text-white bg-success">{{ session('success') }}</p>
-    @endif
+    @endif --}}
 
-    <table class="table table-striped table-hover mt-3">
+    <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Basic</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              id="basic-datatables"
+              class="display table table-striped table-hover"
+            >
+              <thead>
+                <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Added Date</th>
+                    <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($categories as $key => $category)
+                <tr>
+                    <input type="hidden" id="categoryId" value="{{ $category->id }}">
+                    <th scope="row">{{ ($categories->currentPage() * $categories->perPage()) - $categories->perPage() + $key + 1 }}</th>
+                    <td>
+                        {{ $category->name }}
+                    </td>
+                    <td>
+                        {{ $category->description }}
+                    </td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="status" @checked($category->status == 1)>
+                        </div>
+                    </td>
+                    <td>{{ $category->created_at->format('d/m/Y') }}</td>
+                    <td>
+                        <div class="">
+                            <a href="{{ route('category.edit', $category->id) }}" type="button" class="btn btn-icon btn-round btn-success" >
+                                <i class="icon-pencil"></i>
+                            </a>
+                            <button type="button" class="btn btn-icon btn-round btn-danger deleteBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <i class="icon-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+          <div class="float-end">
+            {{ $categories->links() }}
+          </div>
+        </div>
+    </div>
+
+    <table class="table table-striped table-hover mt-3 d-none">
         <thead>
             <tr>
                 <th scope="col">Action</th>

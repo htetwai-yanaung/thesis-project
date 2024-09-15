@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Core Module - {{ config('app.name', 'Laravel') }}</title>
+
+    <meta name="description" content="{{ $description ?? '' }}">
+    <meta name="keywords" content="{{ $keywords ?? '' }}">
+    <meta name="author" content="{{ $author ?? '' }}">
+
+    <!-- Fonts -->
+    {{-- <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" /> --}}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    {{-- owl carousel --}}
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
+
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="{{ asset( 'css/bootstrap.min.css' ) }}">
+    <link rel="stylesheet" href="{{ asset( 'css/custom.css' ) }}">
+    <link rel="stylesheet" href="{{ asset( 'css/admin.css' ) }}">
+    <link rel="stylesheet" href="{{ asset( 'css/ckeditor.css' ) }}">
+
+    <link rel="stylesheet" href="{{asset('css/all.css')}}">
+    <script src="{{ asset( 'js/popper.min.js' ) }}"></script>
+    <script src="{{asset('js/all.js')}}"></script>
+
+    <link rel="stylesheet" href="{{ asset( 'css/drag-and-drop.css' ) }}">
+
+    {{-- dropzone --}}
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    {{-- <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" /> --}}
+
+</head>
+
+<body class="light-mood">
+    {{-- @yield('content') --}}
+
+    <div id="page-top">
+        <div id="wrapper">
+            <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
+
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center " href="{{ route('admin.dashboard') }}">
+                    <div class="d-flex align-items-center text-info fw-bold gap-2">
+                        <div class="profile-pic">
+                            <x-image src="{{ 'storage/uploads/'.$siteImage }}" />
+                        </div>
+                        <span>{{ $siteName }}</span>
+                    </div>
+                </a>
+
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item active">
+                    <a class="{{Route::current()->getName() == 'admin.dashboard' ? 'nav-link active' : 'nav-link'}}" href="{{ route('admin.dashboard') }}">
+                        <i class="fa-solid fa-table-columns"></i>
+                        <span>Dashboard</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="{{Route::current()->getName() == 'thesis.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('thesis.index') }}">
+                        <i class="fa-solid fa-rectangle-list"></i>
+                        <span>Thesis</span></a>
+                </li>
+                <li class="nav-item active">
+
+                    <a class="{{Route::current()->getName() == 'announcement.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('announcement.index') }}">
+                        <i class="fa-solid fa-rss"></i>
+
+                        <span>News</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="{{Route::current()->getName() == 'category.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('category.index') }}">
+                        <i class="fa-solid fa-shapes"></i>
+                        <span>Categories</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="{{Route::current()->getName() == 'teacher.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('teacher.index') }}">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Teacher List</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="{{Route::current()->getName() == 'student.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('student.index') }}">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Student List</span></a>
+                </li>
+                <li class="nav-item active">
+
+                    <a class="{{Route::current()->getName() == 'settings.index' ? 'nav-link active' : 'nav-link'}}" href="{{ route('settings.index') }}">
+                        <i class="fas fa-fw fa-gear"></i>
+
+                        <span>Setting</span></a>
+                </li>
+                <li class="nav-item active">
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button class="nav-link">
+                            <a><i class="fa-solid fa-right-from-bracket text-danger"></i>
+                            <span class="text-danger">Log Out</span></a>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <nav class="px-4 mb-4 bg-white shadow navbar navbar-expand navbar-light topbar static-top d-flex">
+                        <!-- Topbar Navbar -->
+                        <div class="dropdown ms-auto">
+                            <div class="gap-2 navbar-nav d-flex align-items-center" id="profile-dropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="50,20">
+                                <div class="profile-pic">
+                                    <x-image src="{{ 'storage/uploads/profile/'.Auth::user()->profile_photo_path }}" class="rounded-circle img-thumbnail"/>
+                                </div>
+                                <div class="">
+                                    <h6 class="fs-5 fw-bold text-secondary">{{ Auth::user()->name }}</h6>
+                                    <span class="fs-6 text-secondary">Super Admin</span>
+                                </div>
+                            </div>
+                            <form action="{{ route('logout') }}" method="POST" class="dropdown-menu dropdown-menu-end" aria-labelledby="profile-dropdown">
+                                @csrf
+                                <a class="dropdown-item" href="{{ route('profile.edit', Auth::user()->id) }}">Profile</a>
+                                <a class="dropdown-item" href="/">Switch to FE</a>
+                                <hr class="dropdown-divider">
+                                <button class="dropdown-item text-danger">Log Out</button>
+                            </form>
+                        </div>
+                    </nav>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+                        @yield('content')
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer class="sticky-footer bg-success">
+                    <div class="container my-auto">
+                        <div class="my-auto text-center copyright">
+                            <span>Copyright &copy; Geek Tect</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
+
+            </div>
+            <!-- End of Content Wrapper -->
+        </div>
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    {{-- dropzone js --}}
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.js" integrity="sha512-9e9rr82F9BPzG81+6UrwWLFj8ZLf59jnuIA/tIf8dEGoQVu7l5qvr02G/BiAabsFOYrIUTMslVN+iDYuszftVQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+    <script src="{{ asset('js/drag-and-drop.js') }}"></script>
+    <script src="{{ asset( 'js/bootstrap.bundle.min.js' ) }}"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js" integrity="sha512-6F1RVfnxCprKJmfulcxxym1Dar5FsT/V2jiEUvABiaEiFWoQ8yHvqRM/Slf0qJKiwin6IDQucjXuolCfCKnaJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+
+    {{-- CKEditor CDN --}}
+    <script src="{{ asset('js/ckeditor.min.js') }}" ></script>
+
+    {{-- owl carousel --}}
+    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+
+    @yield('script')
+
+</body>

@@ -2,72 +2,138 @@
 
 @section('content')
 <div class="row">
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="mb-4 col-xl-3 col-md-6">
-        <div class="py-2 card h-100">
+    <div class="col-sm-6 col-md-3">
+      <div class="card card-stats card-primary card-round">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-5">
+              <div class="icon-big text-center">
+                <i class="fas fa-chalkboard-teacher"></i>
+              </div>
+            </div>
+            <div class="col-7 col-stats">
+              <div class="numbers">
+                <p class="card-category">Teachers</p>
+                <h4 class="card-title">{{ $totalTeachers }}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="card card-stats card-info card-round">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-5">
+              <div class="icon-big text-center">
+                <i class="fas fa-users"></i>
+              </div>
+            </div>
+            <div class="col-7 col-stats">
+              <div class="numbers">
+                <p class="card-category">Students</p>
+                <h4 class="card-title">{{ $totalStudents }}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="card card-stats card-success card-round">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-5">
+              <div class="icon-big text-center">
+                <i class="fas fa-file"></i>
+              </div>
+            </div>
+            <div class="col-7 col-stats">
+              <div class="numbers">
+                <p class="card-category">Thesis</p>
+                <h4 class="card-title">$ 1,345</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="card card-stats card-secondary card-round">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-5">
+              <div class="icon-big text-center">
+                <i class="fas fa-book-open"></i>
+              </div>
+            </div>
+            <div class="col-7 col-stats">
+              <div class="numbers">
+                <p class="card-category">News</p>
+                <h4 class="card-title">576</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+              <div class="card-title">Teacher List</div>
+            </div>
             <div class="card-body">
-                <div class="no-gutters">
-                    <div class="text-center">
-                        <i class="fa-solid fa-user-group text-info"></i>
-                        <div class="">Total Teachers</div>
-                    </div>
-                    <div class="text-center ">
-                        {{ $totalTeachers }}
-                    </div>
-                </div>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    @for ($i = 0; $i < 5; $i++)
+                    <tr>
+                        <td>{{ $teachers[$i]->name }}</td>
+                        <td>{{ $teachers[$i]->email }}</td>
+                    </tr>
+                    @endfor
+                </tbody>
+              </table>
             </div>
         </div>
     </div>
-    <div class="mb-4 col-xl-3 col-md-6">
-        <div class="py-2 card h-100">
-            <div class="card-body">
-                <div class="no-gutters">
-                    <div class="text-center">
-                        <i class="fa-solid fa-user-group text-primary"></i>
-                        <div class="">Total Students</div>
-                    </div>
-                    <div class="text-center ">
-                        {{ $totalStudents }}
-                    </div>
-                </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+              <div class="card-title">Student List</div>
             </div>
-        </div>
-    </div>
-    <div class="mb-4 col-xl-3 col-md-6">
-        <div class="py-2 card h-100">
             <div class="card-body">
-                <div class="no-gutters">
-                    <div class="text-center">
-                        <i class="fa-regular fa-newspaper text-success"></i>
-                        <div class="">Total News</div>
-                    </div>
-                    <div class="text-center ">
-                        50
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="mb-4 col-xl-3 col-md-6">
-        <div class="py-2 card h-100">
-            <div class="card-body">
-                <div class="no-gutters">
-                    <div class="text-center">
-                        <i class="fa-solid fa-rectangle-list text-danger"></i>
-                        <div class="">Total Thesis</div>
-                    </div>
-                    <div class="text-center ">
-                        15
-                    </div>
-                </div>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    @for ($i = 0; $i < 5; $i++)
+                    <tr>
+                        <td>{{ $students[$i]->name }}</td>
+                        <td>{{ $students[$i]->email }}</td>
+                    </tr>
+                    @endfor
+                </tbody>
+              </table>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Content Row -->
-
-<div class="row">
+{{-- <div class="row">
     <div class="col-xl-5 col-md-6 col-sm-4">
         <table class="table table-hover">
             <div class="bg-white table-label">
@@ -128,7 +194,7 @@
             </tbody>
         </table>
     </div>
-</div>
+</div> --}}
 
 <!-- Content Row -->
 <div class="row">

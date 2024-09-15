@@ -17,7 +17,7 @@ Route::get('/', [TemplateController::class, 'index'])->name('dashboard');
 
 // thesis
 Route::get('thesis_page',[UserThesisController::class,'index'])->name('thesis#page');
-Route::get('thesis_detail',[UserThesisController::class,'detail'])->name('thesis#detail');
+Route::get('thesis_detail/{id}',[UserThesisController::class,'detail'])->name('thesis#detail');
 
 // News
 Route::get('/news',[UserNewsController::class, 'index'])->name('news');

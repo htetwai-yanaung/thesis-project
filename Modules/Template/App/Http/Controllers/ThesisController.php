@@ -41,8 +41,14 @@ class ThesisController extends Controller
 
 
 
-    public function detail(){
-        return view('template::thesis.detail');
+    public function detail($id)
+    {
+        $relation = ['owner', 'images', 'pdfs', 'category'];
+        $thesisProject = $this->thesisService->getThesisProject($id, $relation);
+        $datArr = [
+            'thesisProject' => $thesisProject
+        ];
+        return view('template::thesis.detail', $datArr);
     }
     // /**
     //  * Store a newly created resource in storage.

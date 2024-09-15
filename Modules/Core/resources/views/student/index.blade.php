@@ -2,13 +2,27 @@
 
 @section('content')
     <div class="">
-        <h1>Students List</h1>
-        <form action="{{ route('student.index', ['year' => request()->get('year')]) }}" method="GET" class="d-flex justify-content-end">
+        <h3 class="fw-bold mb-3">Students List</h3>
+        <form action="{{ route('student.index', ['year' => request()->get('year')]) }}" method="GET" class="row mb-3">
             {{-- @csrf --}}
-
-            <div class="d-flex col-3 gap-2">
-                <input type="text" name="search_term" value="{{ request()->get('search_term') }}" placeholder="Search ..." class="form-control">
-                <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div class="d-flex">
+                <div class="ms-auto d-flex gap-2">
+                    <div class="">
+                        <div class="input-icon">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search for..."
+                            name="search_term"
+                            value="{{ request()->get('search_term') }}"
+                          />
+                          <span class="input-icon-addon">
+                            <i class="fa fa-search"></i>
+                          </span>
+                        </div>
+                    </div>
+                    {{-- <button class="btn btn-primary btn-sm"><i class="fas fa-search"></i></button> --}}
+                </div>
             </div>
         </form>
 
@@ -31,7 +45,64 @@
             </div>
         </div>
 
-        <table class="table table-striped table-hover mt-3">
+        <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Basic</h4>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table
+                  id="basic-datatables"
+                  class="display table table-striped table-hover"
+                >
+                  <thead>
+                    <tr>
+                      <th>No.</th>
+                      <th>Profile</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Joined date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($students as $key => $student)
+                    <tr>
+                        <input type="hidden" id="userId" value="{{ $student->id }}">
+                        <th scope="row">{{ ($students->currentPage() * $students->perPage()) - $students->perPage() + $key + 1 }}</th>
+                        <td>
+                            <div class="avatar avatar-sm">
+                                <x-image src="{{ 'storage/uploads/profile/'.$student->profile_photo_path }}"
+                                    default="{{ 'images/images.png' }}" alt="..." class="avatar-img rounded-circle" />
+                            </div>
+                        </td>
+                        <td>{{ $student->name }}</td>
+                        <td>{{ $student->email }}</td>
+                        <td>{{ $student->created_at->format('d/m/Y') }}</td>
+                        <td>
+                            <div class="">
+                                {{-- <a href="{{ route('profile.edit', $student->id) }}" class="btn btn-primary"><i class="fa-solid fa-pencil"></i></a> --}}
+                            {{-- <button class="btn btn-outline-danger deleteBtn" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-trash"></i></button> --}}
+                                <a href="{{ route('profile.edit', $student->id) }}" type="button" class="btn btn-icon btn-round btn-success" >
+                                    <i class="icon-pencil"></i>
+                                </a>
+                                <button type="button" class="btn btn-icon btn-round btn-danger deleteBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <i class="icon-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+              <div class="float-end">
+                {{ $students->links() }}
+              </div>
+            </div>
+        </div>
+
+        {{-- <table class="table table-striped table-hover mt-3">
             <thead>
                 <tr>
                     <th scope="col">Action</th>
@@ -63,7 +134,7 @@
         </table>
         <div class="float-end">
             {{ $students->links() }}
-        </div>
+        </div> --}}
     </div>
 
 @endsection

@@ -14,7 +14,7 @@
       </div>
     </article>
   </section> --}}
-  <section class="slider-one" style="padding-top: 56px;">
+  <section class="slider-one" style="">
     <article class="owl-carousel owl-theme slide-1">
       @foreach ($bannerImages as $bannerImage)
           <div class="item" style="height: 500px">
@@ -48,7 +48,7 @@
           <div class="project-container">
             @for ($i = 1; $i <= 5; $i++)
             <article class="px-4 py-3 project-post">
-                <a href="" class="text-decoration-none">
+                <a href="{{ route('thesis#detail', $thesisProjects[$i]->id) }}" class="text-decoration-none">
                     <h6 class="title text-info">{{ $thesisProjects[$i]->title }}</h6>
                     <p class="p-0 m-0 description text-secondary">{!! Str::limit($thesisProjects[$i]->description, 300, '...') !!}</p>
                     <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
@@ -60,7 +60,7 @@
                                 style="width: 28px; height: 28px;"/>
                             <span class="name text-secondary">{{ $thesisProjects[$i]->owner->name }}</span>
                         </div>
-                        <span class="date text-secondary">{{ $thesisProjects[$i]->created_at }}</span>
+                        <span class="date text-secondary">{{ $thesisProjects[$i]->created_at->format('d/m/Y') }}</span>
                     </div>
                 </a>
             </article>

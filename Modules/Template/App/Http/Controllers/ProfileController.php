@@ -6,24 +6,34 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Modules\Core\App\Http\Services\ProfileService;
+use Modules\Core\App\Http\Services\ThesisService;
 use Modules\Core\App\Http\Services\UserService;
 
 class ProfileController extends Controller
 {
-    protected $profileService, $userService;
-    public function __construct(ProfileService $profileService, UserService $userService)
+    protected $profileService, $userService, $thesisService;
+    public function __construct(ProfileService $profileService, UserService $userService, ThesisService $thesisService)
     {
         $this->profileService = $profileService;
         $this->userService = $userService;
+        $this->thesisService = $thesisService;
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $conds = [
+            'user_id' => Auth::id()
+        ];
+        $thesisProjects = $this->thesisService->getThesisProjects($conds);
 
-        return view('template::profile.index');
+        $dataArr = [
+            'thesisProjects' => $thesisProjects
+        ];
+        return view('template::profile.index', $dataArr);
     }
 
     /**

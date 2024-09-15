@@ -1,7 +1,53 @@
 @extends('core::layouts.master')
 
 @section('content')
-    <form class="container" action="{{ route('settings.update') }}" method="POST" enctype="multipart/form-data">
+    <h3 class="fw-bold mb-3">Settings</h3>
+    <form action="{{ route('settings.update') }}" method="POST" enctype="multipart/form-data" class="row row-cols-2">
+        @csrf
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Site Settings</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="site-name">Site Name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="site-name"
+                          type="text" name="site_name" value="{{ $settings->site_name }}"
+                          placeholder="Enter site name"
+                        />
+                    </div>
+                    <div class="form-group d-flex flex-column">
+                        <label>Logo</label>
+                        <label for="site-image" class="profile-img" style="width: 200px;">
+                            <img src="{{ asset('storage/uploads/'.$settings->site_image) }}" width="200" class="img-thumbnail profile-img" id="site-img" alt="site-image">
+                        </label>
+                        <input type="file" name="site_image" id="site-image" class="d-none">
+                    </div>
+                    <div class="form-group">
+                        <label>Banner Images</label>
+                        <div class="dropzone" id="dropzone1"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="enable_approve" type="checkbox" id="enableApprove" @if($settings->enable_approve == 1) checked @endif>
+                            <label class="form-check-label" for="enableApprove">Enable Approve</label>
+                        </div>
+                        <small id="" class="form-text text-muted">
+                            When approve setting is enabled, Admin will able to approve or reject post.
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary float-end">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form class="container d-none" action="{{ route('settings.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="w-50 d-flex flex-column gap-3">
             {{-- site name --}}

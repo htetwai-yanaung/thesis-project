@@ -2,24 +2,49 @@
 
 @section('content')
     <div class="">
-        <h1>Thesis Projects List</h1>
+        <h3 class="fw-bold mb-3">Thesis Projects List</h3>
         <div class="row justify-content-end mb-3">
             <div class="col-3">
-                <a href="{{ route('thesis.create') }}" class="btn btn-primary float-end">Create New Project</a>
+                <a href="{{ route('thesis.create') }}" class="btn btn-primary float-end">
+                    <span class="btn-label">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                    Create New Project
+                </a>
+                {{-- <a href="{{ route('thesis.create') }}" class="btn btn-primary float-end">Create New Project</a> --}}
             </div>
         </div>
-        <form action="{{ route('thesis.index') }}" method="GET" class="row justify-content-end">
+        <form action="{{ route('thesis.index') }}" method="GET" class="row mb-3">
             {{-- @csrf --}}
-            <div class="d-flex col-5 gap-2">
-                <select name="category_id" id="" class="form-select">
-                    <option value="">All</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" @selected(request()->get('category_id') == $category->id)>{{ $category->name }}</option>
-                    @endforeach
-                </select>
-                <input type="text" name="search_term" value="{{ request()->get('search_term') }}" placeholder="Search ..." class="form-control">
-                <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div class="d-flex">
+                <div class="ms-auto d-flex gap-2">
+                    <div class="">
+                        <select name="category_id" id="" class="form-select h-100">
+                            <option value="">All</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" @selected(request()->get('category_id') == $category->id)>{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="">
+                        <div class="input-icon">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search for..."
+                            name="search_term"
+                            value="{{ request()->get('search_term') }}"
+                          />
+                          <span class="input-icon-addon">
+                            <i class="fa fa-search"></i>
+                          </span>
+                        </div>
+                    </div>
+                    {{-- <input type="text" name="search_term" value="{{ request()->get('search_term') }}" placeholder="Search ..." class="form-control"> --}}
+                    <button class="btn btn-primary btn-sm"><i class="fas fa-search"></i></button>
+                </div>
             </div>
+
         </form>
 
         <!-- Modal -->
@@ -41,7 +66,43 @@
             </div>
         </div>
 
-        <table class="table table-striped table-hover mt-3">
+        <div class="row row-cols-3">
+            @foreach ($thesisProjects as $key => $project)
+            <div class="col">
+                <div class="card card-post card-round">
+                    <x-image src="{{ 'storage/uploads/project/'.$project->images[0]->path }}" class="card-img-top" style="height: 230px;"/>
+                    <div class="card-body">
+                      <div class="d-flex">
+                        <div class="avatar">
+                            <x-image src="{{ 'storage/uploads/profile/'.$project->owner->profile_photo_path }}" class="avatar-img rounded-circle" />
+                        </div>
+                        <div class="info-post ms-2">
+                          <p class="username">{{ $project->owner->name }}</p>
+                          <p class="date text-muted">{{ $project->created_at->format('d/m/Y') }}</p>
+                        </div>
+                      </div>
+                      <div class="separator-solid"></div>
+                      <p class="card-category text-info mb-1">
+                        <span>{{ $project?->category?->name }}</span>
+                      </p>
+                      <h3 class="card-title">
+                        <span> {{ $project->title }} </span>
+                      </h3>
+                      <div class="" style="min-height: 130px;">
+                        <p class="card-text">
+                            {!! Str::limit($project->description, 100, '...') !!}
+                          </p>
+                      </div>
+                      <a href="#" class="btn btn-primary btn-rounded btn-sm"
+                        >Read More</a
+                      >
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <table class="d-none table table-striped table-hover mt-3">
             <thead>
                 <tr>
                     <th scope="col">Action</th>
@@ -66,7 +127,7 @@
                             <x-image src="{{ 'storage/uploads/project/'.$project->images[0]->path }}" style="width:40px; height:40px;" />
                         </td>
                         <td>{{ $project->title }}</td>
-                        <td>{{ $project->category->name }}</td>
+                        <td>{{ $project?->category?->name }}</td>
                         <td>{{ $project->owner->name }}</td>
                         <td>{{ $project->created_at->format('d/m/Y') }}</td>
                     </tr>
