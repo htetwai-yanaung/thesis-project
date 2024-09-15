@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Modules\Core\App\Http\Services\NewsService;
+use Modules\Core\Constant\Constants;
 
 class NewsController extends Controller
 {
@@ -114,11 +115,22 @@ class NewsController extends Controller
         return redirect()->route('announcement.index')->with($news);
     }
 
+    public function updateStatus(Request $request)
+    {
+        $id = $request->id;
+        $news = $this->newsService->updateStatus($id);
+
+        return response()->json($news);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        $category = $this->newsService->deleteNews($id);
+
+        return response()->json($category);
     }
 }

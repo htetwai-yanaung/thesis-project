@@ -62,6 +62,9 @@ class ThesisController
         return $this->thesisService->deleteTempFile();
     }
 
+    /**
+     * @deprecated
+     */
     public function dropzoneTempStore(Request $request)
     {
         $thesisImages = $request->file('file');

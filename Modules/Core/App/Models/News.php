@@ -14,7 +14,7 @@ class News extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = ['title', 'description', 'user_id'];
+    protected $fillable = ['title', 'description', 'user_id', 'status'];
 
     protected $table = 'news';
 
@@ -22,6 +22,7 @@ class News extends Model
     const id = 'id';
     const title = 'title';
     const description = 'description';
+    const status = 'status';
     const userId = 'user_id';
     const createdAt = 'created_at';
 

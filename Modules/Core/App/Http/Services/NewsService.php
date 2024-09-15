@@ -29,7 +29,7 @@ class NewsService
         return $news;
     }
 
-    public function getAllNews($conds = null, $relations = null, $noPage = false, $paginate = 10)
+    public function getAllNews($conds = null, $relations = null, $status = null, $noPage = false, $paginate = 10)
     {
         $news = News::when($conds, function($query, $conds){
             if(isset($conds['search_term'])){
@@ -42,6 +42,9 @@ class NewsService
         })
         ->when($relations, function($query, $relations){
             $query->with($relations);
+        })
+        ->when($status, function($query, $status){
+            $query->where(News::status, $status);
         })
         ->orderBy(News::id, 'desc');
         if($noPage){
@@ -58,6 +61,7 @@ class NewsService
             $news = new News();
             $news->title = $request->title;
             $news->description = $request->description;
+            $news->status = $request->status == 'on' ? 1 : 0;
             $news->user_id = Auth::user()->id;
             $news->save();
 
@@ -82,6 +86,7 @@ class NewsService
             $news = $this->getNews($id);
             $news->title = $request->title;
             $news->description = $request->description;
+            $news->status = $request->status == 'on' ? 1 : 0;
             $news->user_id = Auth::user()->id;
             $news->update();
 
@@ -97,6 +102,43 @@ class NewsService
                 'error' => $e->getMessage()
             ];
         }
+    }
+
+    public function deleteNews($id)
+    {
+        try{
+            $news = $this->getNews($id);
+            $title = $news->title;
+            $news->delete();
+
+            $this->imageService->deleteImages($id, Constants::newsImageType);
+
+            return [
+                'status' => 'success',
+                'message' => "$title has been deleted"
+            ];
+        }catch(\Throwable $e){
+            return [
+                'error' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function updateStatus($id)
+    {
+        $news = $this->getNews($id);
+        if($news->status == 1){
+            $news->status = 0;
+            $msg = 'News unpublished.';
+        }else{
+            $news->status = 1;
+            $msg = 'News published';
+        }
+        $news->update();
+
+        return [
+            'success' => $msg
+        ];
     }
 
     public function storeTempFile($request)

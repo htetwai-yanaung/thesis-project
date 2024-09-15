@@ -35,7 +35,12 @@
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-
+                        <div class="form-group">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="isPublic" name="status" @checked(old('status'))>
+                                <label class="form-check-label" for="isPublic">Publish</label>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <a href="{{ route('announcement.index') }}" class="btn btn-outline-danger">Cancel</a>
                             <button class="btn btn-primary float-end">Save</button>

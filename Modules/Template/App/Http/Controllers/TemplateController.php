@@ -26,7 +26,7 @@ class TemplateController extends Controller
     {
         $thesisProjects = $this->thesisService->getThesisProjects();
         $teachers = $this->userService->getUsers(['role' => Constants::teacher]);
-        $allNews = $this->newsService->getAllNews(null, ['images'], false, 9);
+        $allNews = $this->newsService->getAllNews(null, ['images'], Constants::publishedStatus, false, 9);
         $dataArr = [
             'thesisProjects' => $thesisProjects,
             'teachers' => $teachers,

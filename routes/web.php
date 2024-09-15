@@ -8,6 +8,8 @@ use Modules\Core\App\Http\Controllers\ProfileController;
 use Modules\Core\App\Http\Controllers\SettingController;
 use Modules\Core\App\Http\Controllers\CategoryController;
 use Modules\Core\App\Http\Controllers\DashboardController;
+use Modules\Core\App\Http\Controllers\ImageController;
+use Modules\Core\App\Http\Controllers\YearController;
 use Modules\Template\App\Http\Controllers\ThesisController as UserThesisController;
 use Modules\Template\App\Http\Controllers\ProfileController as UserProfileController;
 use Modules\Template\App\Http\Controllers\NewsController as UserNewsController;
@@ -84,8 +86,19 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/edit/{id}', 'edit')->name('announcement.edit');
             Route::post('/store', 'store')->name('announcement.store');
             Route::post('/update/{id}', 'update')->name('announcement.update');
+            Route::put('/update-status', 'updateStatus')->name('announcement.updateStatus');
+            Route::get('/delete', 'destroy')->name('announcement.delete');
             Route::post('/store-temp-file', 'storeTempFile')->name('announcement.storeTempFile');
             Route::delete('/delete-temp-file', 'deleteTempFile')->name('announcement.deleteTempFile');
+        });
+
+        // years
+        Route::prefix('year')->controller(YearController::class)->group(function() {
+            Route::get('/', 'index')->name('year.index');
+            Route::get('/{id}/edit', 'edit')->name('year.edit');
+            Route::post('/{id}/update', 'update')->name('year.update');
+            Route::get('/delete', 'destroy')->name('year.delete');
+            Route::put('/update-status', 'updateStatus')->name('year.updateStatus');
         });
     });
 
@@ -108,7 +121,7 @@ Route::prefix('thesis')->controller(ThesisController::class)->group(function() {
     Route::delete('/delete-temp-file', 'deleteTempFile')->name('thesis.deleteTempFile');
 });
 
-Route::prefix('dropzone')->controller(ThesisController::class)->group(function() {
+Route::prefix('dropzone')->controller(ImageController::class)->group(function() {
     Route::post('/store-temp-file', 'dropzoneTempStore')->name('dropzone.tempStore');
     Route::delete('/delete-temp-file', 'dropzoneTempDelete')->name('dropzone.tempDelete');
 });

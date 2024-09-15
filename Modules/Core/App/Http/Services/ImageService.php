@@ -75,7 +75,7 @@ class ImageService
         DB::beginTransaction();
         try{
             $imageName = uniqid().'_.'.$image->extension();
-            $folder = uniqid('thesis_');
+            $folder = uniqid('temp_');
             $image->storeAs('public/uploads/tmp/' . $folder, $imageName);
 
             TemporaryFile::create([
@@ -155,20 +155,20 @@ class ImageService
         return $images;
     }
 
-    // store and udpate images for both thesis and news
+    // store and update images for both thesis and news
     public function storeImages($images, $parentId, $filePath, $imageType)
     {
-        $oldImages = $this->getImages($parentId, $imageType);
-        if($oldImages){
-            foreach($oldImages as $image){
-                $image->delete();
-                Storage::deleteDirectory($filePath . $image->path);
-            }
-        }
-
         $tempFile = $this->getTempFiles($images);
 
-        if($tempFile){
+        if(count($tempFile) > 0){
+            $oldImages = $this->getImages($parentId, $imageType);
+            if($oldImages){
+                foreach($oldImages as $image){
+                    $image->delete();
+                    Storage::deleteDirectory($filePath . $image->path);
+                }
+            }
+
             foreach($tempFile as $tmp){
                 Storage::copy('public/uploads/tmp/' . $tmp->folder . '/' . $tmp->file, $filePath . $tmp->file);
 
@@ -183,5 +183,17 @@ class ImageService
                 $tmp->delete();
             }
         }
+    }
+
+    public function deleteImages($parentId, $imageType)
+    {
+        $images = $this->getImages($parentId, $imageType);
+        foreach($images as $image){
+            $image->delete();
+        }
+
+        return [
+            'success' => 'Image has been deleted.'
+        ];
     }
 }

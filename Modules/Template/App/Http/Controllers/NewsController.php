@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Modules\Core\App\Http\Services\NewsService;
+use Modules\Core\Constant\Constants;
 
 class NewsController extends Controller
 {
@@ -20,7 +21,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $allNews = $this->newsService->getAllNews(null, ['owner','images']);
+        $allNews = $this->newsService->getAllNews(null, ['owner','images'], Constants::publishedStatus);
 
         $dataArr = [
             'allNews' => $allNews

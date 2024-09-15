@@ -2,18 +2,18 @@
 
 @section('content')
     <div class="">
-        <h1 class="fw-bold mb-3">News List</h1>
-        <div class="row justify-content-end mb-3">
+        <h1 class="fw-bold mb-3">Year List</h1>
+        {{-- <div class="row justify-content-end mb-3">
             <div class="col-3">
-                <a href="{{ route('announcement.create') }}" class="btn btn-primary float-end">
+                <a href="{{ route('year.create') }}" class="btn btn-primary float-end">
                     <span class="btn-label">
                       <i class="fas fa-plus"></i>
                     </span>
-                    Create A News
+                    Add Year
                 </a>
             </div>
-        </div>
-        <form action="{{ route('announcement.index') }}" method="GET" class="row mb-3">
+        </div> --}}
+        <form action="{{ route('year.index') }}" method="GET" class="row mb-3">
             {{-- @csrf --}}
             <div class="d-flex">
                 <div class="ms-auto d-flex gap-2">
@@ -41,11 +41,11 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Delete News</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Delete Year</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Are you sure you want to delete this news? It can't be undo.
+                        Are you sure you want to delete this year? It can't be undo.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -68,47 +68,34 @@
                   <thead>
                     <tr>
                         <th scope="col">No.</th>
-                        <th scope="col">Cover</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Description</th>
+                        <th scope="col">Year</th>
                         <th scope="col">Status</th>
                         <th scope="col">Added Date</th>
                         <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($news as $key => $article)
+                    @foreach ($years as $key => $year)
                     <tr>
-                        <input type="hidden" id="newsId" value="{{ $article->id }}">
-                        <th scope="row">{{ ($news->currentPage() * $news->perPage()) - $news->perPage() + $key + 1 }}</th>
+                        <input type="hidden" id="yearId" value="{{ $year->id }}">
+                        <th scope="row">{{ ($years->currentPage() * $years->perPage()) - $years->perPage() + $key + 1 }}</th>
                         <td>
-                            @if (count($article->images) > 0)
-                            <div class="avatar avatar-sm">
-                                <x-image src="{{ 'storage/uploads/news/'.$article->images[0]->path }}" alt="..." class="avatar-img rounded-circle" />
-                            </div>
-                                {{-- <x-image src="{{ 'storage/uploads/news/'.$n->images[0]->path }}" style="width:40px; height:40px;" /> --}}
-                            @endif
-                        </td>
-                        <td>
-                            {{ $article->title }}
-                        </td>
-                        <td class="w-25">
-                            {!! Str::limit($article->description, 100, '...') !!}
+                            {{ $year->year }}
                         </td>
                         <td>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" name="status" @checked($article->status == 1)>
+                                <input class="form-check-input" type="checkbox" name="status" @checked($year->status == 1)>
                             </div>
                         </td>
-                        <td>{{ $article->created_at->format('d/m/Y') }}</td>
+                        <td>{{ $year->created_at->format('d/m/Y') }}</td>
                         <td>
                             <div class="">
-                                <a href="{{ route('announcement.edit', $article->id) }}" type="button" class="btn btn-icon btn-round btn-success" >
+                                <a href="{{ route('year.edit', $year->id) }}" type="button" class="btn btn-icon btn-round btn-success" >
                                     <i class="icon-pencil"></i>
                                 </a>
-                                <button type="button" class="btn btn-icon btn-round btn-danger deleteBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                {{-- <button type="button" class="btn btn-icon btn-round btn-danger deleteBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     <i class="icon-trash"></i>
-                                </button>
+                                </button> --}}
                             </div>
                         </td>
                     </tr>
@@ -117,7 +104,7 @@
                 </table>
               </div>
               <div class="float-end">
-                {{ $news->links() }}
+                {{ $years->links() }}
               </div>
             </div>
         </div>
@@ -129,14 +116,14 @@
     $('document').ready(function() {
         console.log('ready');
         $('input[name=status]').change(function() {
-            $newsId = '';
+            $yearId = '';
             $parentNode = $(this).parents('tr');
-            $newsId = $parentNode.find('#newsId').val();
+            $yearId = $parentNode.find('#yearId').val();
             $.ajax({
                 type: 'put',
-                url: `{{ route("announcement.updateStatus") }}`,
+                url: `{{ route("year.updateStatus") }}`,
                 data: {
-                    'id': $newsId
+                    'id': $yearId
                 },
                 dataType: 'json',
                 headers: {
@@ -150,17 +137,17 @@
 
 
         //delete
-        $newsId = '';
+        $yearId = '';
         $('.deleteBtn').click(function() {
             $parentNode = $(this).parents('tr');
-            $newsId = $parentNode.find('#newsId').val();
+            $yearId = $parentNode.find('#yearId').val();
         })
         $('#modalDeleteBtn').click(function(){
             $.ajax({
                 type: 'get',
-                url: `{{ route('announcement.delete') }}`,
+                url: `{{ route('year.delete') }}`,
                 data: {
-                    id: $newsId
+                    id: $yearId
                 },
                 dataType: 'json',
                 success: function(res){

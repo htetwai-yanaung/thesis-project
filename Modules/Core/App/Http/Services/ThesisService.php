@@ -2,8 +2,10 @@
 
 namespace Modules\Core\App\Http\Services;
 
+use Modules\Core\App\Models\Year;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Modules\Core\App\Models\Setting;
 use Modules\Core\Constant\Constants;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -14,20 +16,23 @@ use Modules\Core\App\Http\Services\CategoryService;
 
 class ThesisService
 {
-    protected $imageService, $categoryService;
+    protected $imageService, $categoryService, $settingService;
 
-    public function __construct(ImageService $imageService, CategoryService $categoryService)
+    public function __construct(ImageService $imageService, CategoryService $categoryService, SettingService $settingService)
     {
         $this->imageService = $imageService;
         $this->categoryService = $categoryService;
+        $this->settingService = $settingService;
     }
 
     public function create(){
         $catConds['status'] = constants::publishedStatus;
         $categories = $this->categoryService->getCategories($catConds, true);
+        $years = Year::where(Year::status, Constants::publishedStatus)->get();
 
         $dataArr = [
             'categories' => $categories,
+            'years' => $years
         ];
 
         return $dataArr;
@@ -59,13 +64,14 @@ class ThesisService
 
         DB::beginTransaction();
         try{
+            $setting = Setting::first();
             $thesis = new ThesisProject();
             $thesis->title = $request->title;
             $thesis->description = $request->description;
             $thesis->category_id = $request->category;
             $thesis->year_id = $request->year;
             $thesis->project_type = $request->project_type;
-            $thesis->status = Constants::approved;
+            $thesis->status = $setting->enable_approve == 1 ? Constants::approved : Constants::pending;
             $thesis->user_id = Auth::user()->id;
             $thesis->save();
 

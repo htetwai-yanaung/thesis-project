@@ -70,7 +70,16 @@
             @foreach ($thesisProjects as $key => $project)
             <div class="col">
                 <div class="card card-post card-round">
-                    <x-image src="{{ 'storage/uploads/project/'.$project->images[0]->path }}" class="card-img-top" style="height: 230px;"/>
+                    <div class="card-img-top position-relative" style="height: 230px;">
+                        <x-image src="{{ 'storage/uploads/project/'.$project->images[0]->path }}" class="w-100 h-100 rounded-top-3"/>
+                        @if ($project->status == 1)
+                        <span class="position-absolute top-0 end-0 m-3 fs-6 border border-white badge rounded-pill bg-success text-white">Active</span>
+                        @elseif ($project->status == 2)
+                        <span class="position-absolute top-0 end-0 m-3 fs-6 border border-white badge rounded-pill bg-warning text-dark">Pending</span>
+                        @else
+                        <span class="position-absolute top-0 end-0 m-3 fs-6 border border-white badge rounded-pill bg-danger text-white">Rejected</span>
+                        @endif
+                    </div>
                     <div class="card-body">
                       <div class="d-flex">
                         <div class="avatar">

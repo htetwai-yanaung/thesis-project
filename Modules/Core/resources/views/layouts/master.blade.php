@@ -133,8 +133,8 @@
                       </a>
                     </li>
                     <li>
-                      <a href="components/buttons.html">
-                        <span class="sub-item">Buttons</span>
+                      <a href="{{ route('year.index') }}">
+                        <span class="sub-item">Years</span>
                       </a>
                     </li>
                   </ul>
