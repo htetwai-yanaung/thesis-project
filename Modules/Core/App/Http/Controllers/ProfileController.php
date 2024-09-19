@@ -9,6 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
 use Modules\Core\App\Http\Services\UserService;
 use Modules\Core\App\Http\Services\ProfileService;
+use Modules\Core\App\Models\UserRole;
+use Modules\Core\App\Models\Year;
 use Modules\Core\Constant\Constants;
 
 class ProfileController extends Controller
@@ -56,8 +58,12 @@ class ProfileController extends Controller
     public function edit($id)
     {
         $user = $this->userService->getUser($id);
+        $roles = UserRole::where(UserRole::status, Constants::publishedStatus)->get();
+        $years = Year::where(Year::status, Constants::publishedStatus)->get();
         $dataArr = [
-            'user' => $user
+            'user' => $user,
+            'roles' => $roles,
+            'years' => $years
         ];
 
         return view('core::profile.edit', $dataArr);
@@ -70,13 +76,17 @@ class ProfileController extends Controller
     {
         $user = $this->userService->getUser($id);
 
-        Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'image' => 'mimes:jpg,png,jpeg',
             'name' => 'required',
             'email' => 'required|unique:users,email,'.$id,
             'year' => $user->role == Constants::student ? 'required' : '',
-            'password' => isset($request->password) || isset($request->password_confirmation) ? 'same:password_confirmation' : ''
-        ])->validate();
+            'password' => 'sometimes|nullable|confirmed|min:6'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $user = $this->userService->update($request, $id);
 

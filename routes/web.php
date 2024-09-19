@@ -68,6 +68,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::post('/store', 'store')->name('thesis.store');
             Route::get('{id}/edit', 'edit')->name('thesis.edit');
             Route::post('{id}/update', 'update')->name('thesis.update');
+            Route::get('/delete', 'destroy')->name('thesis.delete');
+            Route::get('/{id}/status', 'editStatus')->name('thesis.status');
+            Route::post('/{id}/update-status', 'updateStatus')->name('thesis.updateStatus');
             Route::get('/delete-file', 'deleteFile')->name('thesis.deleteFile');
         });
 

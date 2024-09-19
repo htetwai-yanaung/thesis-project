@@ -79,25 +79,20 @@ class ThesisService
 
             DB::commit();
 
-            $dataArr = [
-                'status' => 'success',
-                'message' => 'Project Create Success.'
+            return [
+                'success' => 'Project Create Success.'
             ];
 
         }catch(\Throwable $e){
             DB::rollBack();
-            dd($e->getMessage());
-            $dataArr = [
-                'status' => 'error',
-                'message' => $e->getMessage()
+            return [
+                'error' => $e->getMessage()
             ];
         }
 
-        return $dataArr;
-
     }
 
-    public function getThesisProjects($conds = null, $categoryId = null){
+    public function getThesisProjects($conds = null, $categoryId = null, $status = null){
         $relations = ['images', 'owner', 'category'];
 
         $thesisProjects = ThesisProject::with($relations)
@@ -112,6 +107,9 @@ class ThesisService
             })
             ->when($categoryId, function($query, $categoryId){
                 $query->where(ThesisProject::categoryId, $categoryId);
+            })
+            ->when($status, function($query, $status){
+                $query->where(ThesisProject::status, $status);
             })
             ->orderBy(ThesisProject::createdAt, 'desc')
             ->paginate(10);
@@ -133,10 +131,12 @@ class ThesisService
         $thesisProject = $this->getThesisProject($id, $relations);
         $catConds['status'] = constants::publishedStatus;
         $categories = $this->categoryService->getCategories($catConds, true);
+        $years = Year::where(Year::status, Constants::publishedStatus)->get();
 
         $dataArr = [
             'thesisProject' => $thesisProject,
             'categories' => $categories,
+            'years' => $years
         ];
 
         return view('core::thesis.edit', $dataArr);
@@ -144,29 +144,89 @@ class ThesisService
 
     public function update($id, $request)
     {
+        $validator = Validator::make($request->all(),[
+            'title' => 'required',
+            'description' => 'required',
+            'category' => 'required',
+            'year' => 'required',
+            'project_type' => 'required',
+        ]);
+
+        if($validator->fails()){
+            if($request->thesis_image != null){
+                $tempFiles = $this->imageService->getTempFiles($request->thesis_image);
+                if($tempFiles){
+                    foreach($tempFiles as $tempFile){
+                        Storage::deleteDirectory(Constants::tmpImagePath . $tempFile->folder);
+                        $tempFile->delete();
+                    }
+                }
+            }
+
+            $validator->validate();
+        }
+
         DB::beginTransaction();
         try{
+            $setting = Setting::first();
             $thesis = $this->getThesisProject($id);
             $thesis->title = $request->title;
             $thesis->description = $request->description;
             $thesis->category_id = $request->category;
             $thesis->year_id = $request->year;
             $thesis->project_type = $request->project_type;
+            $thesis->status = $setting->enable_approve == 1 ? Constants::approved : Constants::pending;
             $thesis->update();
 
             $this->imageService->storeThesisImages($request, $id);
 
             DB::commit();
+
+            return [
+                'success' => 'Project update success'
+            ];
         }catch(\Throwable $e){
             DB::rollBack();
-            $dataArr = [
-                'status' => 'error',
-                'message' => $e->getMessage()
+            return [
+                'error' => $e->getMessage()
             ];
-            dd($e->getMessage());
-            return redirect()->back()->with($dataArr);
         }
-        return redirect()->route('thesis.index');
+    }
+
+    public function deleteThesis($id)
+    {
+        $thesis = $this->getThesisProject($id);
+        $thesis->delete();
+
+        $images = $this->imageService->getImages($id, Constants::projectImageType);
+        foreach($images as $image){
+            $image->delete();
+        }
+
+        return [
+            'status' => 'success',
+            'message' => 'Category successfully deleted.'
+        ];
+    }
+
+    public function updateStatus($request, $id)
+    {
+        DB::beginTransaction();
+        try{
+            $thesis = $this->getThesisProject($id);
+            $thesis->status = $request->status;
+            $thesis->update();
+            DB::commit();
+
+            return [
+                'success' => 'Status update success'
+            ];
+        }catch(\Throwable $e){
+            DB::rollBack();
+            return [
+                'error' => $e->getMessage()
+            ];
+        }
     }
 
     public function storeTempFile($request)

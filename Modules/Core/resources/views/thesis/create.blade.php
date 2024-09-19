@@ -3,6 +3,9 @@
 @section('content')
 <div class="">
     <h3 class="fw-bold mb-3">Create Project</h3>
+    @if (session('error'))
+        <p class="p-2 text-center text-white bg-danger">{{ session('error') }}</p>
+    @endif
     <form action="{{ route('thesis.store') }}" method="POST" enctype="multipart/form-data" class="row row-cols-2" id="data-form">
         @csrf
         <div class="col">

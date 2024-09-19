@@ -22,8 +22,11 @@
                     </div>
                     <div class="form-group d-flex flex-column">
                         <label>Logo</label>
-                        <label for="site-image" class="profile-img" style="width: 200px;">
+                        {{-- <label for="site-image" class="profile-img" style="width: 200px;">
                             <img src="{{ asset('storage/uploads/'.$settings->site_image) }}" width="200" class="img-thumbnail profile-img" id="site-img" alt="site-image">
+                        </label> --}}
+                        <label for="site-image" class="avatar avatar-xxl img-thumbnail" style="cursor: pointer;">
+                            <x-image src="{{ 'storage/uploads/'.$settings->site_image }}" class="avatar-img" id="site-img" alt="profile-image"/>
                         </label>
                         <input type="file" name="site_image" id="site-image" class="d-none">
                     </div>

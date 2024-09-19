@@ -190,15 +190,11 @@
                     aria-expanded="false"
                   >
                     <div class="avatar-sm">
-                      <img
-                        src="{{ asset('assets/img/profile.jpg') }}"
-                        alt="..."
-                        class="avatar-img rounded-circle"
-                      />
+                        <x-image src="{{ 'storage/uploads/profile/'.Auth::user()->profile_photo_path }}" class="avatar-img rounded-circle" />
                     </div>
                     <span class="profile-username">
-                      <span class="op-7">Hi,</span>
-                      <span class="fw-bold">Hizrian</span>
+                      {{-- <span class="op-7">Hi,</span> --}}
+                      <span class="fw-bold">{{ Auth::user()->name }}</span>
                     </span>
                   </a>
                   <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -206,32 +202,22 @@
                       <li>
                         <div class="user-box">
                           <div class="avatar-lg">
-                            <img
-                              src="{{ asset('assets/img/profile.jpg') }}"
-                              alt="image profile"
-                              class="avatar-img rounded"
-                            />
+                            <x-image src="{{ 'storage/uploads/profile/'.Auth::user()->profile_photo_path }}" class="avatar-img rounded" />
                           </div>
                           <div class="u-text">
-                            <h4>Hizrian</h4>
-                            <p class="text-muted">hello@example.com</p>
-                            <a
-                              href="profile.html"
-                              class="btn btn-xs btn-secondary btn-sm"
-                              >View Profile</a
-                            >
+                            <h4>{{ Auth::user()->name }}</h4>
+                            <p class="text-muted">{{ Auth::user()->email }}</p>
                           </div>
                         </div>
                       </li>
                       <li>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">My Profile</a>
-                        <a class="dropdown-item" href="#">My Balance</a>
-                        <a class="dropdown-item" href="#">Inbox</a>
+                        <a class="dropdown-item" href="{{ route('profile.edit', Auth::id()) }}">My Profile</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Account Setting</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button class="dropdown-item" type="submit">Logout</button>
+                        </form>
                       </li>
                     </div>
                   </ul>

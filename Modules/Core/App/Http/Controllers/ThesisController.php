@@ -21,7 +21,8 @@ class ThesisController
     public function index(Request $request){
         $conds['search_term'] = $request->search_term ?? '';
         $categoryId = $request->category_id;
-        $thesisProjects = $this->thesisService->getThesisProjects($conds, $categoryId);
+        $status = $request->status == 'all' ? null : $request->status;
+        $thesisProjects = $this->thesisService->getThesisProjects($conds, $categoryId, $status);
 
         $catConds['status'] = constants::publishedStatus;
         $categories = $this->categoryService->getCategories($catConds, true);
@@ -41,7 +42,10 @@ class ThesisController
 
     public function store(Request $request){
         $dataArr = $this->thesisService->store($request);
-        return redirect()->route('thesis.index')->with($dataArr);
+        if(isset($dataArr['error'])){
+            return redirect()->back()->with($dataArr);
+        }
+        return redirect()->route('thesis.index');
     }
 
     public function edit($id){
@@ -49,7 +53,37 @@ class ThesisController
     }
 
     public function update($id, Request $request){
-        return $this->thesisService->update($id, $request);
+        $dataArr = $this->thesisService->update($id, $request);
+        if(isset($dataArr['error'])){
+            return redirect()->back()->with($dataArr);
+        }
+        return redirect()->route('thesis.index');
+    }
+
+    public function destroy(Request $request)
+    {
+        $id = $request->id;
+        $category = $this->thesisService->deleteThesis($id);
+
+        return response()->json($category);
+    }
+
+    public function editStatus($id)
+    {
+        $thesisProject = $this->thesisService->getThesisProject($id);
+        $dataArr = [
+            'thesisProject' => $thesisProject
+        ];
+        return view('core::thesis.status', $dataArr);
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $dataArr = $this->thesisService->updateStatus($request, $id);
+        if(isset($dataArr['error'])){
+            return redirect()->back()->with($dataArr);
+        }
+        return redirect()->route('thesis.index');
     }
 
     public function storeTempFile(Request $request)

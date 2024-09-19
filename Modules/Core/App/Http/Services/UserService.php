@@ -92,7 +92,7 @@ class UserService
             $user->name = $request->name;
             $user->email = $request->email;
             $user->year = $request->year;
-            $user->role = $request->role;
+            $user->role = $request->role ?? $user->role;
             if(isset($request->password) && !empty($request->password)){
                 $user->password = Hash::make($request->password);
             }

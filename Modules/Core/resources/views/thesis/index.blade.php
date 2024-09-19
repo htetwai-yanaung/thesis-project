@@ -52,11 +52,11 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Delete Account</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Delete Project</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Are you sure you want to delete this account? It can't be undo.
+                        Are you sure you want to delete this project? It can't be undo.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <div class="row row-cols-3">
+        <div class="row row-cols-3 d-none">
             @foreach ($thesisProjects as $key => $project)
             <div class="col">
                 <div class="card card-post card-round">
@@ -111,65 +111,129 @@
             @endforeach
         </div>
 
-        <table class="d-none table table-striped table-hover mt-3">
-            <thead>
-                <tr>
-                    <th scope="col">Action</th>
-                    <th scope="col">No.</th>
-                    <th scope="col">Cover</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Owner</th>
-                    <th scope="col">Created Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($thesisProjects as $key => $project)
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+              <h4 class="card-title">Basic</h4>
+              <div class="d-flex align-items-center">
+                <span class="fw-bold">Status: </span>
+                <select name="status" id="status" class="form-select">
+                    <option value="all">All</option>
+                    <option value="1" @selected(request()->status == 1)>Active</option>
+                    <option value="2" @selected(request()->status == 2)>Pending</option>
+                    <option value="3" @selected(request()->status == 3)>Rejected</option>
+                </select>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table
+                  id="basic-datatables"
+                  class="display table table-striped table-hover"
+                >
+                  <thead>
                     <tr>
-                        <input type="hidden" id="userId" value="{{ $project->id }}">
-                        <td>
-                            <a href="{{ route('thesis.edit', $project->id) }}" class="btn btn-primary"><i class="fa-solid fa-pencil"></i></a>
-                            <button class="btn btn-outline-danger deleteBtn" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                        <th scope="row">{{ ($thesisProjects->currentPage() * $thesisProjects->perPage()) - $thesisProjects->perPage() + $key + 1 }}</th>
-                        <td>
-                            <x-image src="{{ 'storage/uploads/project/'.$project->images[0]->path }}" style="width:40px; height:40px;" />
-                        </td>
-                        <td>{{ $project->title }}</td>
-                        <td>{{ $project?->category?->name }}</td>
-                        <td>{{ $project->owner->name }}</td>
-                        <td>{{ $project->created_at->format('d/m/Y') }}</td>
+                      <th>No.</th>
+                      <th>Name</th>
+                      <th>Category</th>
+                      <th>Status</th>
+                      <th>Added date</th>
+                      <th>Action</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="float-end">
-            {{ $thesisProjects->links() }}
+                  </thead>
+                  <tbody>
+                    @foreach ($thesisProjects as $key => $project)
+                    <tr>
+                        <input type="hidden" id="projectId" value="{{ $project->id }}">
+                        <th scope="row">{{ ($thesisProjects->currentPage() * $thesisProjects->perPage()) - $thesisProjects->perPage() + $key + 1 }}</th>
+                        <td>{{ $project->title }}</td>
+                        <td>{{ $project->category?->name }}</td>
+                        <td>
+                            <a href="{{ route('thesis.status', $project->id) }}">
+                            @if ($project->status == 1)
+                            <span class="badge badge-success">Active</span>
+                            @elseif ($project->status == 2)
+                            <span class="badge badge-warning">Pending</span>
+                            @else
+                            <span class="badge badge-danger">Reject</span>
+                            @endif
+                            </a>
+                        </td>
+                        <td>{{ $project->created_at->format('d/m/Y') }}</td>
+                        <td>
+                            <div class="">
+                                <a href="{{ route('thesis.edit', $project->id) }}" type="button" class="btn btn-icon btn-round btn-success" >
+                                    <i class="icon-pencil"></i>
+                                </a>
+                                <button type="button" class="btn btn-icon btn-round btn-danger deleteBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <i class="icon-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+              <div class="float-end">
+                {{ $thesisProjects->links() }}
+              </div>
+            </div>
         </div>
     </div>
 @endsection
 
 @section('script')
-    <script>
-        $(document).ready(function() {
-            $userId = '';
-            $('.deleteBtn').click(function(){
-                $parentNode = $(this).parents('tr');
-                $userId = $parentNode.find('#userId').val();
+<script>
+    $('document').ready(function() {
+        console.log('ready');
+        $('input[name=status]').change(function() {
+            $projectId = '';
+            $parentNode = $(this).parents('tr');
+            $projectId = $parentNode.find('#projectId').val();
+            $.ajax({
+                type: 'put',
+                url: `{{ route("category.updateStatus") }}`,
+                data: {
+                    'id': $projectId
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                success: (response) => {
+                    console.log(response);
+                }
             })
-            $('#modalDeleteBtn').click(function(){
-                $.ajax({
-                    type: 'get',
-                    url: 'teacher/'+$userId+'/delete',
-                    dataType: 'json',
-                    success: function(res){
-                        if(res.status == 'success'){
-                            location.reload();
-                        }
-                    }
-                })
-            })
-
         })
-    </script>
+
+        $('#status').change(function() {
+            $status = $(this).val();
+            console.log(status);
+            window.location.href = "{{ route('thesis.index', ['status' => '']) }}"+$status;
+        })
+
+
+        //delete
+        $projectId = '';
+        $('.deleteBtn').click(function() {
+            $parentNode = $(this).parents('tr');
+            $projectId = $parentNode.find('#projectId').val();
+        })
+        $('#modalDeleteBtn').click(function(){
+            $.ajax({
+                type: 'get',
+                url: `{{ route('thesis.delete') }}`,
+                data: {
+                    id: $projectId
+                },
+                dataType: 'json',
+                success: function(res){
+                    if(res.status == 'success'){
+                        location.reload();
+                    }
+                }
+            })
+        })
+    })
+</script>
 @endsection

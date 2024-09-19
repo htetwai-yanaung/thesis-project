@@ -1,91 +1,84 @@
 @extends('core::layouts.master')
 
 @section('content')
-    <div class="w-50">
-        {{-- error toast --}}
-        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" autohide="true" delay="3000">
-                <div class="toast-header">
-                {{-- <img src="..." class="rounded me-2" alt="..."> --}}
-                <strong class="me-auto">Project Update Error</strong>
-                <small>11 mins ago</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+<div class="">
+    <h3 class="fw-bold mb-3">Create Project</h3>
+    @if (session('error'))
+        <p class="p-2 text-center text-white bg-danger">{{ session('error') }}</p>
+    @endif
+    <form action="{{ route('thesis.update', $thesisProject->id) }}" method="POST" enctype="multipart/form-data" class="row row-cols-2" id="data-form">
+        @csrf
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="">Project Title</label>
+                        <input type="text" name="title" value="{{ old('title', $thesisProject->title) }}" class="form-control" placeholder="Enter your project title">
+                        @error('title')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Categories</label>
+                        <select name="category" id="category" class="form-select">
+                            <option value="">Choose category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" @if($category->id == $thesisProject->category_id) selected @endif>{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('category')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="year">Year</label>
+                            <select name="year" id="year" class="form-select">
+                                <option value="">Choose year</option>
+                                @foreach ($years as $year)
+                                <option value="{{ $year->id }}" @if($year->id == $thesisProject->year_id) selected @endif>{{ $year->year }}</option>
+                                @endforeach
+                            </select>
+                            @error('year')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="col">
+                            <label for="project_type">Project Type</label>
+                            <select name="project_type" id="project_type" class="form-select">
+                                <option value="">Project Type</option>
+                                <option value="1" @if($thesisProject->project_type == "1") selected @endif>Thesis Project</option>
+                                <option value="2" @if($thesisProject->project_type == "2") selected @endif>Group Project</option>
+                            </select>
+                            @error('project_type')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editor">Description</label>
+                        <textarea name="description" id="editor" class="form-control">
+                            {{ old('description', $thesisProject->description) }}
+                        </textarea>
+                        @error('description')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="">Upload Images</label>
+                        <div class="dropzone" id="dropzone1"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <a href="{{ route('thesis.index') }}" class="btn btn-outline-danger">Cancel</a>
+                        <button class="btn btn-primary float-end">Save</button>
+                    </div>
                 </div>
-                <div class="toast-body" id="error-message"></div>
             </div>
         </div>
 
-        <h1>Edit Your Thesis</h1>
-        <form action="{{ route('thesis.update', $thesisProject->id) }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column gap-3" id="data-form">
-            @csrf
-            <div class="">
-                <label for="" class="form-label">Project Title</label>
-                <input type="text" name="title" value="{{ old('title', $thesisProject->title) }}" class="form-control" placeholder="Enter your project title">
-                @error('title')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-            <div class="">
-                <label for="category" class="form-label">Categories</label>
-                <select name="category" id="category" class="form-select">
-                    <option value="">Choose category</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" @if($category->id == $thesisProject->category_id) selected @endif>{{ $category->name }}</option>
-                    @endforeach
-                </select>
-                @error('category')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="year" class="form-label">Year</label>
-                    <select name="year" id="year" class="form-select">
-                        <option value="">Choose year</option>
-                        <option value="6" @if($thesisProject->year_id == "6") selected @endif>Sixth Year</option>
-                        <option value="5" @if($thesisProject->year_id == "5") selected @endif>Fifth Year</option>
-                        <option value="4" @if($thesisProject->year_id == "4") selected @endif>Fourth Year</option>
-                        <option value="3" @if($thesisProject->year_id == "3") selected @endif>Third Year</option>
-                        <option value="2" @if($thesisProject->year_id == "2") selected @endif>Second Year</option>
-                        <option value="1" @if($thesisProject->year_id == "1") selected @endif>First Year</option>
-                    </select>
-                    @error('year')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="col">
-                    <label for="project_type" class="form-label">Project Type</label>
-                    <select name="project_type" id="project_type" class="form-select">
-                        <option value="">Project Type</option>
-                        <option value="1" @if($thesisProject->project_type == "1") selected @endif>Thesis Project</option>
-                        <option value="2" @if($thesisProject->project_type == "2") selected @endif>Group Project</option>
-                    </select>
-                    @error('project_type')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
-            </div>
-            <div class="">
-                <label for="editor" class="form-label">Description</label>
-                <textarea name="description" id="editor" class="form-control">
-                    {{ old('description', $thesisProject->description) }}
-                </textarea>
-                @error('description')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-            <div class="">
-                <label for="" class="form-label">Upload Images</label>
-                <div class="dropzone" id="dropzone1"></div>
-                {{-- <input type="file" name="thesis_image[]" id="thesisImage" multiple
-                    data-style-item-panel-aspect-ratio="0.5625" class="form-control"> --}}
-            </div>
-            <div class="">
-                <a href="{{ route('thesis.index') }}" class="btn btn-outline-danger">Cancel</a>
-                <button type="submit" id="submit-all" class="btn btn-primary float-end">Save</button>
-            </div>
-        </form>
-    </div>
+    </form>
+</div>
 @endsection
 
 @section('script')
