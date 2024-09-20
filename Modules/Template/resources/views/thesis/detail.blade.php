@@ -14,8 +14,8 @@
         <h3 class="mt-5 fw-bold">{{ $thesisProject->title }}</h3>
         <div class="">
             <ul class="d-flex gap-5">
-                <li><a href="">{{ $thesisProject->category->name }}</a></li>
-                <li><a href="">{{ $thesisProject->owner->name }}</a></li>
+                <li><a href="">{{ $thesisProject->category?->name }}</a></li>
+                <li><a href="">{{ $thesisProject->owner?->name }}</a></li>
             </ul>
         </div>
         <p>{!! $thesisProject->description !!}</p>

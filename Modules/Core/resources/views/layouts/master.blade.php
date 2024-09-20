@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
+    <title>{{ $siteName . ' - Dashboard' }}</title>
     <meta
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
       name="viewport"
     />
     <link
       rel="icon"
-      href="assets/img/kaiadmin/favicon.ico"
+      href="{{ asset('storage/uploads/'.$siteImage) }}"
       type="image/x-icon"
     />
 
@@ -213,6 +213,7 @@
                       <li>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('profile.edit', Auth::id()) }}">My Profile</a>
+                        <a class="dropdown-item" href="{{ route('dashboard') }}">Switch to FE</a>
                         <div class="dropdown-divider"></div>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf

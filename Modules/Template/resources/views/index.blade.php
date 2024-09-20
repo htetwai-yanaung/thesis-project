@@ -81,54 +81,60 @@
         <h3 class="text-center text-info">Popular Thesis Projects</h3>
         <h3 class="text-center text-primary">in Our Department</h3>
         <div class="mt-5 post-con">
-          <div class="post-one">
-            <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start">
-              <img src="{{ asset('images/images.png') }}" alt="" class="img-fluid">
-              <div class="col-12 col-md-7">
-                <h5 class="title fw-bold text-primary">Automatic Robotic Arm</h5>
-                <p class="description text-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse . . .</p>
-                <div class="">
-                  <div class="project-type text-info">Third Year Group I Projects</div>
-                  <p class="date text-secondary">03.02.2024</p>
+            @if ($thesisProjects[0])
+            <div class="post-one">
+              <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start">
+                <x-image src="{{ 'storage/uploads/project/'.$thesisProjects[0]->images[0]->path }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
+                <div class="col-12 col-md-7">
+                  <h5 class="title fw-bold text-primary">{{ $thesisProjects[0]->title }}</h5>
+                  <p class="description text-secondary">{{ Str::limit($thesisProjects[0]->description, 250, '...') }}</p>
+                  <div class="">
+                    <div class="project-type text-info">{{ $thesisProjects[0]->category?->name }}</div>
+                    <p class="date text-secondary">{{ $thesisProjects[0]->created_at->format('d/m/Y') }}</p>
+                  </div>
+                  <a href="{{ route('thesis#detail', $thesisProjects[0]->id) }}" class="btn btn-primary">See Details</a>
                 </div>
-                <div class="btn btn-primary">See Details</div>
               </div>
             </div>
-          </div>
-          <div class="my-5 post-two">
-            <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start flex-md-row-reverse">
-              <img src="{{ asset('images/images.png') }}" alt="" class="img-fluid">
-              <div class="col-12 col-md-7">
-                <h5 class="title fw-bold text-primary">Automatic Robotic Arm</h5>
-                <p class="description text-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse . . .</p>
-                <div class="">
-                  <div class="project-type text-info">Third Year Group I Projects</div>
-                  <p class="date text-secondary">03.02.2024</p>
+            @endif
+            @if ($thesisProjects[1])
+            <div class="my-5 post-two">
+              <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start flex-md-row-reverse">
+                <x-image src="{{ 'storage/uploads/project/'.$thesisProjects[1]->images[0]->path }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
+                <div class="col-12 col-md-7">
+                  <h5 class="title fw-bold text-primary">{{ $thesisProjects[1]->title }}</h5>
+                  <p class="description text-secondary">{{ Str::limit($thesisProjects[1]->description, 250, '...') }}</p>
+                  <div class="">
+                    <div class="project-type text-info">{{ $thesisProjects[2]->category?->name }}</div>
+                    <p class="date text-secondary">{{ $thesisProjects[2]->created_at->format('d/m/Y') }}</p>
+                  </div>
+                  <a href="{{ route('thesis#detail', $thesisProjects[1]->id) }}" class="btn btn-primary">See Details</a>
                 </div>
-                <div class="btn btn-primary">See Details</div>
               </div>
             </div>
-          </div>
-          <div class="post-three">
-            <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start">
-              <img src="{{ asset('images/images.png') }}" alt="" class="img-fluid">
-              <div class="col-12 col-md-7">
-                <h5 class="title fw-bold text-primary">Automatic Robotic Arm</h5>
-                <p class="description text-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse . . .</p>
-                <div class="">
-                  <div class="project-type text-info">Third Year Group I Projects</div>
-                  <p class="date text-secondary">03.02.2024</p>
+            @endif
+            @if ($thesisProjects[2])
+            <div class="post-three">
+              <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start">
+                <x-image src="{{ 'storage/uploads/project/'.$thesisProjects[2]->images[0]->path }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
+                <div class="col-12 col-md-7">
+                  <h5 class="title fw-bold text-primary">{{ $thesisProjects[2]->title }}</h5>
+                  <p class="description text-secondary">{{ Str::limit($thesisProjects[2]->description, 250, '...') }}</p>
+                  <div class="">
+                    <div class="project-type text-info">{{ $thesisProjects[2]->category?->name }}</div>
+                    <p class="date text-secondary">{{ $thesisProjects[2]->created_at->format('d/m/Y') }}</p>
+                  </div>
+                  <a href="{{ route('thesis#detail', $thesisProjects[2]->id) }}" class="btn btn-primary">See Details</a>
                 </div>
-                <div class="btn btn-primary">See Details</div>
               </div>
             </div>
-          </div>
+            @endif
         </div>
         <div class="mt-5 text-center">
-          <div class="btn text-info btn-outline-primary">
+          <a href="{{ route('thesis#page') }}" class="btn text-info btn-outline-primary">
             <i class="fa-solid fa-arrow-right me-2"></i>
             Explore more
-          </div>
+          </a>
         </div>
         <div class="bottom-0 mx-auto divider col-6 bg-primary position-absolute" style="height: 3px;left: 0;right: 0;"></div>
       </div>
@@ -162,7 +168,7 @@
     </div>
   </section>
 
-  <section class="activity">
+  <section class="d-none activity">
     <div class="container">
       <div class="px-3 py-5">
         <h5 class="text-center text-primary"><span class="text-info">Activities</span> in Our Department</h5>

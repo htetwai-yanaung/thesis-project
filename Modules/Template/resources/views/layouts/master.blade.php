@@ -7,7 +7,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Template Module - {{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $siteName }}</title>
+    <link
+      rel="icon"
+      href="{{ asset('storage/uploads/'.$siteImage) }}"
+      type="image/x-icon"
+    />
 
     <meta name="description" content="{{ $description ?? '' }}">
     <meta name="keywords" content="{{ $keywords ?? '' }}">
@@ -72,8 +77,9 @@
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="user_name" role="button"
                       data-bs-toggle="dropdown" aria-expanded="false">
-                      <img src="{{ asset('images/images.png') }}" alt="" class="me-2 rounded-circle"
-                          style="width: 40px; height: 40px" />
+                      <x-image src="{{ 'storage/uploads/profile/'.Auth::user()->profile_photo_path }}"
+                            default="{{ 'images/images.png' }}"
+                            class="me-2 rounded-circle" style="width: 40px; height: 40px"/>
                       {{ Auth::user()->name }}
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="user_name">
