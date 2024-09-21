@@ -71,7 +71,7 @@ class ThesisService
             $thesis->category_id = $request->category;
             $thesis->year_id = $request->year;
             $thesis->project_type = $request->project_type;
-            $thesis->status = $setting->enable_approve == 1 ? Constants::approved : Constants::pending;
+            $thesis->status = $setting->enable_approve == 1 ? Constants::pending : Constants::approved;
             $thesis->user_id = Auth::user()->id;
             $thesis->save();
 
@@ -104,6 +104,9 @@ class ThesisService
                         ->orWhere(ThesisProject::tableName . '.' . ThesisProject::desc, 'like', '%' . $search . '%');
                     });
                 }
+                if(isset($conds['user_id'])){
+                    $q->where(ThesisProject::userId, $conds['user_id']);
+                }
             })
             ->when($categoryId, function($query, $categoryId){
                 $query->where(ThesisProject::categoryId, $categoryId);
@@ -111,6 +114,7 @@ class ThesisService
             ->when($status, function($query, $status){
                 $query->where(ThesisProject::status, $status);
             })
+            ->orderBy(ThesisProject::popularCount, 'desc')
             ->orderBy(ThesisProject::createdAt, 'desc')
             ->paginate(10);
 
@@ -175,7 +179,7 @@ class ThesisService
             $thesis->category_id = $request->category;
             $thesis->year_id = $request->year;
             $thesis->project_type = $request->project_type;
-            $thesis->status = $setting->enable_approve == 1 ? Constants::approved : Constants::pending;
+            $thesis->status = $setting->enable_approve == 1 ? Constants::pending : Constants::approved;
             $thesis->update();
 
             $this->imageService->storeThesisImages($request, $id);
@@ -183,11 +187,15 @@ class ThesisService
             DB::commit();
 
             return [
+                'status' => 'success',
+                'message' => 'Project update success',
                 'success' => 'Project update success'
             ];
         }catch(\Throwable $e){
             DB::rollBack();
             return [
+                'status' => 'success',
+                'message' => $e->getMessage(),
                 'error' => $e->getMessage()
             ];
         }
@@ -196,6 +204,7 @@ class ThesisService
     public function deleteThesis($id)
     {
         $thesis = $this->getThesisProject($id);
+        $userId = $thesis->user_id;
         $thesis->delete();
 
         $images = $this->imageService->getImages($id, Constants::projectImageType);
@@ -205,7 +214,8 @@ class ThesisService
 
         return [
             'status' => 'success',
-            'message' => 'Category successfully deleted.'
+            'message' => 'Category successfully deleted.',
+            'user_id' => $userId
         ];
     }
 
@@ -215,6 +225,27 @@ class ThesisService
         try{
             $thesis = $this->getThesisProject($id);
             $thesis->status = $request->status;
+            $thesis->update();
+            DB::commit();
+
+            return [
+                'success' => 'Status update success'
+            ];
+        }catch(\Throwable $e){
+            DB::rollBack();
+            return [
+                'error' => $e->getMessage()
+            ];
+        }
+    }
+
+    public function addPopular($id)
+    {
+        DB::beginTransaction();
+        try{
+            $thesis = $this->getThesisProject($id);
+            $popular = (int)$thesis->popular_count + 1;
+            $thesis->popular_count = $popular;
             $thesis->update();
             DB::commit();
 

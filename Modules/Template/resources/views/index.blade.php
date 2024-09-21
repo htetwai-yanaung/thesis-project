@@ -84,10 +84,10 @@
             @if ($thesisProjects[0])
             <div class="post-one">
               <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start">
-                <x-image src="{{ 'storage/uploads/project/'.$thesisProjects[0]->images[0]->path }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
+                <x-image src="{{ 'storage/uploads/project/' }}{{ count($thesisProjects[0]->images) > 0 ? $thesisProjects[0]->images[0]->path : 'no' }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
                 <div class="col-12 col-md-7">
                   <h5 class="title fw-bold text-primary">{{ $thesisProjects[0]->title }}</h5>
-                  <p class="description text-secondary">{{ Str::limit($thesisProjects[0]->description, 250, '...') }}</p>
+                  <p class="description text-secondary">{!! Str::limit($thesisProjects[0]->description, 250, '...') !!}</p>
                   <div class="">
                     <div class="project-type text-info">{{ $thesisProjects[0]->category?->name }}</div>
                     <p class="date text-secondary">{{ $thesisProjects[0]->created_at->format('d/m/Y') }}</p>
@@ -100,10 +100,10 @@
             @if ($thesisProjects[1])
             <div class="my-5 post-two">
               <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start flex-md-row-reverse">
-                <x-image src="{{ 'storage/uploads/project/'.$thesisProjects[1]->images[0]->path }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
+                <x-image src="{{ 'storage/uploads/project/' }}{{ count($thesisProjects[1]->images) > 0 ? $thesisProjects[1]->images[0]->path : 'no' }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
                 <div class="col-12 col-md-7">
                   <h5 class="title fw-bold text-primary">{{ $thesisProjects[1]->title }}</h5>
-                  <p class="description text-secondary">{{ Str::limit($thesisProjects[1]->description, 250, '...') }}</p>
+                  <p class="description text-secondary">{!! Str::limit($thesisProjects[1]->description, 250, '...') !!}</p>
                   <div class="">
                     <div class="project-type text-info">{{ $thesisProjects[2]->category?->name }}</div>
                     <p class="date text-secondary">{{ $thesisProjects[2]->created_at->format('d/m/Y') }}</p>
@@ -116,10 +116,10 @@
             @if ($thesisProjects[2])
             <div class="post-three">
               <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start">
-                <x-image src="{{ 'storage/uploads/project/'.$thesisProjects[2]->images[0]->path }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
+                <x-image src="{{ 'storage/uploads/project/' }}{{ count($thesisProjects[2]->images) > 0 ? $thesisProjects[2]->images[0]->path : 'no' }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
                 <div class="col-12 col-md-7">
                   <h5 class="title fw-bold text-primary">{{ $thesisProjects[2]->title }}</h5>
-                  <p class="description text-secondary">{{ Str::limit($thesisProjects[2]->description, 250, '...') }}</p>
+                  <p class="description text-secondary">{!! Str::limit($thesisProjects[2]->description, 250, '...') !!}</p>
                   <div class="">
                     <div class="project-type text-info">{{ $thesisProjects[2]->category?->name }}</div>
                     <p class="date text-secondary">{{ $thesisProjects[2]->created_at->format('d/m/Y') }}</p>

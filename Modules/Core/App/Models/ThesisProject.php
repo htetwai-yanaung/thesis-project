@@ -26,6 +26,7 @@ class ThesisProject extends Model
         'member',
         'user_id',
         'status',
+        'popular_count',
     ];
 
     const tableName = 'thesis_projects';
@@ -38,6 +39,7 @@ class ThesisProject extends Model
     const member = 'member';
     const userId = 'user_id';
     const status = 'status';
+    const popularCount = 'popular_count';
     const createdAt = 'created_at';
 
     public static function newFactory()

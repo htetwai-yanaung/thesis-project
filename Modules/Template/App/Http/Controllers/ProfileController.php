@@ -23,15 +23,17 @@ class ProfileController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, $userId)
     {
         $conds = [
-            'user_id' => Auth::id()
+            'user_id' => $userId
         ];
         $thesisProjects = $this->thesisService->getThesisProjects($conds);
+        $user = $this->userService->getUser($userId, ['userYear']);
 
         $dataArr = [
-            'thesisProjects' => $thesisProjects
+            'thesisProjects' => $thesisProjects,
+            'user' => $user
         ];
         return view('template::profile.index', $dataArr);
     }

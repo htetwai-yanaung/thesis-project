@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Modules\Core\Constant\Constants;
 use Illuminate\Http\RedirectResponse;
+use Modules\Core\App\resources\ThesisResource;
 use Modules\Core\App\Http\Services\NewsService;
 use Modules\Core\App\Http\Services\UserService;
 use Modules\Core\App\Http\Services\ThesisService;
@@ -24,7 +25,8 @@ class TemplateController extends Controller
      */
     public function index()
     {
-        $thesisProjects = $this->thesisService->getThesisProjects();
+        $thesisProjects = ThesisResource::collection($this->thesisService->getThesisProjects());
+
         $teachers = $this->userService->getUsers(['role' => Constants::teacher]);
         $allNews = $this->newsService->getAllNews(null, ['images'], Constants::publishedStatus, false, 9);
         $dataArr = [

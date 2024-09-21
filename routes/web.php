@@ -107,7 +107,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     // user
     Route::prefix('profile')->middleware(['isOwner'])->controller(UserProfileController::class)->group(function() {
-        Route::get('/{id}', 'index')->name('user.profile');
+        // Route::get('/{id}', 'index')->name('user.profile');
         Route::get('/{id}/setting', 'setting')->name('user.profile.setting');
         Route::post('/{id}/setting/update', 'settingUpdate')->name('user.profile.setting.update');
     });
@@ -115,7 +115,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     // user thesis
     Route::prefix('thesis')->controller(UserThesisController::class)->group(function() {
         Route::get('/create', 'create')->name('user.thesis.create');
+        Route::get('/{id}/edit', 'edit')->name('user.thesis.edit');
+        Route::get('/{id}/delete', 'destroy')->name('user.thesis.delete');
         Route::post('/store', 'store')->name('user.thesis.store');
+        Route::post('/{id}/update', 'update')->name('user.thesis.update');
     });
 });
 
@@ -127,6 +130,11 @@ Route::prefix('thesis')->controller(ThesisController::class)->group(function() {
 Route::prefix('dropzone')->controller(ImageController::class)->group(function() {
     Route::post('/store-temp-file', 'dropzoneTempStore')->name('dropzone.tempStore');
     Route::delete('/delete-temp-file', 'dropzoneTempDelete')->name('dropzone.tempDelete');
+});
+
+// user
+Route::prefix('profile')->controller(UserProfileController::class)->group(function() {
+    Route::get('/{user_id}', 'index')->name('user.profile');
 });
 
 

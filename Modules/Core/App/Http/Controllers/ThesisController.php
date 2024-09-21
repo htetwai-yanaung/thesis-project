@@ -24,7 +24,7 @@ class ThesisController
         $status = $request->status == 'all' ? null : $request->status;
         $thesisProjects = $this->thesisService->getThesisProjects($conds, $categoryId, $status);
 
-        $catConds['status'] = constants::publishedStatus;
+        $catConds['status'] = Constants::publishedStatus;
         $categories = $this->categoryService->getCategories($catConds, true);
 
         $dataArr = [

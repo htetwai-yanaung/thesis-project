@@ -9,18 +9,47 @@
     </div> --}}
     <div class="container" style="margin-top: 20px;">
         <div class="container-fluid pt-3">
+            <div class="row mb-3">
+                <form action="{{ route('thesis#page') }}" method="GET" class="col">
+                    <div class="d-flex">
+                        <div class="ms-auto d-flex gap-2">
+                            <div class="">
+                                <select name="category_id" id="" class="form-select h-100">
+                                    <option value="">All</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}" @selected(request()->get('category_id') == $category->id)>{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="">
+                                <div class="input-icon">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Search for..."
+                                    name="search_term"
+                                    value="{{ request()->get('search_term') }}"
+                                  />
+                                </div>
+                            </div>
+                            {{-- <input type="text" name="search_term" value="{{ request()->get('search_term') }}" placeholder="Search ..." class="form-control"> --}}
+                            <button class="btn btn-primary btn-sm"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div class="row row-cols-4 gy-3">
                 @foreach ($thesisProjects as $project)
                 <div class="col">
                     <div class="card" style="height: 500px;">
-                        <div class="card-header bg-primary d-flex align-items-center gap-2">
-                            <div class="rounded-circle border border-white" style="width: 40px; height: 40px;">
+                        <a href="{{ route('user.profile', $project->owner->id) }}" class="d-block text-decoration-none card-header bg-secondary d-flex align-items-center gap-2">
+                            <div class="rounded-circle" style="width: 40px; height: 40px;">
                                 <x-image src="{{ 'storage/uploads/profile/'.$project->owner->profile_photo_path }}" class="h-100 w-100 rounded-circle" style="object-fit: cover"/>
                             </div>
                             <h6 class="text-white">{{ $project->owner->name }}</h6>
-                        </div>
+                        </a>
                         <div class="" style="height: 200px;">
-                            <x-image src="{{ 'storage/uploads/project/'.$project->images[0]->path }}" class="card-img-top h-100 w-100" style="object-fit: cover"/>
+                            <x-image src="{{ 'storage/uploads/project/'}}{{ count($project->images) > 0 ? $project->images[0]->path : 'no' }}" class="card-img rounded-0 h-100 w-100" style="object-fit: cover"/>
                         </div>
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ $project->title }}</h5>

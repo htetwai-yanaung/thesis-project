@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('year_id');
             $table->tinyInteger('project_type');
             $table->string('member')->nullable();
+            $table->string('popular_count')->default(0)->nullable();
             $table->foreignId('user_id');
             $table->tinyInteger('status');
             $table->timestamps();

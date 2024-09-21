@@ -4,28 +4,39 @@ namespace Modules\Template\App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\Core\App\Models\Year;
 use App\Http\Controllers\Controller;
+use Modules\Core\Constant\Constants;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
+use Modules\Core\App\resources\ThesisResource;
 use Modules\Core\App\Http\Services\ThesisService;
+use Modules\Core\App\Http\Services\CategoryService;
 
 class ThesisController extends Controller
 {
-    protected $thesisService;
+    protected $thesisService, $categoryService;
 
-    public function __construct(ThesisService $thesisService)
+    public function __construct(ThesisService $thesisService, CategoryService $categoryService)
     {
         $this->thesisService = $thesisService;
+        $this->categoryService = $categoryService;
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $thesisProjects = $this->thesisService->getThesisProjects();
+        $conds['search_term'] = $request->search_term ?? '';
+        $categoryId = $request->category_id;
+        $thesisProjects = $this->thesisService->getThesisProjects($conds, $categoryId, Constants::publishedStatus);
+
+        $catConds['status'] = Constants::publishedStatus;
+        $categories = $this->categoryService->getCategories($catConds, true);
 
         $datArr = [
-            'thesisProjects' => $thesisProjects
+            'thesisProjects' => $thesisProjects,
+            'categories' => $categories
         ];
         return view('template::thesis.index', $datArr);
     }
@@ -45,9 +56,11 @@ class ThesisController extends Controller
     {
         $relation = ['owner', 'images', 'pdfs', 'category'];
         $thesisProject = $this->thesisService->getThesisProject($id, $relation);
+        $this->thesisService->addPopular($id);
         $datArr = [
             'thesisProject' => $thesisProject
         ];
+
         return view('template::thesis.detail', $datArr);
     }
     // /**
@@ -72,7 +85,21 @@ class ThesisController extends Controller
      */
     public function edit($id)
     {
-        return view('template::edit');
+        $relation = ['owner', 'images', 'pdfs'];
+        $thesisProject = $this->thesisService->getThesisProject($id, $relation);
+
+        $catConds['status'] = Constants::publishedStatus;
+        $categories = $this->categoryService->getCategories($catConds, true);
+
+        $years = Year::where(Year::status, Constants::publishedStatus)->get();
+
+        $datArr = [
+            'thesisProject' => $thesisProject,
+            'categories' => $categories,
+            'years' => $years
+        ];
+
+        return view('template::thesis.edit', $datArr);
     }
 
     /**
@@ -80,7 +107,10 @@ class ThesisController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $dataArr = $this->thesisService->update($id, $request);
+
+        return redirect()->back()->with($dataArr);
+
     }
 
     /**
@@ -88,6 +118,8 @@ class ThesisController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $dataArr = $this->thesisService->deleteThesis($id);
+
+        return redirect()->route('user.profile', $dataArr['user_id']);
     }
 }

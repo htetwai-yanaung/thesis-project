@@ -34,7 +34,7 @@ class ProfileService
             'name' => 'required',
             'email' => 'required|unique:users,email,'.$id,
             'year' => 'required',
-            'password' => isset($request->password) || isset($request->password_confirmation) ? 'same:password_confirmation' : ''
+            'password' => 'sometimes|nullable|confirmed|min:6'
         ])->validate();
 
         DB::beginTransaction();
