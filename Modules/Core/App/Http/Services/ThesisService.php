@@ -43,7 +43,7 @@ class ThesisService
         $validator = Validator::make($request->all(),[
             'title' => 'required',
             'description' => 'required',
-            'category' => 'required',
+            'category' => 'nullable',
             'year' => 'required',
             'project_type' => 'required',
         ]);
@@ -151,7 +151,7 @@ class ThesisService
         $validator = Validator::make($request->all(),[
             'title' => 'required',
             'description' => 'required',
-            'category' => 'required',
+            'category' => 'nullable',
             'year' => 'required',
             'project_type' => 'required',
         ]);
