@@ -31,7 +31,7 @@
           <h5 class="mb-3 text-primary fw-bold"><span class="text-info">Up to Date</span> News in our Department</h5>
           <div class="grid-system">
             @foreach ($allNews as $news)
-                <a href="#" class="item">
+                <a href="{{ route('news#detail', $news->id) }}" class="item">
                     @if ($news->images->count() > 0)
                         <x-image src="{{ 'storage/uploads/news/'.$news->images[0]->path }}" class="w-100 h-100 object-fit-cover"/>
                     @endif
@@ -40,7 +40,7 @@
             @endforeach
           </div>
           <div class="mt-2 text-end">
-            <a href="" class="text-info text-decoration-none">See More...</a>
+            <a href="{{ route('news') }}" class="text-info text-decoration-none">See More...</a>
           </div>
         </article>
         <article class="right col-12 col-lg-4">
@@ -50,7 +50,7 @@
             <article class="px-4 py-3 project-post">
                 <a href="{{ route('thesis#detail', $thesisProjects[$i]->id) }}" class="text-decoration-none">
                     <h6 class="title text-info">{{ $thesisProjects[$i]->title }}</h6>
-                    <p class="p-0 m-0 description text-secondary">{!! Str::limit($thesisProjects[$i]->description, 300, '...') !!}</p>
+                    <p class="p-0 m-0 description text-secondary">{!! Str::limit($thesisProjects[$i]->description, 250, '...') !!}</p>
                     <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
                         <div class="gap-2 d-flex align-items-center">
                             <x-image
@@ -66,7 +66,7 @@
             </article>
             @endfor
             <div class="mt-2 text-end">
-              <a href="" class="text-info text-decoration-none">See More...</a>
+              <a href="{{ route('thesis#page') }}" class="text-info text-decoration-none">See More...</a>
             </div>
           </div>
         </article>

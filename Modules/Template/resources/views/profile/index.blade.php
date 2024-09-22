@@ -30,7 +30,16 @@
                 @foreach ($thesisProjects as $project)
                 <li class="post">
                     <a href="{{ route('thesis#detail', $project->id) }}" class="text-decoration-none text-secondary">
-                        <h4 class="title fw-bold">{{ $project->title }}</h4>
+                        <div class="d-flex align-items-center">
+                            <h4 class=" fw-bold">{{ $project->title }}</h4>
+                            @if ($project->status == 1)
+                            <span class="p-1 rounded-start-5 rounded-end-5 bg-success text-white">Active</span>
+                            @elseif ($project->status == 2)
+                            <span class="p-1 rounded-start-5 rounded-end-5 bg-success text-white">Pending</span>
+                            @else
+                            <span class="p-1 rounded-start-5 rounded-end-5 bg-success text-white">Rejected</span>
+                            @endif
+                        </div>
                         <div class="d-flex gap-3 h-100">
                             <div class="d-flex flex-column justify-content-between">
                                 <p class="text-secondary ck-content">{!! Str::limit($project->description, 400, '...') !!}</p>

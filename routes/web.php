@@ -23,6 +23,7 @@ Route::get('thesis_detail/{id}',[UserThesisController::class,'detail'])->name('t
 
 // News
 Route::get('/news',[UserNewsController::class, 'index'])->name('news');
+Route::get('/news_detail/{id}', [UserNewsController::class, 'show'])->name('news#detail');
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
 

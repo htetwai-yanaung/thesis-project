@@ -50,7 +50,12 @@ class NewsController extends Controller
      */
     public function show($id)
     {
-        return view('template::show');
+        $relations = ['images'];
+        $news = $this->newsService->getNews($id, $relations);
+        $dataArr = [
+            'news' => $news,
+        ];
+        return view('template::news.show', $dataArr);
     }
 
     /**

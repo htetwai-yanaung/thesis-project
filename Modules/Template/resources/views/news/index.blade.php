@@ -1,45 +1,33 @@
 @extends('template::layouts.master')
 @section('content')
-<div class="container mx-3 news d-flex justify-content-end" style="padding-top: 120px;">
-    {{-- <div class="left col-12 col-lg-2">
-      <a href="#"><button type="button" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i>Post your thesis</button></a>
-    </div> --}}
-  </div>
-  <div class="container position-relative">
-    <div class="flex-wrap gap-4 px-3 py-5 d-flex justify-content-center align-items-start">
-      <article class="left col-12 col-lg-7">
-        <h5 class="mb-3 text-primary fw-bold"><span class="text-info">Up to Date News</span> in our Department</h5>
-        <ul style="list-style-type: none;">
-            <hr class="mt-0">
-            @foreach ($allNews as $news)
-               <li class="" style="margin: 5px; padding: 10px;">
-                    <h4 class="title fw-bold text-primary">{{ $news->title }}</h4>
-                    <div class="d-flex">
-                        <p class="description text-secondary">{!! Str::limit($news->description, 200, '...') !!}</p>
-                        <x-image src="{{ 'storage/uploads/news/'.$news->images[0]->path }}" class="thesis-image"/>
+
+<div class="container pt-3" style="margin-top: 20px;">
+    <h5 class="mb-3 text-primary fw-bold"><span class="text-info">Up to Date News</span> in our Department</h5>
+    <div class="row">
+        @foreach ($allNews as $news)
+        <div class="col-md-9 col-sm-12">
+            <div class="border border-end-0 border-start-0 p-3 row">
+                <div class="col-6 col-lg-8 text-secondary d-flex flex-column justify-content-between">
+                    <div class="">
+                        <h4 class="title fw-bold text-primary">{{ $news->title }}</h4>
+                        <p>
+                            {!! Str::limit($news->description, 200, '...') !!}
+                        </p>
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <span class="text-info">{{ $news->owner->name }}</span>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{{ route('news#detail', $news->id) }}" class="btn btn-outline-primary rounded-start-5 rounded-end-5">See more</a>
                         <span>{{ $news->created_at->format('d/m/Y') }}</span>
                     </div>
-                </li>
-            @endforeach
-        </ul>
-        {{ $allNews->links() }}
-      </article>
-      {{-- <article class="right col-12 col-lg-4">
-        <div class="project-container">
-          <article class="px-4 py-3 shadow-sm project-post" style="margin: 30px;">
-            <img src="storage/uploads/thesis.jpg" class="rounded thesis-detail" alt="...">
-            <p class="text-primary">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia quibusdam eum excepturi omnis accusamus quod, nostrum provident quos consectetur. Eos, iusto quaerat? Sit numquam illum dicta placeat quam fugit unde!</p>
-            <div class="">
-              <div class="project-type text-info">Mg Tect Htun</div>
-              <p class="date text-secondary">03.02.2024</p>
+                </div>
+                <div class="col-6 col-lg-4" style="widht: 200px; height: 200px">
+                    <x-image src="{{ 'storage/uploads/news/'.$news->images[0]->path }}" class="w-100 h-100 object-fit-cover rounded"/>
+                </div>
             </div>
-          </article>
         </div>
-      </article> --}}
-      <div class="bottom-0 mx-auto divider col-6 bg-primary position-absolute" style="height: 3px;left: 0;right: 0;"></div>
+        @endforeach
     </div>
-  </div>
+    <div class="d-flex justify-content-center mt-3">
+        {{ $allNews->links() }}
+    </div>
+</div>
 @endsection
