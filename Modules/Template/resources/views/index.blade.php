@@ -46,25 +46,27 @@
         <article class="right col-12 col-lg-4">
           <h5 class="mb-3 text-primary fw-bold">Thesis Projects</h5>
           <div class="project-container">
-            @for ($i = 1; $i <= 5; $i++)
-            <article class="px-4 py-3 project-post">
-                <a href="{{ route('thesis#detail', $thesisProjects[$i]->id) }}" class="text-decoration-none">
-                    <h6 class="title text-info">{{ $thesisProjects[$i]->title }}</h6>
-                    <p class="p-0 m-0 description text-secondary">{!! Str::limit($thesisProjects[$i]->description, 250, '...') !!}</p>
-                    <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
-                        <div class="gap-2 d-flex align-items-center">
-                            <x-image
-                                src="{{ 'storage/uploads/profile/'.$thesisProjects[$i]->owner->profile_photo_path }}"
-                                default="images/images.png"
-                                class="object-fit-cover rounded-circle"
-                                style="width: 28px; height: 28px;"/>
-                            <span class="name text-secondary">{{ $thesisProjects[$i]->owner->name }}</span>
+
+                @foreach ($latestProjects as $project)
+                <article class="px-4 py-3 project-post">
+                    <a href="{{ route('thesis#detail', $project->id) }}" class="text-decoration-none">
+                        <h6 class="title text-info">{{ $project->title }}</h6>
+                        <p class="p-0 m-0 description text-secondary">{!! Str::limit($project->description, 250, '...') !!}</p>
+                        <div class="flex-wrap mt-2 d-flex justify-content-between align-items-center">
+                            <div class="gap-2 d-flex align-items-center">
+                                <x-image
+                                    src="{{ 'storage/uploads/profile/'.$project->owner->profile_photo_path }}"
+                                    default="images/images.png"
+                                    class="object-fit-cover rounded-circle"
+                                    style="width: 28px; height: 28px;"/>
+                                <span class="name text-secondary">{{ $project->owner->name }}</span>
+                            </div>
+                            <span class="date text-secondary">{{ $project->created_at->format('d/m/Y') }}</span>
                         </div>
-                        <span class="date text-secondary">{{ $thesisProjects[$i]->created_at->format('d/m/Y') }}</span>
-                    </div>
-                </a>
-            </article>
-            @endfor
+                    </a>
+                </article>
+                @endforeach
+
             <div class="mt-2 text-end">
               <a href="{{ route('thesis#page') }}" class="text-info text-decoration-none">See More...</a>
             </div>
@@ -81,50 +83,50 @@
         <h3 class="text-center text-info">Popular Thesis Projects</h3>
         <h3 class="text-center text-primary">in Our Department</h3>
         <div class="mt-5 post-con">
-            @if ($thesisProjects[0])
+            @if ($popularProjects[0])
             <div class="post-one">
               <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start">
-                <x-image src="{{ 'storage/uploads/project/' }}{{ count($thesisProjects[0]->images) > 0 ? $thesisProjects[0]->images[0]->path : 'no' }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
+                <x-image src="{{ 'storage/uploads/project/' }}{{ count($popularProjects[0]->images) > 0 ? $popularProjects[0]->images[0]->path : 'no' }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
                 <div class="col-12 col-md-7">
-                  <h5 class="title fw-bold text-primary">{{ $thesisProjects[0]->title }}</h5>
-                  <p class="description text-secondary">{!! Str::limit($thesisProjects[0]->description, 250, '...') !!}</p>
+                  <h5 class="title fw-bold text-primary">{{ $popularProjects[0]->title }}</h5>
+                  <p class="description text-secondary">{!! Str::limit($popularProjects[0]->description, 250, '...') !!}</p>
                   <div class="">
-                    <div class="project-type text-info">{{ $thesisProjects[0]->category?->name }}</div>
-                    <p class="date text-secondary">{{ $thesisProjects[0]->created_at->format('d/m/Y') }}</p>
+                    <div class="project-type text-info">{{ $popularProjects[0]->category?->name }}</div>
+                    <p class="date text-secondary">{{ $popularProjects[0]->created_at->format('d/m/Y') }}</p>
                   </div>
-                  <a href="{{ route('thesis#detail', $thesisProjects[0]->id) }}" class="btn btn-primary">See Details</a>
+                  <a href="{{ route('thesis#detail', $popularProjects[0]->id) }}" class="btn btn-primary">See Details</a>
                 </div>
               </div>
             </div>
             @endif
-            @if ($thesisProjects[1])
+            @if ($popularProjects[1])
             <div class="my-5 post-two">
               <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start flex-md-row-reverse">
-                <x-image src="{{ 'storage/uploads/project/' }}{{ count($thesisProjects[1]->images) > 0 ? $thesisProjects[1]->images[0]->path : 'no' }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
+                <x-image src="{{ 'storage/uploads/project/' }}{{ count($popularProjects[1]->images) > 0 ? $popularProjects[1]->images[0]->path : 'no' }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
                 <div class="col-12 col-md-7">
-                  <h5 class="title fw-bold text-primary">{{ $thesisProjects[1]->title }}</h5>
-                  <p class="description text-secondary">{!! Str::limit($thesisProjects[1]->description, 250, '...') !!}</p>
+                  <h5 class="title fw-bold text-primary">{{ $popularProjects[1]->title }}</h5>
+                  <p class="description text-secondary">{!! Str::limit($popularProjects[1]->description, 250, '...') !!}</p>
                   <div class="">
-                    <div class="project-type text-info">{{ $thesisProjects[2]->category?->name }}</div>
-                    <p class="date text-secondary">{{ $thesisProjects[2]->created_at->format('d/m/Y') }}</p>
+                    <div class="project-type text-info">{{ $popularProjects[2]->category?->name }}</div>
+                    <p class="date text-secondary">{{ $popularProjects[2]->created_at->format('d/m/Y') }}</p>
                   </div>
-                  <a href="{{ route('thesis#detail', $thesisProjects[1]->id) }}" class="btn btn-primary">See Details</a>
+                  <a href="{{ route('thesis#detail', $popularProjects[1]->id) }}" class="btn btn-primary">See Details</a>
                 </div>
               </div>
             </div>
             @endif
-            @if ($thesisProjects[2])
+            @if ($popularProjects[2])
             <div class="post-three">
               <div class="flex-wrap gap-4 d-flex justify-content-center align-items-start">
-                <x-image src="{{ 'storage/uploads/project/' }}{{ count($thesisProjects[2]->images) > 0 ? $thesisProjects[2]->images[0]->path : 'no' }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
+                <x-image src="{{ 'storage/uploads/project/' }}{{ count($popularProjects[2]->images) > 0 ? $popularProjects[2]->images[0]->path : 'no' }}" class="img-fluid object-fit-cover" style="width: 225px; height: 225px;"/>
                 <div class="col-12 col-md-7">
-                  <h5 class="title fw-bold text-primary">{{ $thesisProjects[2]->title }}</h5>
-                  <p class="description text-secondary">{!! Str::limit($thesisProjects[2]->description, 250, '...') !!}</p>
+                  <h5 class="title fw-bold text-primary">{{ $popularProjects[2]->title }}</h5>
+                  <p class="description text-secondary">{!! Str::limit($popularProjects[2]->description, 250, '...') !!}</p>
                   <div class="">
-                    <div class="project-type text-info">{{ $thesisProjects[2]->category?->name }}</div>
-                    <p class="date text-secondary">{{ $thesisProjects[2]->created_at->format('d/m/Y') }}</p>
+                    <div class="project-type text-info">{{ $popularProjects[2]->category?->name }}</div>
+                    <p class="date text-secondary">{{ $popularProjects[2]->created_at->format('d/m/Y') }}</p>
                   </div>
-                  <a href="{{ route('thesis#detail', $thesisProjects[2]->id) }}" class="btn btn-primary">See Details</a>
+                  <a href="{{ route('thesis#detail', $popularProjects[2]->id) }}" class="btn btn-primary">See Details</a>
                 </div>
               </div>
             </div>

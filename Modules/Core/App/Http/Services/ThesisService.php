@@ -92,7 +92,7 @@ class ThesisService
 
     }
 
-    public function getThesisProjects($conds = null, $categoryId = null, $status = null){
+    public function getThesisProjects($conds = null, $categoryId = null, $status = null, $isPopular = null, $paginate = 10){
         $relations = ['images', 'owner', 'category'];
 
         $thesisProjects = ThesisProject::with($relations)
@@ -114,9 +114,11 @@ class ThesisService
             ->when($status, function($query, $status){
                 $query->where(ThesisProject::status, $status);
             })
-            ->orderBy(ThesisProject::popularCount, 'desc')
+            ->when($isPopular, function($query) {
+                $query->orderBy(ThesisProject::popularCount, 'desc');
+            })
             ->orderBy(ThesisProject::createdAt, 'desc')
-            ->paginate(10);
+            ->paginate($paginate);
 
         return $thesisProjects;
     }

@@ -25,12 +25,14 @@ class TemplateController extends Controller
      */
     public function index()
     {
-        $thesisProjects = ThesisResource::collection($this->thesisService->getThesisProjects());
+        $latestProjects = ThesisResource::collection($this->thesisService->getThesisProjects(paginate: 5));
+        $popularProjects = ThesisResource::collection($this->thesisService->getThesisProjects(isPopular: true));
 
         $teachers = $this->userService->getUsers(['role' => Constants::teacher]);
         $allNews = $this->newsService->getAllNews(null, ['images'], Constants::publishedStatus, false, 9);
         $dataArr = [
-            'thesisProjects' => $thesisProjects,
+            'latestProjects' => $latestProjects,
+            'popularProjects' => $popularProjects,
             'teachers' => $teachers,
             'allNews' => $allNews
         ];

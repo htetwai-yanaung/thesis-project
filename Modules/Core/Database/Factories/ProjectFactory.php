@@ -22,12 +22,13 @@ class ProjectFactory extends Factory
     {
         return [
             'title' => fake()->name(),
-            'description' => fake()->words(100, true),
+            'description' => fake()->words(1000, true),
             'category_id' => fake()->numberBetween(1,3),
             'year_id' => fake()->numberBetween(1,6),
             'project_type' => fake()->numberBetween(1,2),
             'user_id' => new UserFactory(),
             'status' => 1,
+            'popular_count' => fake()->numberBetween(1,100)
         ];
     }
 }

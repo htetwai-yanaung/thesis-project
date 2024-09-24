@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->foreignId('category_id');
+            $table->foreignId('category_id')->nullable();
             $table->foreignId('year_id');
             $table->tinyInteger('project_type');
             $table->string('member')->nullable();
