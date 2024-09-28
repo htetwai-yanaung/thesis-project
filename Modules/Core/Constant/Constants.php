@@ -19,7 +19,7 @@ class Constants
 
     //image type
     const imageFileType = 'img';
-    const pdfFileType = 'pdf';
+    const projectFileType = 'file';
     const projectImageType = 'project';
     const newsImageType = 'news';
     const bannerImageType = 'banner';

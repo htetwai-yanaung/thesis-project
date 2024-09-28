@@ -122,13 +122,19 @@
         uploadMultiple: false,
         addRemoveLinks: true,
         parallelUploads: 100,
-        acceptedFiles: 'image/*, application/pdf',
+        // acceptedFiles: 'image/*, application/pdf',
         // dictDefaultMessage: "Drop images here or click to upload",
         // previewTemplate: previewTemplate,
         init: function() {
             this.on("addedfile", file => {
                 if(file.type == 'application/pdf'){
                     file.previewElement.querySelector('img').src = '{{ asset("images/pdf.png") }}';
+                }
+                if(file.type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation'){
+                    file.previewElement.querySelector('img').src = '{{ asset("images/pptx.png") }}';
+                }
+                if(file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'){
+                    file.previewElement.querySelector('img').src = '{{ asset("images/docx.png") }}';
                 }
             });
             this.on("successmultiple", (file, response) => {

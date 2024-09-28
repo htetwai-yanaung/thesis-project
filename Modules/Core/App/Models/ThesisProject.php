@@ -55,8 +55,8 @@ class ThesisProject extends Model
         return $this->hasMany(Image::class, 'parent_id', 'id')->where([Image::imageType => Constants::projectImageType, Image::fileType => Constants::imageFileType]);
     }
 
-    public function pdfs(){
-        return $this->hasMany(Image::class, 'parent_id', 'id')->where([Image::imageType => Constants::projectImageType, Image::fileType => Constants::pdfFileType]);
+    public function projectFiles(){
+        return $this->hasMany(Image::class, 'parent_id', 'id')->where([Image::imageType => Constants::projectImageType])->where(Image::fileType, "!=", Constants::imageFileType);
     }
 
     public function category(){

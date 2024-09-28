@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Modules\Core\App\Models\Year;
+use Illuminate\Support\Facades\Hash;
 use Modules\Core\App\Models\UserRole;
 use Modules\Core\Database\Seeders\YearSeeder;
 
@@ -15,6 +16,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        \App\Models\User::factory()->create([
+            'name' => 'Super Admin',
+            'email' => 'admin@gmail.com',
+            'year' => 1,
+            'role' => 1,
+            'password' => Hash::make('password'),
+            'status' => 1,
+        ]);
+
         \App\Models\User::factory(30)->create();
 
         \Modules\Core\App\Models\News::factory(10)->create();
@@ -27,10 +37,7 @@ class DatabaseSeeder extends Seeder
             \Modules\Core\App\Models\Image::factory()->create(['parent_id' => $i, 'image_type' => 'project']);
         }
 
-        \App\Models\User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+
 
         $roles = ['Admin', 'Teacher', 'Student'];
         foreach($roles as $role){

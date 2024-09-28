@@ -54,7 +54,7 @@ class ThesisController extends Controller
 
     public function detail($id)
     {
-        $relation = ['owner', 'images', 'pdfs', 'category'];
+        $relation = ['owner', 'images', 'projectFiles', 'category'];
         $thesisProject = $this->thesisService->getThesisProject($id, $relation);
         $this->thesisService->addPopular($id);
         $datArr = [
@@ -85,7 +85,7 @@ class ThesisController extends Controller
      */
     public function edit($id)
     {
-        $relation = ['owner', 'images', 'pdfs'];
+        $relation = ['owner', 'images', 'projectFiles'];
         $thesisProject = $this->thesisService->getThesisProject($id, $relation);
 
         $catConds['status'] = Constants::publishedStatus;

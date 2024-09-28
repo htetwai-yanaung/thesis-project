@@ -24,7 +24,7 @@ class ThesisResource extends JsonResource
             'owner' => $this->owner->toArray(),
             'images' => ImageResource::collection(count($this->images) > 0 ? $this->images : $this->getEmptyImageResource())->toArray(request()),
             'category' => $this->category,
-            'pdfs' => $this->pdfs,
+            'projectFiles' => $this->projectFiles,
             'created_at' => $this->created_at->format('d/m/Y')
         ];
     }

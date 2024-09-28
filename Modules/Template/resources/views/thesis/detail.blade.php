@@ -37,20 +37,23 @@
             </div>
         @endforeach
     </div>
-    <div class="post-text">
+    <div class="post-text text-secondary">
         <h3 class="mt-5 fw-bold">{{ $thesisProject->title }}</h3>
-        <div class="">
-            <ul class="d-flex gap-5">
-                <li><a href="">{{ $thesisProject->category?->name }}</a></li>
-                <li><a href="">{{ $thesisProject->owner?->name }}</a></li>
-            </ul>
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item active text-secondary">{{ $thesisProject->category?->name }}</li>
+                  <li class="breadcrumb-item active text-secondary">{{ $thesisProject->owner?->name }}</li>
+                  <li class="breadcrumb-item active text-secondary">{{ $thesisProject->created_at->format('d/m/Y') }}</li>
+                </ol>
+            </nav>
         </div>
         <p>{!! $thesisProject->description !!}</p>
 
-        @if (count($thesisProject->pdfs) > 0)
+        @if (count($thesisProject->projectFiles) > 0)
         <div class="">
-            @foreach ($thesisProject->pdfs as $pdf)
-                <a href="{{ asset('storage/uploads/project/'.$pdf->path) }}" class="btn btn-outline-primary">Downlod PDF</a>
+            @foreach ($thesisProject->projectFiles as $pdf)
+                <a href="{{ asset('storage/uploads/project/'.$pdf->path) }}" class="btn btn-outline-primary">Downlod {{ $pdf->file_type }}</a>
             @endforeach
         </div>
         @endif

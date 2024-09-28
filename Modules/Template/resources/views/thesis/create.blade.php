@@ -75,7 +75,7 @@
                 @enderror
             </div>
             <div class="">
-                <label for="" class="form-label">Upload Images</label>
+                <label for="" class="form-label">Upload Images and Files</label>
                 <div class="dropzone" id="dropzone1"></div>
                 {{-- <input type="file" name="thesis_image[]" id="thesisImage" multiple
                     data-style-item-panel-aspect-ratio="0.5625" class="form-control"> --}}
@@ -116,17 +116,24 @@
         },
         method: "post",
         paramName: "file",
-        maxFilesize: 3, //MB
+        maxFilesize: 10, //MB
         uploadMultiple: false,
         addRemoveLinks: true,
         parallelUploads: 100,
-        acceptedFiles: 'image/*, application/pdf',
+        acceptedFiles: 'image/*, application/pdf, .ppt, .pptx, .doc, .docx',
         // dictDefaultMessage: "Drop images here or click to upload",
         // previewTemplate: previewTemplate,
         init: function() {
             this.on("addedfile", file => {
+                console.log(file.type);
                 if(file.type == 'application/pdf'){
                     file.previewElement.querySelector('img').src = '{{ asset("images/pdf.png") }}';
+                }
+                if(file.type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation'){
+                    file.previewElement.querySelector('img').src = '{{ asset("images/pptx.png") }}';
+                }
+                if(file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'){
+                    file.previewElement.querySelector('img').src = '{{ asset("images/docx.png") }}';
                 }
             });
             this.on("successmultiple", (file, response) => {

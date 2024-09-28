@@ -31,7 +31,7 @@ class ImageService
         return $imageName;
     }
 
-    // dropzone
+    // not using old function
     public function storeProjectImages($request, $id){
         if($request->file){
             $images = $request->file;
@@ -42,7 +42,7 @@ class ImageService
 
                     if($image->extension() == 'pdf'){
                         $image->storeAs(Constants::projectPdfPath, $imageName);
-                        $imageType = Constants::pdfFileType;
+                        $imageType = Constants::projectFileType;
                     }else{
                         $image->storeAs(Constants::projectImagePath, $imageName);
                     }
@@ -131,10 +131,11 @@ class ImageService
                 Storage::copy(Constants::tmpImagePath . $tmp->folder . '/' . $tmp->file, Constants::projectImagePath . $tmp->file);
 
                 $ext = substr(strrchr($tmp->file, '.'), 1);
+                $mimesType = ['jpg', 'png', 'jpeg'];
                 Image::create([
                     'parent_id' => $thesisId,
                     'image_type' => Constants::projectImageType,
-                    'file_type' => $ext == Constants::pdfFileType ? Constants::pdfFileType : Constants::imageFileType,
+                    'file_type' => $ext == in_array($ext, $mimesType) ? Constants::imageFileType : $ext,
                     'path' => $tmp->file,
                 ]);
 

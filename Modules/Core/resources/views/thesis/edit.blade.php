@@ -144,12 +144,12 @@
                     // this.emit("complete", mockFile);
                 @endforeach
             @endif
-            @if(isset($thesisProject) && $thesisProject->pdfs->count() > 0)
-                @foreach($thesisProject->pdfs as $pdf)
+            @if(isset($thesisProject) && $thesisProject->projectFiles->count() > 0)
+                @foreach($thesisProject->projectFiles as $pdf)
                     var mockFile = { name: "{{ $pdf->path }}", size: "{{ $pdf->file_size }}", accepted: true };
                     // console.log(mockFile);
                     // this.emit("addedfile", mockFile);
-                    this.displayExistingFile(mockFile, "{{ asset('images/pdf.png') }}")
+                    this.displayExistingFile(mockFile, "{{ asset('images/'.$pdf->file_type.'.png') }}")
                     // this.emit("complete", mockFile);
                 @endforeach
             @endif

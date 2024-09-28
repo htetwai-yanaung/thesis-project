@@ -133,7 +133,7 @@ class ThesisService
     }
 
     public function edit($id){
-        $relations = ['images', 'pdfs', 'owner'];
+        $relations = ['images', 'projectFiles', 'owner'];
         $thesisProject = $this->getThesisProject($id, $relations);
         $catConds['status'] = constants::publishedStatus;
         $categories = $this->categoryService->getCategories($catConds, true);

@@ -107,8 +107,8 @@
                   <h5 class="title fw-bold text-primary">{{ $popularProjects[1]->title }}</h5>
                   <p class="description text-secondary">{!! Str::limit($popularProjects[1]->description, 250, '...') !!}</p>
                   <div class="">
-                    <div class="project-type text-info">{{ $popularProjects[2]->category?->name }}</div>
-                    <p class="date text-secondary">{{ $popularProjects[2]->created_at->format('d/m/Y') }}</p>
+                    <div class="project-type text-info">{{ $popularProjects[1]->category?->name }}</div>
+                    <p class="date text-secondary">{{ $popularProjects[1]->created_at->format('d/m/Y') }}</p>
                   </div>
                   <a href="{{ route('thesis#detail', $popularProjects[1]->id) }}" class="btn btn-primary">See Details</a>
                 </div>
@@ -209,11 +209,11 @@
                 </div>
                 <div class="my-2 mail text-secondary">
                   <i class="fa-solid fa-envelope"></i>
-                  <span class="ms-2">ECdepartment@gmail.com</span>
+                  <span class="ms-2">tusggec@gmail.com</span>
                 </div>
                 <div class="phone text-secondary">
                   <i class="fa-solid fa-phone"></i>
-                  <span class="ms-2">09 982232373, 09 976745800</span>
+                  <span class="ms-2">09 266 864 669</span>
                 </div>
               </div>
             </div>

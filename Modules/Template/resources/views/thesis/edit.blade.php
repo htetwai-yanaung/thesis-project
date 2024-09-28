@@ -71,7 +71,7 @@
                 @enderror
             </div>
             <div class="">
-                <label for="" class="form-label">Upload Images</label>
+                <label for="" class="form-label">Upload Images and Files</label>
                 <div class="dropzone" id="dropzone1"></div>
                 {{-- <input type="file" name="thesis_image[]" id="thesisImage" multiple
                     data-style-item-panel-aspect-ratio="0.5625" class="form-control"> --}}
@@ -117,15 +117,16 @@
         },
         method: "post",
         paramName: "file",
-        maxFilesize: 3, //MB
+        maxFilesize: 10, //MB
         uploadMultiple: false,
         addRemoveLinks: true,
         parallelUploads: 100,
-        acceptedFiles: 'image/*, application/pdf',
-        dictDefaultMessage: "Drop images here or click to upload",
+        acceptedFiles: 'image/*, application/pdf, .ppt, .pptx, .doc, .docx',
+        // dictDefaultMessage: "Drop images here or click to upload",
         // previewTemplate: previewTemplate,
         init: function() {
             this.on("addedfile", file => {
+                console.log(file);
                 var input = document.createElement('input');
                 input.type = 'hidden';
                 input.name = 'thesis_image[]';
@@ -133,6 +134,12 @@
                 file.previewElement.appendChild(input);
                 if(file.type == 'application/pdf'){
                     file.previewElement.querySelector('img').src = '{{ asset("images/pdf.png") }}';
+                }
+                if(file.type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation'){
+                    file.previewElement.querySelector('img').src = '{{ asset("images/powerpoint.png") }}';
+                }
+                if(file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'){
+                    file.previewElement.querySelector('img').src = '{{ asset("images/word.jpg") }}';
                 }
 
             });
@@ -149,12 +156,12 @@
                     // this.emit("complete", mockFile);
                 @endforeach
             @endif
-            @if(isset($thesisProject) && $thesisProject->pdfs->count() > 0)
-                @foreach($thesisProject->pdfs as $pdf)
+            @if(isset($thesisProject) && $thesisProject->projectFiles->count() > 0)
+                @foreach($thesisProject->projectFiles as $pdf)
                     var mockFile = { name: "{{ $pdf->path }}", size: "{{ $pdf->file_size }}", accepted: true };
                     // console.log(mockFile);
                     // this.emit("addedfile", mockFile);
-                    this.displayExistingFile(mockFile, "{{ asset('images/pdf.png') }}")
+                    this.displayExistingFile(mockFile, "{{ asset('images/'.$pdf->file_type.'.png') }}")
                     // this.emit("complete", mockFile);
                 @endforeach
             @endif
